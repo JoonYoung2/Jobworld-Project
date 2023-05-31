@@ -1,8 +1,12 @@
 package com.jobworld.project.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -16,6 +20,9 @@ public class CorpDomain {
 	@Id
 	@Column(name="corpId")
 	private String id;
+	
+	@OneToMany(mappedBy = "corpDomain")
+    private List<RecruitDomain> recruitDomain = new ArrayList<>();
 	
 	@Column(name="corpPw")
 	private String pw;

@@ -3,9 +3,10 @@ package com.jobworld.project.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="jwUserInfo")
@@ -15,7 +16,10 @@ public class UserDomain {
     @Id
     @Column(name="user_id")
     private String id;
-
+    
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userDomain")
+    private ResumeDomain resumeDomain;
+    
     @Column(name="user_pw")
     private String pw;
 
