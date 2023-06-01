@@ -11,28 +11,28 @@ import javax.persistence.*;
 @Entity
 @Table(name="jwUserInfo")
 @Getter @Setter
-public class UserDomain {
+public class Member {
 
     @Id
-    @Column(name="user_id")
+    @Column(name="userId")
     private String id;
     
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "userDomain")
-    private ResumeDomain resumeDomain;
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
+    private Resume resume;
     
-    @Column(name="user_pw")
+    @Column(name="userPw")
     private String pw;
 
-    @Column(name="user_nm")
+    @Column(name="userNm")
     private String name;
     
-    @Column(name="user_birthday")
+    @Column(name="userBirthday")
     private String birthday;
     
-    @Column(name="user_email")
+    @Column(name="userEmail")
     private String email;
     
-    @Column(name="user_phoneNum")
+    @Column(name="userPhoneNum")
     private String phoneNum;
     
     private String zip_cd;
@@ -41,5 +41,5 @@ public class UserDomain {
     
     private String address_detail;
     
-    private int loginType;
+    private int login_type;
 }
