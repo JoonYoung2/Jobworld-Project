@@ -19,18 +19,18 @@ import lombok.Setter;
 @Getter @Setter
 @Table(name="jwApplyInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ApplyDomain {
+public class Apply {
 	@Id @GeneratedValue
 	@Column(name="applyId")
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="resume_id")
-	private ResumeDomain resumeDomain;
+	@JoinColumn(name="resumeId")
+	private Resume resume;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="recruit_id")
-	private RecruitDomain recruitDomain;
+	@JoinColumn(name="recruitId")
+	private Recruit recruit;
 	
 	@Column(name="applyState")
 	private int state;

@@ -24,18 +24,18 @@ import lombok.Setter;
 @Getter @Setter
 @Table(name="jwRecruitInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RecruitDomain {
+public class Recruit {
 	
 	@Id @GeneratedValue
 	@Column(name="recruitId")
 	private Long id;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="corpId")
-	private CorpDomain corpDomain;
+	@JoinColumn(name="compId")
+	private Company company;
 	
-	@OneToMany(mappedBy="recruitDomain")
-	private List<ApplyDomain> applyList = new ArrayList<>();
+	@OneToMany(mappedBy="recruit")
+	private List<Apply> applyList = new ArrayList<>();
 	
 	@Column(name="recruitCarrer")
 	private String carrer;

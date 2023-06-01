@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import com.jobworld.project.domain.ApplyDomain;
+import com.jobworld.project.domain.Apply;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ public class ApplyRepository {
 	
 	private final EntityManager em;
 	
-	public void save(ApplyDomain apply) throws Exception {
+	public void save(Apply apply) throws Exception {
 		try {
 			em.persist(apply);
 		}catch(Exception e) {
@@ -26,8 +26,8 @@ public class ApplyRepository {
 		}
 	}
 	
-	public void update(ApplyDomain apply) throws Exception {
-		ApplyDomain find;
+	public void update(Apply apply) throws Exception {
+		Apply find;
 		
 		try {
 			find = findOne(apply.getId());
@@ -37,20 +37,20 @@ public class ApplyRepository {
 		}
 	}
 	
-	public ApplyDomain findOne(Long id) throws Exception {
-		ApplyDomain find = null;
+	public Apply findOne(Long id) throws Exception {
+		Apply find = null;
 		try {
-			find = em.find(ApplyDomain.class, id);
+			find = em.find(Apply.class, id);
 		}catch(Exception e) {
 			log.error("ApplyRepository findOne(Long) error --> {}", e);
 		}
         return find;
     }
 
-    public List<ApplyDomain> applyUserFindAll(String user_id) throws Exception {
-    	List<ApplyDomain> list = null;
+    public List<Apply> applyUserFindAll(String user_id) throws Exception {
+    	List<Apply> list = null;
     	try {
-    		list = em.createQuery("select m from Member m where m.user_id = :user_id", ApplyDomain.class)
+    		list = em.createQuery("select m from Member m where m.user_id = :user_id", Apply.class)
             		.setParameter("user_id", user_id)
             		.getResultList();
     	}catch(Exception e) {
@@ -59,10 +59,10 @@ public class ApplyRepository {
         return list;
     }
     
-    public List<ApplyDomain> corpApplyInfofindAll(String corp_id) throws Exception {
-    	List<ApplyDomain> list = null;
+    public List<Apply> corpApplyInfofindAll(String corp_id) throws Exception {
+    	List<Apply> list = null;
     	try {
-    		list = em.createQuery("select m from Member m where m.corp_id = :corp_id", ApplyDomain.class)
+    		list = em.createQuery("select m from Member m where m.corp_id = :corp_id", Apply.class)
             		.setParameter("corp_id", corp_id)
             		.getResultList();
     	}catch(Exception e) {
@@ -71,10 +71,10 @@ public class ApplyRepository {
         return list;
     }
     
-    public List<ApplyDomain> findAll() throws Exception {
-    	List<ApplyDomain> list = null;
+    public List<Apply> findAll() throws Exception {
+    	List<Apply> list = null;
     	try {
-    		list = em.createQuery("select m from Member m", ApplyDomain.class)
+    		list = em.createQuery("select m from Member m", Apply.class)
             		.getResultList();
     	}catch(Exception e) {
     		log.error("ApplyRepository findAll() error --> {}", e);

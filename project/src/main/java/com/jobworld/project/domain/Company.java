@@ -14,29 +14,29 @@ import lombok.Setter;
 
 @Entity
 @Getter @Setter
-@Table(name="jwCorpInfo")
-public class CorpDomain {
+@Table(name="jwCompanyInfo")
+public class Company {
 	
 	@Id
-	@Column(name="corpId")
+	@Column(name="compId")
 	private String id;
 	
-	@OneToMany(mappedBy = "corpDomain")
-    private List<RecruitDomain> recruitDomain = new ArrayList<>();
+	@OneToMany(mappedBy = "company")
+    private List<Recruit> recruit = new ArrayList<>();
 	
-	@Column(name="corpPw")
+	@Column(name="compPw")
 	private String pw;
 	
-	@Column(name="corpNm")
+	@Column(name="compNm")
 	private String name;
 	
-	@Column(name="corpBusinessType")
+	@Column(name="compBusinessType")
 	private String businessType;
 	
-	@Column(name="corpEmplNum")
+	@Column(name="compEmplNum")
 	private int emplNum;
 	
-	@Column(name="corpSize")
+	@Column(name="compSize")
 	private String size;
 	
 	@Column(name="corpSite")

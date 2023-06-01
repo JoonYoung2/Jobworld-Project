@@ -23,22 +23,22 @@ import lombok.Setter;
 @Getter @Setter
 @Table(name="jwResumeInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ResumeDomain {
+public class Resume {
 	
 	@Id @GeneratedValue
-	@Column(name="resume_id")
+	@Column(name="resumeId")
 	private int id;
 	
-	@OneToMany(mappedBy = "resumeDomain")
-	private List<ApplyDomain> applyList = new ArrayList<>(); 
+	@OneToMany(mappedBy = "resume")
+	private List<Apply> applyList = new ArrayList<>(); 
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id")
-	private UserDomain userDomain;
+	@JoinColumn(name="userId")
+	private Member member;
 	
-	@Column(name="user_img")
+	@Column(name="userImg")
 	private String img;
 	
-	@Column(name="resume_title")
+	@Column(name="resumeTitle")
 	private String title;
 }

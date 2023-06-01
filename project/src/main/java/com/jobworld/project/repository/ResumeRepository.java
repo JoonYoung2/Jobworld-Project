@@ -4,7 +4,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import com.jobworld.project.domain.ResumeDomain;
+import com.jobworld.project.domain.Resume;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class ResumeRepository {
 	
 	private final EntityManager em;
 	
-	public void save(ResumeDomain resume) throws Exception {
+	public void save(Resume resume) throws Exception {
 		try {
 			em.persist(resume);			
 		}catch(Exception e) {
@@ -24,8 +24,8 @@ public class ResumeRepository {
 		}
 	}
 	
-	public void update(ResumeDomain resume) throws Exception {
-		ResumeDomain find;
+	public void update(Resume resume) throws Exception {
+		Resume find;
 		try {
 			find = findOne(resume.getId());
 			
@@ -36,11 +36,11 @@ public class ResumeRepository {
 		}
 	}
 	
-	public ResumeDomain findOne(int id) throws Exception {
-		ResumeDomain find = null;
+	public Resume findOne(int id) throws Exception {
+		Resume find = null;
 		
 		try {
-			find = em.find(ResumeDomain.class, id);
+			find = em.find(Resume.class, id);
 		}catch(Exception e) {
 			log.error("ResumeRepository findOne(int) error --> {}", e);
 		}
