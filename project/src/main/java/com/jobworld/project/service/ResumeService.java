@@ -21,11 +21,11 @@ public class ResumeService {
 	public String resumeWrite(Resume resume) {
 		try {
 			repo.save(resume);
-			return "¾²±â ¿Ï·á";
+			return "ì“°ê¸° ì„±ê³µ";
 		}catch(Exception e){
 			log.error("ResumeService resumeWrite(Resume) error --> {}", e);
 		}
-		return "¾²±â ½ÇÆÐ";
+		return "ì“°ê¸° ì‹¤íŒ¨";
 	}
 	
 	@Transactional
@@ -34,10 +34,23 @@ public class ResumeService {
 			Resume update = repo.findOne(resume.getId());
 			update.setImg(resume.getImg());				
 			update.setTitle(resume.getTitle());
-			return "¼öÁ¤ ¿Ï·á";
+			return "ìˆ˜ì • ì™„ë£Œ";
 		}catch(Exception e) {
 			log.error("ResumeService resumeUpdate(Resume) error --> {}", e);
 		}
-		return "¼öÁ¤ ¿Ï·á";
+		return "ìˆ˜ì • ì‹¤íŒ¨";
+	}
+	
+	public Resume resumeFind(String user_id) {
+		Resume find = new Resume();
+		try {
+			find = repo.findUserId(user_id);
+		} catch (Exception e) {
+			log.error("ResumeService resumeFind(String) error ==> {}", e);
+		}
+		if(find == null) {
+			return null;
+		}
+		return find;
 	}
 }

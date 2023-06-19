@@ -1,5 +1,6 @@
 package com.jobworld.project.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ public class ApplyRepository {
 	}
 	
 	public void update(Apply apply) throws Exception {
-		Apply find;
+		Apply find = null;
 		
 		try {
 			find = findOne(apply.getId());
@@ -48,7 +49,7 @@ public class ApplyRepository {
     }
 
     public List<Apply> applyUserFindAll(String user_id) throws Exception {
-    	List<Apply> list = null;
+    	List<Apply> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m where m.user_id = :user_id", Apply.class)
             		.setParameter("user_id", user_id)
@@ -60,7 +61,7 @@ public class ApplyRepository {
     }
     
     public List<Apply> corpApplyInfofindAll(String corp_id) throws Exception {
-    	List<Apply> list = null;
+    	List<Apply> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m where m.corp_id = :corp_id", Apply.class)
             		.setParameter("corp_id", corp_id)
@@ -72,7 +73,7 @@ public class ApplyRepository {
     }
     
     public List<Apply> findAll() throws Exception {
-    	List<Apply> list = null;
+    	List<Apply> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m", Apply.class)
             		.getResultList();

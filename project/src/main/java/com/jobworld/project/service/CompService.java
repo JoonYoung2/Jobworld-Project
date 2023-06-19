@@ -1,12 +1,14 @@
 package com.jobworld.project.service;
 
 import javax.persistence.Column;
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
+import com.jobworld.project.dto.CompDTO;
 import com.jobworld.project.repository.CompRepository;
 import com.jobworld.project.repository.RecruitRepository;
 
@@ -21,14 +23,22 @@ public class CompService {
 	private final CompRepository repo;
 	
 	@Transactional
-	public String compWrite(Company comp) {
+	public String join(CompDTO comp) {
+		Company check = new Company();
 		try {
-			repo.save(comp);
-			return "¾²±â ¿Ï·á";
+			check.setId(comp.getComp_id());
+	    	check.setPw(comp.getComp_pw());
+	    	check.setBusinessType(comp.getComp_business_type());
+	    	check.setEmplNum(comp.getComp_empl_num());
+	    	check.setName(comp.getComp_nm());
+	    	check.setSite(comp.getComp_site());
+	    	check.setSize(comp.getComp_size());
+			repo.save(check);
+			return "ë“±ë¡ ì™„ë£Œ";
 		}catch(Exception e){
 			log.error("CompService compWrite(Company) error --> {}", e);
 		}
-		return "¾²±â ½ÇÆĞ";
+		return "ë“±ë¡ ì‹¤íŒ¨";
 	}
 	
 	@Transactional
@@ -41,10 +51,22 @@ public class CompService {
 			update.setEmplNum(comp.getEmplNum());
 			update.setSize(comp.getSize());
 			update.setSite(comp.getSite());
-			return "¼öÁ¤ ¿Ï·á";
+			return "ìˆ˜ì • ì™„ë£Œ";
 		}catch(Exception e) {
 			log.error("CompService compUpdate(Company) error --> {}", e);
 		}
-		return "¼öÁ¤ ¿Ï·á";
+		return "ìˆ˜ì • ì‹¤íŒ¨";
+	}
+	
+	public Company findId(String comp_id) {
+		Company comp = new Company();
+		try {
+			comp = repo.findOne(comp_id);
+			log.info("Company ==> {}", comp);
+			return comp;
+		}catch(Exception e) {
+			log.error("CompService findId(String) error --> {}", e);
+		}
+		return comp;
 	}
 }

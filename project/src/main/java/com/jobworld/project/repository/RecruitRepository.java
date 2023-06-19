@@ -1,5 +1,6 @@
 package com.jobworld.project.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -57,7 +58,7 @@ public class RecruitRepository {
     }
 
     public List<Recruit> recruitFindAll(String corp_id) throws Exception {
-    	List<Recruit> list = null;
+    	List<Recruit> list = new ArrayList<>();
     	
     	try {
     		list = em.createQuery("select m from Member m where m.corp_id = :corp_id", Recruit.class)

@@ -1,5 +1,6 @@
 package com.jobworld.project.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,16 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CompRepository {
 	private final EntityManager em;
 	
-	public void save(Company corp) throws Exception {
+	public void save(Company comp) throws Exception {
 		try {
-			em.persist(corp);
+			em.persist(comp);
 		}catch(Exception e) {
 			log.error("CorpRepository save(CorpDomain) error --> {}", e);
 		}
 	}
 	
 	public void update(Company corp) throws Exception {
-		Company find;
+		Company find = new Company();
 		try {
 			find = findOne(corp.getId());
 			find.setPw(corp.getPw());
@@ -41,7 +42,7 @@ public class CompRepository {
 	}
 	
 	public Company findOne(String id) throws Exception {
-		Company find = null;
+		Company find = new Company();
 		try {
 			find = em.find(Company.class, id);
 		}catch(Exception e) {
@@ -51,7 +52,7 @@ public class CompRepository {
     }
 
     public List<Company> findAll() throws Exception {
-    	List<Company> list = null;
+    	List<Company> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m", Company.class)
             		.getResultList();

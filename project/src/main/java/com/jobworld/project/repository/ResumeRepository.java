@@ -1,9 +1,13 @@
 package com.jobworld.project.repository;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
+import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +29,7 @@ public class ResumeRepository {
 	}
 	
 	public void update(Resume resume) throws Exception {
-		Resume find;
+		Resume find = null;
 		try {
 			find = findOne(resume.getId());
 			
@@ -43,6 +47,26 @@ public class ResumeRepository {
 			find = em.find(Resume.class, id);
 		}catch(Exception e) {
 			log.error("ResumeRepository findOne(int) error --> {}", e);
+		}
+        return find;
+    }
+	
+	public Resume findUserId(String user_id) throws Exception {
+		Resume find = new Resume();
+		
+		try {
+			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla");
+			List<Resume> list = em.createQuery("select r from Resume r where r.user_id = :user_id", Resume.class)
+					.setParameter("user_id", user_id)
+					.getResultList();
+			System.out.println("listsize" + list.size());
+			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla222");
+//			List<Resume> list = typedQuery.getResultList();
+			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla333");
+//			find = list.get(0);
+			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla444");
+		}catch(IllegalArgumentException e) {
+			log.error("ResumeRepository findOne(String) error --> {}", e);
 		}
         return find;
     }

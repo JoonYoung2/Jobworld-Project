@@ -22,9 +22,8 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @Table(name="jwResumeInfo")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Resume {
-	
 	@Id @GeneratedValue
 	@Column(name="resumeId")
 	private int id;

@@ -1,5 +1,6 @@
 package com.jobworld.project.repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,7 +37,7 @@ public class MemberRepository {
 	}
 	
 	public Member findOne(String id) throws Exception {
-		Member member = null;
+		Member member = new Member();
 		try {
 			member = em.find(Member.class, id);
 		}catch(Exception e) {
@@ -46,7 +47,7 @@ public class MemberRepository {
     }
 
     public List<Member> findAll() throws Exception {
-    	List<Member> list = null;
+    	List<Member> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m", Member.class)
             		.getResultList();

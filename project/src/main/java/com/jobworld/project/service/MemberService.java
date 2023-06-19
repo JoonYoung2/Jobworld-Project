@@ -1,11 +1,13 @@
 package com.jobworld.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Member;
+import com.jobworld.project.dto.MemberDTO;
 import com.jobworld.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,35 +19,57 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberService {
 	private final MemberRepository repo;
-	
-	// È¸¿ø °¡ÀÔ
+	 
+	// íšŒì› ê°€ìž…
     @Transactional
-    public String join(Member user) throws Exception {
-        
-        validateDuplicateMember(user); // Áßº¹ È¸¿ø °ËÁõ
-        try {
-			repo.save(user);
+    public String join(MemberDTO member) throws Exception {
+        String msg = "";
+        Member insert = null;
+        msg = validateDuplicateMember(member); // ê²€ì¦
+		if(msg.equals("ê²€ì¦ ì„±ê³µ")) 
+			insert = setMember(member);
+		else 
+			return "ë™ì¼í•œ ì•„ì´ë””ê°€ ì¡´ìž¬í•©ë‹ˆë‹¤.";
+		try {
+			repo.save(insert);
+			return "ê°€ìž… ì„±ê³µ";
 		} catch (Exception e) {
 			log.error("MemberService join(UserDomain) error --> {}", e);
 		}
-        return user.getId();
+        return "ê°€ìž… ì‹¤íŒ¨";
     }
 
-    private void validateDuplicateMember(Member user) throws Exception {
+    private Member setMember(MemberDTO member) {
+		Member insert = new Member();
+		insert.setId(member.getUser_id());
+		insert.setPw(member.getUser_pw());
+		insert.setBirthday(member.getUser_birthday());
+		insert.setEmail(member.getUser_email());
+		insert.setName(member.getUser_nm());
+		insert.setPhoneNum(member.getUser_phone_num());
+		insert.setZip_cd(member.getZip_cd());
+		insert.setAddress_info(member.getAddress_info());
+		insert.setAddress_detail(member.getAddress_detail());
+		insert.setLogin_type(0);
+		return insert;
+	}
+
+	private String validateDuplicateMember(MemberDTO member) throws Exception {
     	try {
-    		Member findMembers = repo.findOne(user.getId());
+    		Member findMembers = repo.findOne(member.getUser_id());
     		if(findMembers.getId() != null){
-    			throw new IllegalStateException("ÀÌ¹Ì Á¸ÀçÇÏ´Â È¸¿øÀÔ´Ï´Ù.");
-    		}    		
+    			return "ê²€ì¦ ì‹¤íŒ¨";
+    		}
     	}catch(Exception e) {
-    		log.error("MemberService validateDuplicateMember(UserDomain) error --> {}", e);
+    		log.error("MemberService validateDuplicateMember(MemberDTO) error --> {}", e);
     	}
+		return "ê²€ì¦ ì„±ê³µ";
     }
     
-    // È¸¿ø ¼öÁ¤
+    // íšŒì› ìˆ˜ì •
     @Transactional
     public void update(Member user) throws Exception {
-		Member findId = null;
+		Member findId = new Member();
 		try {
 			findId = repo.findOne(user.getId());
 			
@@ -62,7 +86,7 @@ public class MemberService {
 		}
 	}
     
-    //È¸¿ø »èÁ¦
+    //íšŒì› ì‚­ì œ
     @Transactional
     public String delete(Member user) {
     	try {
@@ -70,16 +94,15 @@ public class MemberService {
 			if(user.getId().equals(find.getId()) && user.getPw().equals(find.getId()))
 				repo.delete(user.getId());
 			else
-				return "»èÁ¦ ½ÇÆÐ";
+				return "ì‚­ì œ ì‹¤íŒ¨";
 		} catch (Exception e) {
 			log.error("MemberService delete(UserDomain) error --> {}", e);
 		}
-    	return "»èÁ¦ ¼º°ø";
+    	return "ì‚­ì œ ì„±ê³µ";
     }
     
-    
     public List<Member> userFindAll(){
-    	List<Member> list = null;
+    	List<Member> list = new ArrayList<>();
     	try {
 			return repo.findAll();
 		} catch (Exception e) {
@@ -89,9 +112,10 @@ public class MemberService {
     }
 	
     public Member findUser(String user_id) {
-    	Member findUser = null;
+    	Member findUser = new Member();
 		try {
-			return repo.findOne(user_id);
+			findUser = repo.findOne(user_id);
+			return findUser; 
 		} catch (Exception e) {
 			log.error("MemberService findUser(String) error --> {}", e);
 		}
