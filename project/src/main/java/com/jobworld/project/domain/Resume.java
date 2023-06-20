@@ -40,4 +40,15 @@ public class Resume {
 	
 	@Column(name="resumeTitle")
 	private String title;
+	
+	// --연관관계 메서드--
+	
+	public void setMember(Member member) {
+		this.member = member;
+		member.setResume(this);
+	}
+	public void addApplyList(Apply applyList) {
+		this.applyList.add(applyList);
+		applyList.setResume(this);
+	}
 }

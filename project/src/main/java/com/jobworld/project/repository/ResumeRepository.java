@@ -1,14 +1,21 @@
 package com.jobworld.project.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
+import com.jobworld.project.dto.ResumeDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -51,24 +58,11 @@ public class ResumeRepository {
         return find;
     }
 	
-	public Resume findUserId(String user_id) throws Exception {
-		Resume find = new Resume();
-		
-		try {
-			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla");
-			List<Resume> list = em.createQuery("select r from Resume r where r.user_id = :user_id", Resume.class)
-					.setParameter("user_id", user_id)
-					.getResultList();
-			System.out.println("listsize" + list.size());
-			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla222");
-//			List<Resume> list = typedQuery.getResultList();
-			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla333");
-//			find = list.get(0);
-			System.out.println("sadflsdflsdjaklfjasklfjaskljfdsla444");
-		}catch(IllegalArgumentException e) {
-			log.error("ResumeRepository findOne(String) error --> {}", e);
-		}
-        return find;
-    }
-	
+	public List<Resume> findByName(String user_id) {
+		String msg = "user_id";
+		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
+				.setParameter("user_id", user_id)
+				.getResultList();
+	}
+	 
 }

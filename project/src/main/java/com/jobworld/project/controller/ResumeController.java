@@ -70,13 +70,12 @@ public class ResumeController {
 	}
 	
 	@GetMapping("resumeInfo")
-	public String resumeInfo(@RequestParam("user_id") String user_id, RedirectAttributes attr) {
-		Resume resume = service.resumeFind(user_id);
-		if(resume == null) {
-			return "user/resume/resumeInfo";			
+	public String resumeInfo(@RequestParam("user_id") String user_id) {
+		String msg = service.resumeFind(user_id);
+		if(msg.equals("없음")) {
+			return "user/resume/resumeWrite";			
 		}else{
-			attr.addFlashAttribute("resume", resume);
-			return "user/resume/resumeInfo";
+			return "user/resume/writeInfo";
 		}
 	}
 	
@@ -97,7 +96,7 @@ public class ResumeController {
 		
 		String user_img = userImgSaveFile(file, user_id);
 		
-		Resume resume = new Resume();
+		Resume resume = null;
 		Member member = memberService.findUser(user_id);
 		resume.setMember(member);
 		resume.setImg(user_img);

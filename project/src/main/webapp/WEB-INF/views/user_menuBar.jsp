@@ -11,5 +11,5 @@
 	</c:if>
 	
 	<c:if test="${sessionScope.login_type eq 1}">
-		<a href="/">Home</a> | <a href="adminHome">Admin</a> | <a href="memberLogout">로그아웃</a>
+		<a href="/">Home</a> | <a href="admin">Admin</a> | <a href="memberLogout">로그아웃</a>
 	</c:if>

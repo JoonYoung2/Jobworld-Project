@@ -63,4 +63,16 @@ public class Recruit {
 	
 	@Column(name="recruitOpenType")
 	private int openType;
+	
+	// -- 연관관계 메서드 --
+	public void setCompany(Company company) {
+		this.company = company;
+		company.getRecruit().add(this);
+	}
+	
+	public void addApplyList(Apply applyList) {
+		this.applyList.add(applyList);
+		applyList.setRecruit(this);
+	}
+	
 }

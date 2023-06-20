@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.repository.ResumeRepository;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,16 +42,21 @@ public class ResumeService {
 		return "수정 실패";
 	}
 	
-	public Resume resumeFind(String user_id) {
-		Resume find = new Resume();
-		try {
-			find = repo.findUserId(user_id);
-		} catch (Exception e) {
-			log.error("ResumeService resumeFind(String) error ==> {}", e);
-		}
-		if(find == null) {
-			return null;
-		}
-		return find;
+	public String resumeFind(String user_id) {
+		String msg = validateDuplicateResume(user_id);
+		return msg;
 	}
+	
+	private String validateDuplicateResume(String user_id) {
+		System.out.println("gdgdgdgdgdgd");
+        List<Resume> findResumes = repo.findByName(user_id);
+        System.out.println("gdgdgdgdgdgd2");
+        String msg = "";
+        if(!findResumes.isEmpty())
+            msg = "있음";
+        else 
+        	msg = "없음";
+        
+        return msg;
+    }
 }

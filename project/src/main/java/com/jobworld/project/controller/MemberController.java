@@ -67,8 +67,8 @@ public class MemberController {
 		}catch(Exception e) {
 			log.error("MemberController login(MemberDTO, RedirectAttributes) error --> {}", e);
 		}
-		session.setAttribute("user_id", member.getUser_id());
-		session.setAttribute("login_type", member.getLogin_type());
+		session.setAttribute("user_id", check.getId());
+		session.setAttribute("login_type", check.getLogin_type());
 		return "redirect:/";
 	}
 	
