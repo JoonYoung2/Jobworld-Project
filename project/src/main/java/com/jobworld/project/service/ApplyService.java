@@ -1,12 +1,17 @@
 package com.jobworld.project.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Apply;
 import com.jobworld.project.domain.Company;
+import com.jobworld.project.domain.Resume;
+import com.jobworld.project.dto.ResumeDTO;
 import com.jobworld.project.repository.ApplyRepository;
 import com.jobworld.project.repository.CompRepository;
+import com.jobworld.project.repository.ResumeRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,27 +22,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ApplyService {
 	private final ApplyRepository repo;
-	
-	@Transactional
-	public String applyWrite(Apply apply) {
-		try {
-			repo.save(apply);
-			return "쓰기 완료";
-		}catch(Exception e){
-			log.error("ApplyService applyWrite(Apply) error --> {}", e);
-		}
-		return "쓰기 실패";
+	private final ResumeRepository resumeRepository;
+	private final HttpSession session;
+
+	public ResumeDTO getUserResume() {
+		Resume resume = resumeRepository.findByName(session.getAttribute("user_id").toString());
+		ResumeDTO dto = setResume(resume);
+		return dto;
+	}
+
+	private ResumeDTO setResume(Resume resume) {
+		ResumeDTO dto = new ResumeDTO();
+		dto.setResume_id(resume.getId());
+		dto.setResume_title(resume.getTitle());
+		dto.setUser_id(resume.getMember().getId());
+		dto.setUser_img(resume.getImg());
+		return dto;
 	}
 	
-	@Transactional
-	public String applyUpdate(Apply apply) {
-		try {
-			Apply update = repo.findOne(apply.getId());
-			update.setState(apply.getState());
-			return "수정 완료";
-		}catch(Exception e) {
-			log.error("ApplyService applyUpdate(Apply) error --> {}", e);
-		}
-		return "수정 완료";
-	}
 }

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import com.jobworld.project.domain.Recruit;
+import com.jobworld.project.domain.Resume;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +21,15 @@ public class RecruitRepository {
 	private final EntityManager em;
 	
 	public void save(Recruit recruit) {
-		try {
-			em.persist(recruit);
-		}catch(Exception e) {
-			log.error("RecruitRepository save(RecruitDomain) error --> {}", e);
-		}
+		em.persist(recruit);
 	}
 	
-	public void update(Recruit recruit) throws Exception {
+	public void update(Recruit recruit) {
 		Recruit find;
 		try {
 			find = findOne(recruit.getId());
 			
-			find.setCarrer(recruit.getCarrer());
+			find.setCareer(recruit.getCareer());
 			find.setEducation(recruit.getEducation());
 			find.setEmployment(recruit.getEmployment());
 			find.setSalary(recruit.getSalary());
@@ -46,27 +43,24 @@ public class RecruitRepository {
 		}
 	}
 	
-	public Recruit findOne(Long id) throws Exception {
-		Recruit find = null;
+	public Recruit findOne(Long id) {
+		Recruit find =  em.find(Recruit.class, id);
 		
-		try {
-			find = em.find(Recruit.class, id);
-		}catch(Exception e) {
-			log.error("RecruitRepository findOne(Long) error --> {}", e);
-		}
         return find;
     }
 
-    public List<Recruit> recruitFindAll(String corp_id) throws Exception {
-    	List<Recruit> list = new ArrayList<>();
-    	
-    	try {
-    		list = em.createQuery("select m from Member m where m.corp_id = :corp_id", Recruit.class)
+    public List<Recruit> recruitFindAll(String corp_id) {
+    	List<Recruit> list = em.createQuery("select m from Member m where m.corp_id = :corp_id", Recruit.class)
             		.setParameter("user_id", corp_id)
             		.getResultList();
-    	}catch(Exception e) {
-    		log.error("RecruitRepository recruitFindAll(String) error --> {}", e);
-    	}
+    	
         return list;
     }
+
+	public List<Recruit> findByCompId(String comp_id) {
+		
+		return em.createQuery("select r from Recruit r where r.company.id = :comp_id", Recruit.class)
+				.setParameter("comp_id", comp_id)
+				.getResultList();
+	}
 }

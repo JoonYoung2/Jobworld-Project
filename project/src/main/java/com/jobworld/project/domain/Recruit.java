@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.jobworld.project.dto.RecruitDTO;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,8 +39,8 @@ public class Recruit {
 	@OneToMany(mappedBy="recruit")
 	private List<Apply> applyList = new ArrayList<>();
 	
-	@Column(name="recruitCarrer")
-	private String carrer;
+	@Column(name="recruitCareer")
+	private String career;
 	
 	@Column(name="recruitEducation")
 	private String education;
@@ -73,6 +75,21 @@ public class Recruit {
 	public void addApplyList(Apply applyList) {
 		this.applyList.add(applyList);
 		applyList.setRecruit(this);
+	}
+
+	public static Recruit setRecruit(RecruitDTO dto, Company comp) {
+		Recruit recruit = new Recruit();
+		recruit.setCompany(comp);
+		recruit.setCareer(dto.getRecruit_career());
+		recruit.setEducation(dto.getRecruit_education());
+		recruit.setEmployment(dto.getRecruit_employment());
+		recruit.setSalary(dto.getRecruit_salary());
+		recruit.setArea(dto.getRecruit_area());
+		recruit.setTime(dto.getRecruit_time());
+		recruit.setStartDate("0");
+		recruit.setEndDate("0");
+		recruit.setOpenType(0);
+		return recruit;
 	}
 	
 }

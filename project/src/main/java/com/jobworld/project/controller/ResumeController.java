@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,11 +71,15 @@ public class ResumeController {
 	}
 	
 	@GetMapping("resumeInfo")
-	public String resumeInfo(@RequestParam("user_id") String user_id) {
+	public String resumeInfo(@RequestParam("user_id") String user_id, Model model) {
 		String msg = service.resumeFind(user_id);
 		if(msg.equals("없음")) {
-			return "user/resume/resumeWrite";			
+			return "user/resume/writeInfo";			
 		}else{
+			ResumeDTO resume = service.getUserResume(user_id);
+			System.out.println(resume.getResume_id());
+			model.addAttribute("resume", resume);
+			model.addAttribute("msg", msg);
 			return "user/resume/writeInfo";
 		}
 	}
@@ -84,29 +89,49 @@ public class ResumeController {
 		return "user/resume/resumeWrite";
 	}
 	@PostMapping("resumeWrite.do")
-	public String resumeWrite(MultipartHttpServletRequest multi, RedirectAttributes attr){
-		String msg = "";
+	public String resumeWrite(MultipartHttpServletRequest multi, Model model){
+		String msg = service.resumeWrite(multi);
 		String user_id = multi.getParameter("user_id");
-		String resume_title = multi.getParameter("resume_title");
-		MultipartFile file = multi.getFile("file");
-		
-		if (file == null || file.isEmpty()) {
-	        return "업로드 파일을 등록해주세요.";
-	    }
-		
-		String user_img = userImgSaveFile(file, user_id);
-		
-		Resume resume = null;
-		Member member = memberService.findUser(user_id);
-		resume.setMember(member);
-		resume.setImg(user_img);
-		resume.setTitle(resume_title);
-		msg = service.resumeWrite(resume);
 		if(msg.equals("쓰기 성공")) {
-			return "redirect:/";
+			ResumeDTO resume = service.getUserResume(user_id);
+			System.out.println(resume.getResume_id());
+			model.addAttribute("resume", resume);
+			model.addAttribute("msg", msg);
+			return "user/resume/writeInfo";
 		}else {
-			attr.addFlashAttribute("resume", resume);
-			return "redirect:resumeWrite";
+			model.addAttribute("msg", msg);
+			return "user/resume/resumeWrite";
 		}
+	}
+	@GetMapping("resumeUpdate")
+	public String resumeUpdate(int resume_id, Model model) {
+		ResumeDTO resume = service.getResumeInfo(resume_id);
+		model.addAttribute("resume", resume);
+		return "user/resume/resumeUpdate";
+	}
+	
+	@PostMapping("imgUpdate.do")
+	public String resumeImgUpdate(MultipartHttpServletRequest multi, Model model) {
+		ResumeDTO resume = service.imgUpdate(multi);
+		String msg = "";
+		if(resume!=null) {
+			msg = "있음";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("resume", resume);
+		return "user/resume/writeInfo";
+	}
+	
+	@PostMapping("resumeUpdate.do")
+	public String resumeUpdate(ResumeDTO dto, Model model){
+		ResumeDTO resume = service.resumeUpdate(dto);
+		String msg = "";
+		if(resume!=null) {
+			msg = "있음";
+		}
+		model.addAttribute("msg", msg);
+		model.addAttribute("resume", dto);
+		
+		return "user/resume/writeInfo";
 	}
 }

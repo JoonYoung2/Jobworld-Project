@@ -59,14 +59,8 @@ public class CompService {
 	}
 	
 	public Company findId(String comp_id) {
-		Company comp = new Company();
-		try {
-			comp = repo.findOne(comp_id);
-			log.info("Company ==> {}", comp);
-			return comp;
-		}catch(Exception e) {
-			log.error("CompService findId(String) error --> {}", e);
-		}
+		Company comp = repo.findOne(comp_id);
+
 		return comp;
 	}
 }

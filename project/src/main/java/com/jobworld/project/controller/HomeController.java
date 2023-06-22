@@ -1,20 +1,41 @@
 package com.jobworld.project.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.service.HomeService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class HomeController {
-	@Autowired
-	private HttpSession session;
 	
+	private final HttpSession session;
+	private final HomeService service;
+	
+	/*
+	 	User Home UI Start
+	 */
 	@GetMapping("/")
-	public String home() {
-		return "user/index"; 
+	public String home(Model model) {
+		List<RecruitDTO> list = service.getRecruitInfo();
+		if(list != null) {
+			model.addAttribute("list", list);
+			return "user/index"; 			
+		}
+		return "user/index";
 	}
+	
+	/*
+	  User Home UI End
+	 */
 	
 	@GetMapping("company")
 	public String company() {

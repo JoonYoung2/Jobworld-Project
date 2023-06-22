@@ -12,11 +12,15 @@
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
 <br>
 <c:choose>
-	<c:when test="${empty resume.user_id }">
+	<c:when test="${empty msg }">
+		작성한 이력서가 없습니다.<br>
 		<a href="resumeWrite">이력서 쓰기</a>
 	</c:when>
 	<c:otherwise>
-		<a href="resumeUpdate">이력서 수정</a>
+		<img style="padding-left: 200px; padding-top: 100px; width: 450px; height: 450px;"
+			 src="resources/upload/${sessionScope.user_id }/${resume.user_img}" alt="..." />
+		<input type="text" name="resume_title" value="${resume.resume_title }" readonly="readonly"><br>
+		<a href="resumeUpdate?resume_id=${resume.resume_id }">이력서 수정</a>
 	</c:otherwise>
 </c:choose>
 

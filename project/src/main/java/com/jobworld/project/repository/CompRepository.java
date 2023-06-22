@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CompRepository {
 	private final EntityManager em;
 	
-	public void save(Company comp) throws Exception {
+	public void save(Company comp) {
 		try {
 			em.persist(comp);
 		}catch(Exception e) {
@@ -26,7 +26,7 @@ public class CompRepository {
 		}
 	}
 	
-	public void update(Company corp) throws Exception {
+	public void update(Company corp) {
 		Company find = new Company();
 		try {
 			find = findOne(corp.getId());
@@ -41,17 +41,12 @@ public class CompRepository {
 		}
 	}
 	
-	public Company findOne(String id) throws Exception {
-		Company find = new Company();
-		try {
-			find = em.find(Company.class, id);
-		}catch(Exception e) {
-			log.error("CorpRepository findOne(String) error --> {}", e);
-		}
-        return find;
+	public Company findOne(String id) {
+		Company company = em.find(Company.class, id);
+        return company;
     }
 
-    public List<Company> findAll() throws Exception {
+    public List<Company> findAll() {
     	List<Company> list = new ArrayList<>();
     	try {
     		list = em.createQuery("select m from Member m", Company.class)

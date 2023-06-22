@@ -34,7 +34,7 @@ public class MemberController {
     	System.out.println("id = " + member.getUser_id() + "pw = " + member.getUser_pw());
 		Member check = new Member();
 		check = service.findUser(member.getUser_id());
-		System.out.println("check ==> " + check);
+		System.out.println("check ==> " + check.getId());
 		try {
 			if(member.getUser_id() == "" || member.getUser_id() == null) {
 				msg = "아이디를 입력해주세요.";

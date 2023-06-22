@@ -6,5 +6,5 @@
 	<a href="company">Home</a> | <a href="companyLogin">로그인</a> | <a href="companyRegister">회원가입</a>
 </c:if>
 <c:if test="${not empty sessionScope.comp_id }">
-	<a href="company">Home</a> | <a href="companyLogout">로그아웃</a>
+	<a href="company">Home</a> | <a href="recruitInfo?comp_id=${sessionScope.comp_id }">채용리스트</a> | <a href="#">지원현황</a> | <a href="companyLogout">로그아웃</a>
 </c:if>

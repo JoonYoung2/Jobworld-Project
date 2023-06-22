@@ -13,6 +13,7 @@
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
 <br>
 ${msg }
+<br>
 <form action="resumeWrite.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="login_type" value="0">
 	<input type="hidden" name="user_id" value="${sessionScope.user_id }"><br>

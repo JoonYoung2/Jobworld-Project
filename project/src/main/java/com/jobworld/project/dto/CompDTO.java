@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter	@Setter
 public class CompDTO {
 	@Pattern(regexp = "^[a-z]+[a-z0-9]{5,19}$")
 	private String comp_id;

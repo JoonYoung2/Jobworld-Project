@@ -27,7 +27,7 @@ public class ResumeRepository {
 	
 	private final EntityManager em;
 	
-	public void save(Resume resume) throws Exception {
+	public void save(Resume resume) {
 		try {
 			em.persist(resume);			
 		}catch(Exception e) {
@@ -35,7 +35,7 @@ public class ResumeRepository {
 		}
 	}
 	
-	public void update(Resume resume) throws Exception {
+	public void update(Resume resume) {
 		Resume find = null;
 		try {
 			find = findOne(resume.getId());
@@ -47,7 +47,7 @@ public class ResumeRepository {
 		}
 	}
 	
-	public Resume findOne(int id) throws Exception {
+	public Resume findOne(int id) {
 		Resume find = null;
 		
 		try {
@@ -58,11 +58,16 @@ public class ResumeRepository {
         return find;
     }
 	
-	public List<Resume> findByName(String user_id) {
-		String msg = "user_id";
+//	public List<Resume> findByName(String user_id) {
+//		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
+//				.setParameter("user_id", user_id)
+//				.getResultList();
+//	}
+	
+	public Resume findByName(String user_id) {
 		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
 				.setParameter("user_id", user_id)
-				.getResultList();
+				.getSingleResult();
 	}
 	 
 }

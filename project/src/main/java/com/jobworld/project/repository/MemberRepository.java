@@ -36,7 +36,7 @@ public class MemberRepository {
 		}
 	}
 	
-	public Member findOne(String id) throws Exception {
+	public Member findOne(String id) {
 		Member member = new Member();
 		try {
 			member = em.find(Member.class, id);

@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class RecruitDTO {
 	private Long recruit_id;
-	private String corp_id;
+	private String comp_id;
 	private String recruit_career;
 	private String recruit_education;
 	private String recruit_employment;

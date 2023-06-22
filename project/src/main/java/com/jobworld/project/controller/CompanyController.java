@@ -69,7 +69,11 @@ public class CompanyController {
 		}catch(Exception e) {
 			log.error("CompController login(CompDTO, RedirectAttributes) error --> {}", e);
 		}
-		session.setAttribute("comp_id", comp.getComp_id());
+		if(check != null) {
+			session.setAttribute("comp_id", comp.getComp_id());
+			return "company/index";
+			
+		}
 		return "company/index";
 	}
 	
