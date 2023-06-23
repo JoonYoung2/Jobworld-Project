@@ -24,6 +24,12 @@
 			급여 : ${recruit.recruit_salary }<br>
 			근무지역 : ${recruit.recruit_area }<br>
 			근무시간대 : ${recruit.recruit_time }<br>
+			<form action="userApplyList.do" method="post">
+				<input type="hidden" name="recruit_id" value="${recruit.recruit_id }">
+				<button type="submit">지원 현황</button>
+			</form>
+			<br>
+			<br>
 			</c:forEach>
 			<a href="recruitWrite">채용등록</a>
 		</c:otherwise>

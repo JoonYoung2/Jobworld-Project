@@ -3,6 +3,8 @@ package com.jobworld.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,41 +21,22 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberService {
 	private final MemberRepository repo;
-	 
-	// 회원 가입
-    @Transactional
-    public String join(MemberDTO member) throws Exception {
-        String msg = "";
-        Member insert = null;
-        msg = validateDuplicateMember(member); // 검증
-		if(msg.equals("검증 성공")) 
-			insert = setMember(member);
-		else 
-			return "동일한 아이디가 존재합니다.";
-		try {
-			repo.save(insert);
-			return "가입 성공";
-		} catch (Exception e) {
-			log.error("MemberService join(UserDomain) error --> {}", e);
-		}
-        return "가입 실패";
-    }
-
-    private Member setMember(MemberDTO member) {
-		Member insert = new Member();
-		insert.setId(member.getUser_id());
-		insert.setPw(member.getUser_pw());
-		insert.setBirthday(member.getUser_birthday());
-		insert.setEmail(member.getUser_email());
-		insert.setName(member.getUser_nm());
-		insert.setPhoneNum(member.getUser_phone_num());
-		insert.setZip_cd(member.getZip_cd());
-		insert.setAddress_info(member.getAddress_info());
-		insert.setAddress_detail(member.getAddress_detail());
-		insert.setLogin_type(0);
-		return insert;
+    
+    private MemberDTO setMember(Member member) {
+		MemberDTO dto = new MemberDTO();
+		dto.setUser_id(member.getId());
+		dto.setUser_pw(member.getPw());
+		dto.setUser_birthday(member.getBirthday());
+		dto.setUser_email(member.getEmail());
+		dto.setUser_nm(member.getName());
+		dto.setUser_phone_num(member.getPhoneNum());
+		dto.setZip_cd(member.getZip_cd());
+		dto.setAddress_info(member.getAddress_info());
+		dto.setAddress_detail(member.getAddress_detail());
+		dto.setLogin_type(member.getLogin_type());
+		return dto;
 	}
-
+    
 	private String validateDuplicateMember(MemberDTO member) throws Exception {
     	try {
     		Member findMembers = repo.findOne(member.getUser_id());
@@ -111,15 +94,18 @@ public class MemberService {
     	return list;
     }
 	
-    public Member findUser(String user_id) {
-    	Member findUser = new Member();
-		try {
-			findUser = repo.findOne(user_id);
-			return findUser; 
-		} catch (Exception e) {
-			log.error("MemberService findUser(String) error --> {}", e);
-		}
-    	
-    	return findUser;
+    public MemberDTO findUser(String user_id) {
+    	Member findUser = repo.findOne(user_id);
+    	if(findUser == null) {
+    		return null;
+    	}
+		MemberDTO dto = setMember(findUser);
+    	return dto;
     }
+    
+    @Transactional
+	public void save(MemberDTO dto) {
+		Member member = Member.setMember(dto);
+		repo.save(member);
+	}
 }

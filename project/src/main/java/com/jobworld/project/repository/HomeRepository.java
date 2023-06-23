@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import com.jobworld.project.domain.Recruit;
-import com.jobworld.project.dto.RecruitDTO;
 
 import lombok.RequiredArgsConstructor;
 

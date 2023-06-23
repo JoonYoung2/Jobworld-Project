@@ -15,15 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 public class RecruitController {
 	private final RecruitService service;
-	
+
 	@GetMapping("/recruitInfo")
 	public String recruitInfo(@RequestParam("comp_id") String comp_id, Model model) {
 		List<RecruitDTO> list = service.recruitList(comp_id);
-		
+
 		if(list != null) {
 			model.addAttribute("list", list);
 			return "company/recruit/recruitList";

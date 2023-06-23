@@ -24,12 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class ResumeService {
-	
+
 	private final ResumeRepository repo;
 	private final MemberRepository memberRepository;
-	
+
 	private static String dir = "D:\\jobworld_controller\\jobworld_project\\project\\src\\main\\webapp\\resources\\upload\\";
-	
+
 //	private ResumeDTO setResume(List<Resume> list) {
 //		ResumeDTO dto = new ResumeDTO();
 //		dto.setResume_id(list.get(0).getId());
@@ -38,16 +38,27 @@ public class ResumeService {
 //		dto.setUser_img(list.get(0).getImg());
 //		return dto;
 //	}
-	
+
+	private ResumeDTO setResume(List<Resume> resume) {
+		ResumeDTO dto = new ResumeDTO();
+
+		dto.setResume_id(resume.get(0).getId());
+		dto.setResume_title(resume.get(0).getTitle());
+		dto.setUser_id(resume.get(0).getMember().getId());
+		dto.setUser_img(resume.get(0).getImg());
+		return dto;
+	}
+
 	private ResumeDTO setResume(Resume resume) {
 		ResumeDTO dto = new ResumeDTO();
+
 		dto.setResume_id(resume.getId());
 		dto.setResume_title(resume.getTitle());
 		dto.setUser_id(resume.getMember().getId());
 		dto.setUser_img(resume.getImg());
 		return dto;
 	}
-	
+
 	public String userImgSave(MultipartFile file, String user_id) {
 		String originalName = file.getOriginalFilename();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
@@ -66,8 +77,8 @@ public class ResumeService {
 			e.printStackTrace();
 		}
 		return fileName;
-	} 
-	
+	}
+
 	public void folderDelete(String user_id) {
 		String path = dir + user_id;
 		File folder = new File(path);
@@ -85,58 +96,63 @@ public class ResumeService {
 			System.out.println(e);
 		}
 	}
-	
+
 	@Transactional
 	public String resumeWrite(MultipartHttpServletRequest multi) {
 		String user_id = multi.getParameter("user_id");
 		String resume_title = multi.getParameter("resume_title");
 		MultipartFile file = multi.getFile("file");
-		if(resume_title == null || resume_title.equals("")) {
+		if (resume_title == null || resume_title.equals("")) {
 			return "제목을 입력해주세요.";
 		}
 		if (file == null || file.isEmpty()) {
-	        return "업로드 파일을 등록해주세요.";
-	    }
+			return "업로드 파일을 등록해주세요.";
+		}
 		String user_img = userImgSave(file, user_id);
 		Member member = memberRepository.findOne(user_id);
-		Resume resume = Resume.createResume(member, user_id, user_img, resume_title);			
+		Resume resume = Resume.createResume(member, user_id, user_img, resume_title);
 		repo.save(resume);
 		return "쓰기 성공";
 	}
-	
+
 	@Transactional
 	public String resumeUpdate(Resume resume) {
 		try {
 			Resume update = repo.findOne(resume.getId());
-			update.setImg(resume.getImg());				
+			update.setImg(resume.getImg());
 			update.setTitle(resume.getTitle());
 			return "수정 완료";
-		}catch(Exception e) {
+		} catch (Exception e) {
 			log.error("ResumeService resumeUpdate(Resume) error --> {}", e);
 		}
 		return "수정 실패";
 	}
-	
+
 	public String resumeFind(String user_id) {
 		String msg = validateDuplicateResume(user_id);
 		return msg;
 	}
-	
+
 	private String validateDuplicateResume(String user_id) {
-        Resume findResumes = repo.findByName(user_id);
-        String msg = "";
-        if(findResumes != null)
-            msg = "있음";
-        else 
-        	msg = "없음";
-        
-        return msg;
-    }
+		List<Resume> list = repo.findByName(user_id);
+		String msg = "";
+		if(list.size()>0) 
+			msg = "있음";
+		else
+			msg = "없음";
+
+		return msg;
+	}
 
 	public ResumeDTO getUserResume(String user_id) {
-		Resume getResume = repo.findByName(user_id);
-		ResumeDTO resume = setResume(getResume);
-		return resume;
+		List<Resume> list = repo.findByName(user_id);
+		if(list.size() > 0) {
+			Resume resume = list.get(0);
+			ResumeDTO dto = setResume(resume);
+			return dto;			
+		}
+		
+		return null;
 	}
 
 	public ResumeDTO getResumeInfo(int resume_id) {
@@ -144,7 +160,7 @@ public class ResumeService {
 		ResumeDTO resume = setResume(getResume);
 		return resume;
 	}
-	
+
 	@Transactional
 	public ResumeDTO imgUpdate(MultipartHttpServletRequest multi) {
 		int resume_id = Integer.parseInt(multi.getParameter("resume_id"));
@@ -158,15 +174,15 @@ public class ResumeService {
 			dto.setResume_title(resume.getTitle());
 			dto.setUser_img(resume.getImg());
 			return dto;
-	    }
-		//폴더 및 파일 삭제
+		}
+		// 폴더 및 파일 삭제
 		folderDelete(user_id);
-		
+
 		String user_img = userImgSave(file, user_id);
-		
+
 		Resume resume = repo.findOne(resume_id);
 		resume.setImg(user_img);
-		
+
 		ResumeDTO dto = new ResumeDTO();
 		dto.setResume_id(resume.getId());
 		dto.setUser_id(resume.getMember().getId());
@@ -174,12 +190,12 @@ public class ResumeService {
 		dto.setUser_img(resume.getImg());
 		return dto;
 	}
-		
+
 	@Transactional
 	public ResumeDTO resumeUpdate(ResumeDTO dto) {
 		Resume resume = repo.findOne(dto.getResume_id());
 		resume.setTitle(dto.getResume_title());
-		
+
 		dto.setResume_id(resume.getId());
 		dto.setUser_img(resume.getImg());
 		dto.setResume_title(resume.getTitle());

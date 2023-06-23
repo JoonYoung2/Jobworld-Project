@@ -36,25 +36,15 @@ public class ResumeRepository {
 	}
 	
 	public void update(Resume resume) {
-		Resume find = null;
-		try {
-			find = findOne(resume.getId());
+		Resume find = findOne(resume.getId());
 			
 			find.setImg(resume.getImg());
 			find.setTitle(resume.getTitle());
-		}catch(Exception e) {
-			log.error("ResumeRepository update(ResumeDomain) error --> {}", e);
-		}
 	}
 	
 	public Resume findOne(int id) {
-		Resume find = null;
+		Resume find = em.find(Resume.class, id);
 		
-		try {
-			find = em.find(Resume.class, id);
-		}catch(Exception e) {
-			log.error("ResumeRepository findOne(int) error --> {}", e);
-		}
         return find;
     }
 	
@@ -64,10 +54,10 @@ public class ResumeRepository {
 //				.getResultList();
 //	}
 	
-	public Resume findByName(String user_id) {
+	public List<Resume> findByName(String user_id) {
 		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
 				.setParameter("user_id", user_id)
-				.getSingleResult();
+				.getResultList();
 	}
 	 
 }

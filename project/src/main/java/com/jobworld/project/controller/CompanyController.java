@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jobworld.project.domain.Company;
-import com.jobworld.project.domain.Member;
 import com.jobworld.project.dto.CompDTO;
-import com.jobworld.project.dto.MemberDTO;
 import com.jobworld.project.service.CompService;
 
 import lombok.RequiredArgsConstructor;

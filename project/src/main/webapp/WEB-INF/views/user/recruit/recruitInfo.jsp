@@ -11,12 +11,16 @@
 <body>
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
 <br>
+<br>
+${msg }
+<br>
+<br>
 	경력 : ${recruit.recruit_career }<br>
 	학력 : ${recruit.recruit_education }<br>
 	고용형태 : ${recruit.recruit_employment }<br>
 	급여 : ${recruit.recruit_salary }<br>
 	근무지역 : ${recruit.recruit_area }<br>
 	근무시간대 : ${recruit.recruit_time }<br>
-	<a href="apply">지원하기</a>
+	<a href="apply?recruit_id=${recruit.recruit_id }">지원하기</a>
 </body>
 </html>

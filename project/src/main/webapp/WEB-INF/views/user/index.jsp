@@ -25,6 +25,7 @@
 			근무지역 : ${recruit.recruit_area }<br>
 			근무시간대 : ${recruit.recruit_time }<br>
 			</a>
+			<br><br>
 			</c:forEach>
 		</c:otherwise>
 	</c:choose>
