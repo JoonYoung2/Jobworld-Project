@@ -59,5 +59,11 @@ public class ResumeRepository {
 				.setParameter("user_id", user_id)
 				.getResultList();
 	}
+	
+	public List<Resume> findById(Long id){
+		return em.createQuery("select r from Resume r where r.recruit.id = :id", Resume.class)
+				.setParameter("id", id)
+				.getResultList();
+	}
 	 
 }

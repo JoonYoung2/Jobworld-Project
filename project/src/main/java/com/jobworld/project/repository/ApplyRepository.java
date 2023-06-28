@@ -36,4 +36,19 @@ public class ApplyRepository {
 				.setParameter("recruit_id", recruit_id)
 				.getResultList();
 	}
+
+	public List<Apply> getApplyInfo(int resume_id) {
+		return em.createQuery("select a from Apply a where a.resume.id = :resume_id", Apply.class)
+				.setParameter("resume_id", resume_id)
+				.getResultList();
+	}
+
+	public void applyCancel(Long apply_id) {
+		Apply apply = em.find(Apply.class, apply_id);
+		em.remove(apply);
+	}
+
+	public Apply find(Long apply_id) {
+		return em.find(Apply.class, apply_id);
+	}
 }

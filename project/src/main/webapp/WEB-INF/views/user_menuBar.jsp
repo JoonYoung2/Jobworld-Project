@@ -7,7 +7,7 @@
 	</c:if>
 	
 	<c:if test="${sessionScope.login_type eq 0}">
-		<a href="/">Home</a> | <a href="resumeInfo?user_id=${sessionScope.user_id }">이력서 보기</a> | <a href="memberLogout">로그아웃</a>
+		<a href="/">Home</a> | <a href="resumeInfo?user_id=${sessionScope.user_id }">이력서 보기</a> | <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> | <a href="memberLogout">로그아웃</a>
 	</c:if>
 	
 	<c:if test="${sessionScope.login_type eq 1}">

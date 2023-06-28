@@ -11,6 +11,8 @@
 <body>
 <%@ include file="../user_menuBar.jsp"%>
 <br>
+<br>
+<br>
 	<c:choose>
 		<c:when test="${empty list }">
 			등록된 채용정보가 없습니다.<br>
@@ -18,12 +20,12 @@
 		<c:otherwise>
 			<c:forEach var="recruit" items="${list }">
 			<a href="recruitInfo.go?recruit_id=${recruit.recruit_id }">
-			경력 : ${recruit.recruit_career }<br>
-			학력 : ${recruit.recruit_education }<br>
-			고용형태 : ${recruit.recruit_employment }<br>
-			급여 : ${recruit.recruit_salary }<br>
-			근무지역 : ${recruit.recruit_area }<br>
-			근무시간대 : ${recruit.recruit_time }<br>
+				경력 : ${recruit.recruit_career }<br>
+				학력 : ${recruit.recruit_education }<br>
+				고용형태 : ${recruit.recruit_employment }<br>
+				급여 : ${recruit.recruit_salary }<br>
+				근무지역 : ${recruit.recruit_area }<br>
+				근무시간대 : ${recruit.recruit_time }<br>
 			</a>
 			<br><br>
 			</c:forEach>
