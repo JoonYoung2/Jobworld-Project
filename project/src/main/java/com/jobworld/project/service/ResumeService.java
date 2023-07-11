@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ResumeDTO;
-import com.jobworld.project.repository.MemberRepository;
+import com.jobworld.project.repository.MemberRepositoryOld;
 import com.jobworld.project.repository.ResumeRepository;
 
 import java.io.File;
@@ -26,28 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 public class ResumeService {
 
 	private final ResumeRepository repo;
-	private final MemberRepository memberRepository;
+	private final MemberRepositoryOld memberRepository;
 
 	private static String dir = "D:\\jobworld_controller\\jobworld_project\\project\\src\\main\\webapp\\resources\\upload\\";
-
-//	private ResumeDTO setResume(List<Resume> list) {
-//		ResumeDTO dto = new ResumeDTO();
-//		dto.setResume_id(list.get(0).getId());
-//		dto.setResume_title(list.get(0).getTitle());
-//		dto.setUser_id(list.get(0).getMember().getId());
-//		dto.setUser_img(list.get(0).getImg());
-//		return dto;
-//	}
-
-	private ResumeDTO setResume(List<Resume> resume) {
-		ResumeDTO dto = new ResumeDTO();
-
-		dto.setResume_id(resume.get(0).getId());
-		dto.setResume_title(resume.get(0).getTitle());
-		dto.setUser_id(resume.get(0).getMember().getId());
-		dto.setUser_img(resume.get(0).getImg());
-		return dto;
-	}
 
 	private ResumeDTO setResume(Resume resume) {
 		ResumeDTO dto = new ResumeDTO();

@@ -2,6 +2,7 @@ package com.jobworld.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.dto.MemberDTO;
 import com.jobworld.project.repository.MemberRepository;
+import com.jobworld.project.repository.MemberRepositoryOld;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +41,7 @@ public class MemberService {
     
 	private String validateDuplicateMember(MemberDTO member) throws Exception {
     	try {
-    		Member findMembers = repo.findOne(member.getUser_id());
+    		Member findMembers = repo.findById(member.getUser_id()).get();
     		if(findMembers.getId() != null){
     			return "검증 실패";
     		}
@@ -54,7 +56,7 @@ public class MemberService {
     public void update(Member user) throws Exception {
 		Member findId = new Member();
 		try {
-			findId = repo.findOne(user.getId());
+			findId = repo.findById(user.getId()).get();
 			
 			findId.setAddress_detail(user.getAddress_detail());
 			findId.setAddress_info(user.getAddress_info());
@@ -73,9 +75,9 @@ public class MemberService {
     @Transactional
     public String delete(Member user) {
     	try {
-			Member find = repo.findOne(user.getId());
+			Member find = repo.findById(user.getId()).get();
 			if(user.getId().equals(find.getId()) && user.getPw().equals(find.getId()))
-				repo.delete(user.getId());
+				repo.deleteById(user.getId());
 			else
 				return "삭제 실패";
 		} catch (Exception e) {
@@ -95,10 +97,13 @@ public class MemberService {
     }
 	
     public MemberDTO findUser(String user_id) {
-    	Member findUser = repo.findOne(user_id);
-    	if(findUser == null) {
+    	Member findUser = new Member(); 
+    	try {
+    		 findUser = repo.findById(user_id).get();
+    	}catch(NoSuchElementException e) {
     		return null;
     	}
+    	
 		MemberDTO dto = setMember(findUser);
     	return dto;
     }

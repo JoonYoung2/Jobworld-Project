@@ -15,7 +15,7 @@ public class Member {
 	@Id
 	@Column(name = "userId")
 	private String id;
-
+	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
 	private Resume resume;
 

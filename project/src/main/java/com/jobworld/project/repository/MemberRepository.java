@@ -1,45 +1,9 @@
 package com.jobworld.project.repository;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jobworld.project.domain.Member;
 
-import lombok.RequiredArgsConstructor;
-
-@Repository
-@RequiredArgsConstructor
-public class MemberRepository {
-	
-	private final EntityManager em;
-	
-	public void save(Member member) {
-		System.out.println("save왔나?");
-		System.out.println("id" + member.getId());
-		try {
-			em.persist(member);			
-		}catch(Exception e) {
-			
-		}
-	}
-	
-	public void delete(String id) {
-		Member member = findOne(id);
-		em.remove(member.getId());
-	}
-	
-	public Member findOne(String id) {
-		Member member = em.find(Member.class, id);
-        return member;
-    }
-
-    public List<Member> findAll() {
-    	List<Member> list = em.createQuery("select m from Member m", Member.class)
-            		.getResultList();
-        return list;
-    }
+public interface MemberRepository extends JpaRepository<Member, String> {
 	
 }

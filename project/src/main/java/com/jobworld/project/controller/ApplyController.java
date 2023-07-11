@@ -18,6 +18,7 @@ import com.jobworld.project.repository.apply.UserApplyStatusDTO;
 import com.jobworld.project.service.ApplyService;
 import com.jobworld.project.service.RecruitService;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -94,9 +95,10 @@ public class ApplyController {
 	}
 	
 	@PostMapping("applyCancel.do")
-	public String applyCancel(Long apply_id, String user_id, Model model) {
-		service.applyCancel(apply_id);
-		int resume_id = service.getResumeId(user_id);
+	public String applyCancel(ApplyDto dto, Model model) {
+		System.out.println("applyId = " + dto.getApply_id());
+		service.applyCancel(dto.getApply_id());
+		int resume_id = service.getResumeId(dto.getUser_id());
 		if(resume_id == 0) {
 			return "user/apply/applyList";
 		}
@@ -123,5 +125,11 @@ public class ApplyController {
 			return "company/apply/applyList";
 		}
 		return "company/apply/applyList";
+	}
+	
+	@Data
+	static class ApplyDto{
+		private Long apply_id;
+		private String user_id;
 	}
 }

@@ -40,7 +40,6 @@
 				<c:if test="${recruit.state eq 3 }">2차면접통과</c:if>
 				<c:if test="${recruit.state eq 4 }">최종합격</c:if>
 				<c:if test="${recruit.state eq 5 }">불합격</c:if>
-				
 				<form action="applyCancel.do" method="post">
 					<input type="hidden" name="apply_id" value="${recruit.apply_id }">
 					<input type="hidden" name="user_id" value="${sessionScope.user_id }">

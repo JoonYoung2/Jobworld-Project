@@ -1,4 +1,4 @@
-package com.jobworld.project.domain;
+                                                                                                                              package com.jobworld.project.domain;
 
 import java.util.ArrayList;
 import java.util.List;

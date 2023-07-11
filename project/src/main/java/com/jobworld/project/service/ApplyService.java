@@ -9,23 +9,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Apply;
-import com.jobworld.project.domain.Company;
-import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ApplyDTO;
 import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.dto.ResumeDTO;
 import com.jobworld.project.repository.ApplyRepository;
-import com.jobworld.project.repository.CompRepository;
-import com.jobworld.project.repository.MemberRepository;
 import com.jobworld.project.repository.RecruitRepository;
 import com.jobworld.project.repository.ResumeRepository;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
 import com.jobworld.project.repository.apply.UserApplyStatusDTO;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional(readOnly = true)
@@ -73,7 +68,7 @@ public class ApplyService {
 	}
 
 	public List<ApplyDTO> getApplyInfo(Long recruit_id) {
-		List<Apply> apply = repo.getApplyInfo(recruit_id);
+		List<Apply> apply = repo.applyByRecruitId(recruit_id);
 		List<ApplyDTO> list = Apply.setApplyDto(apply);
 		return list;
 	}
@@ -131,7 +126,7 @@ public class ApplyService {
 	}
 
 	public List<ApplyDTO> getApplyInfo(int resume_id) {
-		List<Apply> apply = repo.getApplyInfo(resume_id);
+		List<Apply> apply = repo.applyByResumeId(resume_id);
 		List<ApplyDTO> list = Apply.setApplyDto(apply);
 		return list;
 	}
@@ -173,7 +168,7 @@ public class ApplyService {
 	
 	@Transactional
 	public Long stateUpdate(Long apply_id, int state) {
-		Apply apply = repo.find(apply_id);
+		Apply apply = repo.findById(apply_id);
 		apply.setState(state);
 		Long recruit_id = apply.getRecruit().getId();
 		return recruit_id;

@@ -62,6 +62,7 @@ public class MemberController {
 			msg = "아이디가 존재하지 않습니다.";
 		}
 		model.addAttribute("msg", msg);
+		model.addAttribute("user_id", member.getUser_id());
 		return "user/member/login";
 	}
 	
@@ -105,7 +106,8 @@ public class MemberController {
     		model.addAttribute("msg", msg);	
     		return "user/member/login";
     	}
-    	msg = "가입조건이 충분하지 않습니다.";
+    	
+    	msg = "동일한 아이디가 존재합니다. 다른 아이디를 입력해주세요.";
     	model.addAttribute("member", member);
 		model.addAttribute("msg", msg);	
     	return "user/member/register";
