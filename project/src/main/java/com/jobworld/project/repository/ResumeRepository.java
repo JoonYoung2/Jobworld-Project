@@ -1,21 +1,12 @@
 package com.jobworld.project.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jobworld.project.domain.Member;
-import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
-import com.jobworld.project.dto.ResumeDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

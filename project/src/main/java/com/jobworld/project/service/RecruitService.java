@@ -29,6 +29,7 @@ public class RecruitService {
 			RecruitDTO dto = new RecruitDTO();
 			dto.setRecruit_id(recruit.get(i).getId());
 			dto.setComp_id(recruit.get(i).getCompany().getId());
+			dto.setRecruit_title(recruit.get(i).getTitle());
 			dto.setRecruit_career(recruit.get(i).getCareer());
 			dto.setRecruit_education(recruit.get(i).getEducation());
 			dto.setRecruit_employment(recruit.get(i).getEmployment());
@@ -47,6 +48,7 @@ public class RecruitService {
 		RecruitDTO dto = new RecruitDTO();
 		dto.setRecruit_id(recruit.getId());
 		dto.setComp_id(recruit.getCompany().getId());
+		dto.setRecruit_title(recruit.getTitle());
 		dto.setRecruit_career(recruit.getCareer());
 		dto.setRecruit_education(recruit.getEducation());
 		dto.setRecruit_employment(recruit.getEmployment());
@@ -76,6 +78,7 @@ public class RecruitService {
 	public String recruitUpdate(Recruit recruit) {
 		try {
 			Recruit update = repo.findOne(recruit.getId());
+			update.setTitle(recruit.getTitle());
 			update.setCareer(recruit.getCareer());
 			update.setEducation(recruit.getEducation());
 			update.setEmployment(recruit.getEmployment());

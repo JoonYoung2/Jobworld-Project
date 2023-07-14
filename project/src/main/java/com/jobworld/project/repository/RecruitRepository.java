@@ -1,6 +1,5 @@
 package com.jobworld.project.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,7 +7,6 @@ import javax.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 
 import com.jobworld.project.domain.Recruit;
-import com.jobworld.project.domain.Resume;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +27,7 @@ public class RecruitRepository {
 		try {
 			find = findOne(recruit.getId());
 			
+			find.setTitle(recruit.getTitle());
 			find.setCareer(recruit.getCareer());
 			find.setEducation(recruit.getEducation());
 			find.setEmployment(recruit.getEmployment());

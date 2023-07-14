@@ -12,6 +12,7 @@
 	<%@ include file="/WEB-INF/views/company_menuBar.jsp"%>
 	<form action="recruitWrite.do" method="post">
 	<input type="hidden" name="comp_id" value="${sessionScope.comp_id }">
+		제목 : <input type="text" name="recruit_title"><br>
 		경력 : <input type="text" name="recruit_career"><br>
 		학력 : <input type="text" name="recruit_education"><br>
 		고용 형태 : <input type="text" name="recruit_employment"><br>

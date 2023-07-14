@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.dto.MemberDTO;
 import com.jobworld.project.repository.MemberRepository;
-import com.jobworld.project.repository.MemberRepositoryOld;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,18 +35,6 @@ public class MemberService {
 		dto.setLogin_type(member.getLogin_type());
 		return dto;
 	}
-    
-	private String validateDuplicateMember(MemberDTO member) throws Exception {
-    	try {
-    		Member findMembers = repo.findById(member.getUser_id()).get();
-    		if(findMembers.getId() != null){
-    			return "검증 실패";
-    		}
-    	}catch(Exception e) {
-    		log.error("MemberService validateDuplicateMember(MemberDTO) error --> {}", e);
-    	}
-		return "검증 성공";
-    }
     
     // 회원 수정
     @Transactional

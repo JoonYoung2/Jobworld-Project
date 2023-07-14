@@ -15,6 +15,7 @@
 ${msg }
 <br>
 <br>
+	제목 : ${recruit.recruit_title }<br>
 	경력 : ${recruit.recruit_career }<br>
 	학력 : ${recruit.recruit_education }<br>
 	고용형태 : ${recruit.recruit_employment }<br>

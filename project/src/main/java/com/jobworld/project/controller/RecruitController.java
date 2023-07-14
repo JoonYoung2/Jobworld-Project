@@ -12,17 +12,16 @@ import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.service.RecruitService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 public class RecruitController {
 	private final RecruitService service;
-
+	
 	@GetMapping("/recruitInfo")
 	public String recruitInfo(@RequestParam("comp_id") String comp_id, Model model) {
 		List<RecruitDTO> list = service.recruitList(comp_id);
-
+	
 		if(list != null) {
 			model.addAttribute("list", list);
 			return "company/recruit/recruitList";
@@ -54,6 +53,5 @@ public class RecruitController {
 		RecruitDTO dto = service.recruitInfo(recruit_id);
 		model.addAttribute("recruit", dto);
 		return "user/recruit/recruitInfo";
-	}
-	
+	}	
 }

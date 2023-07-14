@@ -1,0 +1,27 @@
+.user_navbar_page{
+	display:flex;
+	width: 100%;
+	padding-top:20px;
+}
+
+.navbar_left_location{
+	width:20%;
+}
+
+.navbar_center_location{
+	width:60%;
+}
+
+.navbar_right_location{
+	width:20%;
+}
+
+.navbar_header{
+	width:100%;
+}
+
+.navbar_menu{
+	width:100%;
+	display:flex;
+	justify-content: space-between;
+}

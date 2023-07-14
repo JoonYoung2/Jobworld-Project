@@ -27,4 +27,6 @@ public class CompDTO {
 	private String comp_size;
 	@NotEmpty
 	private String comp_site;
+	@NotEmpty
+	private String comp_brand_img;
 }

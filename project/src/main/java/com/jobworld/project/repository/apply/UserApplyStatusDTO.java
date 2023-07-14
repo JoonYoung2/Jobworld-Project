@@ -1,8 +1,5 @@
 package com.jobworld.project.repository.apply;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
-
 import lombok.Data;
 
 @Data

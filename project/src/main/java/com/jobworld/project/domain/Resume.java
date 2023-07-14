@@ -14,8 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.jobworld.project.dto.ApplyDTO;
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,7 +52,6 @@ public class Resume {
 		this.applyList.add(applyList);
 		applyList.setResume(this);
 	}
-	
 	
 	// -- 생성 메서드 --
 	

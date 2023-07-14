@@ -109,9 +109,7 @@ public class ApplyController {
 			model.addAttribute("list", applyCompanyList);
 			return "user/apply/applyList";
 		}
-		
 		return "user/apply/applyList";
-		
 	}
 	
 	@PostMapping("applyStateUpdate.do")

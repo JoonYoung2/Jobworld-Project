@@ -26,16 +26,17 @@ public class CompRepository {
 		}
 	}
 	
-	public void update(Company corp) {
+	public void update(Company comp) {
 		Company find = new Company();
 		try {
-			find = findOne(corp.getId());
-			find.setPw(corp.getPw());
-			find.setName(corp.getName());
-			find.setBusinessType(corp.getBusinessType());
-			find.setEmplNum(corp.getEmplNum());
-			find.setSize(corp.getSize());
-			find.setSite(corp.getSite());
+			find = findOne(comp.getId());
+			find.setPw(comp.getPw());
+			find.setName(comp.getName());
+			find.setBusinessType(comp.getBusinessType());
+			find.setEmplNum(comp.getEmplNum());
+			find.setSize(comp.getSize());
+			find.setSite(comp.getSite());
+			find.setBrandImg(comp.getBrandImg());
 		}catch(Exception e){
 			log.error("CorpRepository update(CorpDomain) error --> {}", e);
 		}

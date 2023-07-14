@@ -7,6 +7,7 @@ import lombok.Setter;
 public class RecruitDTO {
 	private Long recruit_id;
 	private String comp_id;
+	private String recruit_title;
 	private String recruit_career;
 	private String recruit_education;
 	private String recruit_employment;

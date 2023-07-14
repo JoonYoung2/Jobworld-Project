@@ -1,4 +1,4 @@
-                                                                                                                              package com.jobworld.project.domain;
+package com.jobworld.project.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,9 @@ public class Company {
 	@Column(name="compSize")
 	private String size;
 	
-	@Column(name="corpSite")
+	@Column(name="compSite")
 	private String site;
+	
+	@Column(name="compBrandImg")
+	private String brandImg;
 }

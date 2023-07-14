@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,6 +37,9 @@ public class Recruit {
 	
 	@OneToMany(mappedBy="recruit")
 	private List<Apply> applyList = new ArrayList<>();
+	
+	@Column(name="recruitTitle")
+	private String title;
 	
 	@Column(name="recruitCareer")
 	private String career;
@@ -80,6 +82,7 @@ public class Recruit {
 	public static Recruit setRecruit(RecruitDTO dto, Company comp) {
 		Recruit recruit = new Recruit();
 		recruit.setCompany(comp);
+		recruit.setTitle(dto.getRecruit_title());
 		recruit.setCareer(dto.getRecruit_career());
 		recruit.setEducation(dto.getRecruit_education());
 		recruit.setEmployment(dto.getRecruit_employment());

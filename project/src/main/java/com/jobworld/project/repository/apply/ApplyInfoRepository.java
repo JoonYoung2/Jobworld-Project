@@ -6,8 +6,6 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
-import com.jobworld.project.domain.Apply;
-
 import lombok.RequiredArgsConstructor;
 
 @Repository

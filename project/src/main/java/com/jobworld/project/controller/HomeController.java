@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.dto.UserRecruitViewDTO;
 import com.jobworld.project.service.HomeService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class HomeController {
 	 */
 	@GetMapping("/")
 	public String home(Model model) {
-		List<RecruitDTO> list = service.getRecruitInfo();
+		List<UserRecruitViewDTO> list = service.getUserRecruitViewInfo();
 		if(list != null) {
 			model.addAttribute("list", list);
 			return "user/index"; 			

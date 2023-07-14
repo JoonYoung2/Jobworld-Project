@@ -12,7 +12,7 @@
 	<%@ include file="/WEB-INF/views/company_menuBar.jsp"%>
 	<br>
 	${msg }
-<form action="companyRegister.do" method="post">
+<form action="companyRegister.do" method="post" enctype="multipart/form-data">
 	아이디 : <input type="text" name="comp_id" value="${comp.comp_id }"><br>
 	비밀번호 : <input type="password" name="comp_pw" value="${comp.comp_pw }"><br>
 	비밀번호 확인 : <input type="password" name="comp_pwCheck" value="${comp.comp_pwCheck }"><br>
@@ -39,6 +39,7 @@
 		<option value="스타트업" ${comp.comp_size == '스타트업' ? 'selected="selected"' : ''}>스타트업</option>
 	</select><br>
 	회사 사이트 : <input type="text" name="comp_site" value="${comp.comp_site }"><br>
+	기업 로고 : <input type="file" name="file"><br>
 	<button type="submit">기업등록</button>
 </form>
 </body>
