@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
 import com.jobworld.project.repository.CompRepository;
 import com.jobworld.project.repository.RecruitRepository;
 
@@ -44,8 +45,8 @@ public class RecruitService {
 		return list;
 	}
 	
-	private RecruitDTO setRecruitInfo(Recruit recruit) {
-		RecruitDTO dto = new RecruitDTO();
+	private UserCompanyRecruitInfoDTO setRecruitInfo(Recruit recruit) {
+		UserCompanyRecruitInfoDTO dto = new UserCompanyRecruitInfoDTO();
 		dto.setRecruit_id(recruit.getId());
 		dto.setComp_id(recruit.getCompany().getId());
 		dto.setRecruit_title(recruit.getTitle());
@@ -58,6 +59,12 @@ public class RecruitService {
 		dto.setRecruit_start_date(recruit.getStartDate());
 		dto.setRecruit_end_date(recruit.getEndDate());
 		dto.setRecruit_open_type(recruit.getOpenType());
+		dto.setComp_brand_img(recruit.getCompany().getBrandImg());
+		dto.setComp_business_type(recruit.getCompany().getBusinessType());
+		dto.setComp_empl_num(recruit.getCompany().getEmplNum());
+		dto.setComp_nm(recruit.getCompany().getName());
+		dto.setComp_site(recruit.getCompany().getSite());
+		dto.setComp_size(recruit.getCompany().getSize());
 		return dto;
 	}
 
@@ -115,9 +122,9 @@ public class RecruitService {
 	}
 
 
-	public RecruitDTO recruitInfo(Long recruit_id) {
+	public UserCompanyRecruitInfoDTO recruitInfo(Long recruit_id) {
 		Recruit recruit = repo.findOne(recruit_id);
-		RecruitDTO dto = setRecruitInfo(recruit);
+		UserCompanyRecruitInfoDTO dto = setRecruitInfo(recruit);
 		return dto;
 	}
 

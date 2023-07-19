@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="/resources/img/jobworldImg.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="resources/css/style.css">
-<title>Insert title here</title>
+<title>JobWorld</title>
 </head>
 <body>
 	<%@ include file="../user_menuBar.jsp"%>
@@ -23,20 +24,27 @@
 			<div class="row">
 				<c:if test="${list.size() > 0 }">
 					<c:forEach var="recruit" items="${list }">
-						<div class="col-lg-3 col-sm-3 mb-3 user_recruit_space">
-							<!-- Portfolio item 1-->
-							<div class="portfolio-item">
-								<a href="recruitInfo.go?recruit_id=${recruit.recruit_id }">
-									<img class="img-fluid recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
-									<br> 제목 : ${recruit.recruit_title }
-									<br> 회사명 : ${recruit.comp_nm }
+							<div class="col-lg-3 col-sm-3 mb-3 recruit_parents">
+<%-- 								<a href="recruitInfo.go?recruit_id=${recruit.recruit_id }"> --%>
+								<a onclick="newWindow(${recruit.recruit_id});">
+								<!-- Portfolio item 1-->
+									<div class="user_recruit_space">
+										<div class="portfolio-item user_img_space">
+											<img class="recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
+											<div class="user_recruit_location company_name">${recruit.comp_nm }</div>
+											<div class="user_recruit_location company_title">${recruit.recruit_title }</div>
+										</div>
+									</div>
+<!-- 								
+</a> -->							
 								</a>
 							</div>
-						</div>
+	
 					</c:forEach>
 				</c:if>
 			</div>
 		</div>
 	</section>
+	<script src="/resources/js/new_window.js"></script>
 </body>
 </html>

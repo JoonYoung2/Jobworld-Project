@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ResumeDTO;
+import com.jobworld.project.dto.resumeInfoDto.UserResumeDTO;
 import com.jobworld.project.repository.MemberRepositoryOld;
 import com.jobworld.project.repository.ResumeRepository;
 
@@ -124,8 +125,8 @@ public class ResumeService {
 
 		return msg;
 	}
-
-	public ResumeDTO getUserResume(String user_id) {
+	
+	public ResumeDTO getResume(String user_id) {
 		List<Resume> list = repo.findByName(user_id);
 		if(list.size() > 0) {
 			Resume resume = list.get(0);
@@ -136,6 +137,45 @@ public class ResumeService {
 		return null;
 	}
 
+	public UserResumeDTO getUserResumeDto(String user_id) {
+		List<Resume> list = repo.findByName(user_id);
+		if(list.size() > 0) {
+			Resume resume = list.get(0);
+			UserResumeDTO dto = setUserResumeDto(resume);
+			return dto;			
+		}
+		
+		return null;
+	}
+	public UserResumeDTO getUserResumeDto(int resume_id) {
+		List<Resume> list = repo.findById(resume_id);
+		if(list.size() > 0) {
+			Resume resume = list.get(0);
+			UserResumeDTO dto = setUserResumeDto(resume);
+			return dto;			
+		}
+		
+		return null;
+	}
+
+	private UserResumeDTO setUserResumeDto(Resume resume) {
+		UserResumeDTO dto = new UserResumeDTO();
+		
+		dto.setUser_id(resume.getMember().getId());
+		dto.setAddress_detail(resume.getMember().getAddress_detail());
+		dto.setAddress_info(resume.getMember().getAddress_info());
+		dto.setResume_id(resume.getId());
+		dto.setResume_title(resume.getTitle());
+		dto.setUser_birthday(resume.getMember().getBirthday());
+		dto.setUser_email(resume.getMember().getEmail());
+		dto.setUser_img(resume.getImg());
+		dto.setUser_nm(resume.getMember().getName());
+		dto.setUser_phone_num(resume.getMember().getPhoneNum());
+		dto.setZip_cd(resume.getMember().getZip_cd());
+		
+		return dto;
+	}
+
 	public ResumeDTO getResumeInfo(int resume_id) {
 		Resume getResume = repo.findOne(resume_id);
 		ResumeDTO resume = setResume(getResume);
@@ -143,17 +183,13 @@ public class ResumeService {
 	}
 
 	@Transactional
-	public ResumeDTO imgUpdate(MultipartHttpServletRequest multi) {
+	public UserResumeDTO imgUpdate(MultipartHttpServletRequest multi) {
 		int resume_id = Integer.parseInt(multi.getParameter("resume_id"));
 		String user_id = multi.getParameter("user_id");
 		MultipartFile file = multi.getFile("file");
 		if (file == null || file.isEmpty()) {
 			Resume resume = repo.findOne(resume_id);
-			ResumeDTO dto = new ResumeDTO();
-			dto.setResume_id(resume.getId());
-			dto.setUser_id(resume.getMember().getId());
-			dto.setResume_title(resume.getTitle());
-			dto.setUser_img(resume.getImg());
+			UserResumeDTO dto = setUserResumeDto(resume);
 			return dto;
 		}
 		// 폴더 및 파일 삭제
@@ -164,11 +200,8 @@ public class ResumeService {
 		Resume resume = repo.findOne(resume_id);
 		resume.setImg(user_img);
 
-		ResumeDTO dto = new ResumeDTO();
-		dto.setResume_id(resume.getId());
-		dto.setUser_id(resume.getMember().getId());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_img(resume.getImg());
+		UserResumeDTO dto = setUserResumeDto(resume);
+		
 		return dto;
 	}
 
@@ -183,4 +216,96 @@ public class ResumeService {
 		dto.setUser_id(resume.getMember().getId());
 		return dto;
 	}
+
+	@Transactional
+	public UserResumeDTO personalInfoUpdate(MultipartHttpServletRequest multi) {
+		UserResumeDTO userResumeDto = setPersonalMulti(multi);
+		Resume resume = repo.findOne(userResumeDto.getResume_id());
+		UserResumeDTO dto = personResumeUpdate(userResumeDto, resume);
+		return dto;
+	}
+
+	private UserResumeDTO personResumeUpdate(UserResumeDTO userResumeDto, Resume resume) {
+		if(userResumeDto.getZip_cd() != resume.getMember().getZip_cd()) {
+			resume.getMember().setZip_cd(userResumeDto.getZip_cd());
+			resume.getMember().setAddress_info(userResumeDto.getAddress_info());
+		}
+		
+		if(userResumeDto.getAddress_detail() != resume.getMember().getAddress_detail()) 
+			resume.getMember().setAddress_detail(userResumeDto.getAddress_detail());
+		
+		if(userResumeDto.getResume_title() != resume.getTitle())
+			resume.setTitle(userResumeDto.getResume_title());
+		
+		if(userResumeDto.getUser_birthday() != resume.getMember().getBirthday())
+			resume.getMember().setBirthday(userResumeDto.getUser_birthday());
+		
+		if(userResumeDto.getUser_email() != resume.getMember().getEmail()) 
+			resume.getMember().setEmail(userResumeDto.getUser_email());
+		
+		if(userResumeDto.getUser_img() != null)
+			resume.setImg(userResumeDto.getUser_img());
+		else
+			userResumeDto.setUser_img(resume.getImg());
+		
+		if(userResumeDto.getUser_nm() != resume.getMember().getName())
+			resume.getMember().setName(userResumeDto.getUser_nm());
+		
+		if(userResumeDto.getUser_phone_num() != resume.getMember().getPhoneNum())
+			resume.getMember().setPhoneNum(userResumeDto.getUser_phone_num());
+		
+		return userResumeDto;
+	}
+
+	private UserResumeDTO setPersonalMulti(MultipartHttpServletRequest multi) {
+		
+		UserResumeDTO dto = new UserResumeDTO();
+		
+		int resume_id = Integer.parseInt(multi.getParameter("resume_id"));
+		String user_id = multi.getParameter("user_id");
+		String resume_title = multi.getParameter("resume_title");
+		String user_birthday = multi.getParameter("user_birthday");
+		String user_email = multi.getParameter("user_email");
+		String user_nm = multi.getParameter("user_nm");
+		String user_phone_num = multi.getParameter("user_phone_num");
+		String zip_cd = multi.getParameter("zip_cd");
+		String address_info = multi.getParameter("address_info");
+		String address_detail = multi.getParameter("address_detail");
+		String user_img = null;
+		
+		MultipartFile file = multi.getFile("file");
+		
+		if (file == null || file.isEmpty()) {
+			dto.setAddress_detail(address_detail);
+			dto.setAddress_info(address_info);
+			dto.setResume_id(resume_id);
+			dto.setResume_title(resume_title);
+			dto.setUser_birthday(user_birthday);
+			dto.setUser_email(user_email);
+			dto.setUser_id(user_id);
+			dto.setUser_nm(user_nm);
+			dto.setUser_phone_num(user_phone_num);
+			dto.setZip_cd(zip_cd);
+			return dto;
+		}
+		
+		folderDelete(user_id);
+		user_img = userImgSave(file, user_id);
+		
+		dto.setAddress_detail(address_detail);
+		dto.setAddress_info(address_info);
+		dto.setResume_id(resume_id);
+		dto.setResume_title(resume_title);
+		dto.setUser_birthday(user_birthday);
+		dto.setUser_email(user_email);
+		dto.setUser_id(user_id);
+		dto.setUser_nm(user_nm);
+		dto.setUser_phone_num(user_phone_num);
+		dto.setZip_cd(zip_cd);
+		dto.setUser_img(user_img);
+		
+		return dto;
+	}
+
+	
 }

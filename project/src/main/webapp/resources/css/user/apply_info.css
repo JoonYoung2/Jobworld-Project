@@ -1,0 +1,78 @@
+.apply_info_page{
+	font-family: '맑은 고딕', Malgun Gothic, Apple SD Gothic Neo, "돋움", Dotum, sans-serif;
+}
+
+.apply_info_header{
+	padding: 20px;
+	background-color:white;
+	border-bottom: solid 1px rgba(0, 0, 0, 0.2);
+}
+
+.apply_info_body{
+	padding: 20px;
+	height:100%;
+}
+
+.apply_user_info{
+	border: solid 1px blue;
+	background-color: white;
+	
+}
+
+.user_info_top{
+	font-size:15px;
+	padding : 15px;
+	border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.user_info_middle{
+	font-size:15px;
+	padding : 15px;
+	border-bottom: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.user_info_bottom{
+	font-size:12px;
+	padding : 15px;
+	display: flex;
+	justify-content:space-between;
+}
+
+.apply_span_location{
+	padding-left: 10px;
+}
+
+.apply_font_color{
+	color: #666666;
+}
+
+.apply_user_update_button a{
+	color: #999999;
+}
+
+.apply_info_page p {
+	padding-top: 15px;
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.apply_info_page p span{
+	padding-left: 9px;
+}
+
+.apply_button_location{
+	display: flex;
+	justify-content: center;
+	padding-top: 10px;
+}
+
+.apply_info_button{
+	width: 250px;
+	height: 50px;
+	background-color: darkorange;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 18px;
+	border-style: none;
+}

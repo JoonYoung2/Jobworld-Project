@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.UserRecruitViewDTO;
+import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
 import com.jobworld.project.repository.HomeRepository;
 
 import lombok.RequiredArgsConstructor;

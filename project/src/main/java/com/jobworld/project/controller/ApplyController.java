@@ -1,8 +1,9 @@
 package com.jobworld.project.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jobworld.project.dto.ApplyDTO;
-import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.dto.ResumeDTO;
+import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
 import com.jobworld.project.repository.apply.UserApplyStatusDTO;
 import com.jobworld.project.service.ApplyService;
@@ -26,43 +27,39 @@ import lombok.RequiredArgsConstructor;
 public class ApplyController {
 	
 	private final ApplyService service;
-	private final HttpSession session;
 	private final RecruitService recruitService;
 	
 	@GetMapping("apply")
-	public String applyInfo(@RequestParam("recruit_id") Long recruit_id, Model model){
-		if(session.getAttribute("user_id") == null) {
-			RecruitDTO dto = recruitService.recruitInfo(recruit_id);
-			model.addAttribute("msg", "로그인 후 지원이 가능합니다.");
-			model.addAttribute("recruit", dto);
-			return "user/recruit/recruitInfo";
-		}
+	public String applyInfo(@RequestParam("recruit_id") Long recruit_id, Model model, HttpServletResponse response){
 		ResumeDTO resume = service.getUserResume();
 		if(resume == null) {
-			RecruitDTO dto = recruitService.recruitInfo(recruit_id);
-			model.addAttribute("msg", "지원서 작성 후 지원해주시기 바랍니다.");
-			model.addAttribute("recruit", dto);
+//			UserCompanyRecruitInfoDTO dto = recruitService.recruitInfo(recruit_id);
+//			model.addAttribute("msg", "지원서 작성 후 지원해주시기 바랍니다.");
+//			model.addAttribute("recruit", dto);
+			alertAndBack(response, "지원서 작성 후 지원해주시기 바랍니다.");
 			return "user/recruit/recruitInfo";
 		}
-		model.addAttribute("recruit_id", recruit_id);
-		model.addAttribute("resume", resume);
+		
+		UserResumeRecruitDTO applyInfo = service.getApplyInfo(recruit_id, resume.getResume_id());
+		model.addAttribute("resume", applyInfo);
 		return "user/apply/applyInfo";
 	}
 	
 	@PostMapping("apply.do")
-	public String applySave(ApplyDTO dto, Model model) {
+	public void applySave(ApplyDTO dto, Model model, HttpServletResponse response) {
 		String msg = service.applySave(dto);
 		if(msg.equals("성공")) {
-			RecruitDTO recruit = service.getRecruitInfo(dto.getRecruit_id());
-			model.addAttribute("recruit_id", dto.getRecruit_id());
-			model.addAttribute("recruit", recruit);
-			return "user/recruit/recruitInfo";
+//			RecruitDTO recruit = service.getRecruitInfo(dto.getRecruit_id());
+			alertAndBack(response, "지원이 완료되었습니다.");
+//			model.addAttribute("msg", "지원이 완료되었습니다.");
+//			model.addAttribute("recruit", recruit);
+//			return "user/recruit/recruitInfo";
 		}else {
-			ResumeDTO resume = service.getUserResume();
-			model.addAttribute("msg", msg);
-			model.addAttribute("recruit_id", dto.getRecruit_id());
-			model.addAttribute("resume", resume);
-			return "user/apply/applyInfo"; 
+//			UserResumeRecruitDTO resume = service.getApplyInfo(dto.getRecruit_id(), dto.getResume_id());
+			alertAndBack(response, msg);
+//			model.addAttribute("msg", msg);
+//			model.addAttribute("resume", resume);
+//			return "user/apply/applyInfo"; 
 		}
 	}
 	
@@ -129,5 +126,17 @@ public class ApplyController {
 	static class ApplyDto{
 		private Long apply_id;
 		private String user_id;
+	}
+	
+	public static void alertAndBack(HttpServletResponse response, String msg) {
+	    try {
+	        response.setContentType("text/html; charset=utf-8");
+	        PrintWriter w = response.getWriter();
+	        w.write("<script>alert('"+msg+"'); window.close();</script>");
+	        w.flush();
+	        w.close();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }

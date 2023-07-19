@@ -10,7 +10,7 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div>
-					<a href="/">Home</a> <a href="#">검색기능</a>
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -36,7 +36,7 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div>
-					<a href="/"><img src="resources/img/jobworlImg.png"></a> <a href="#">검색기능</a>
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -63,7 +63,7 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div>
-					<a href="/">Home</a> <a href="#">검색기능</a>
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
 				</div>
 				<div class="navbar_menu">
 					<div>

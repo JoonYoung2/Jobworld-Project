@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.jobworld.project.dto.MemberDTO;
 import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.UserRecruitViewDTO;
+import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
 import com.jobworld.project.service.HomeService;
 import com.jobworld.project.service.MemberService;
 
@@ -28,6 +28,7 @@ public class MemberController {
 	
 	@GetMapping("memberLogin")
 	public String login() {
+		String msg = (String) session.getAttribute("user_id");
 		return "user/member/login";
 	}
 	@PostMapping("memberLogin.do")

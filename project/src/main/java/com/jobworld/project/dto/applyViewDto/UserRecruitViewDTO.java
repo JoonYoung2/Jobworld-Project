@@ -1,4 +1,4 @@
-package com.jobworld.project.dto;
+package com.jobworld.project.dto.applyViewDto;
 
 import lombok.Data;
 

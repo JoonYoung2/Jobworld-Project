@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
 import com.jobworld.project.service.RecruitService;
 
 import lombok.RequiredArgsConstructor;
@@ -50,7 +51,7 @@ public class RecruitController {
 	
 	@GetMapping("recruitInfo.go")
 	public String userRecruitInfo(@RequestParam("recruit_id") Long recruit_id, Model model) {
-		RecruitDTO dto = service.recruitInfo(recruit_id);
+		UserCompanyRecruitInfoDTO dto = service.recruitInfo(recruit_id);
 		model.addAttribute("recruit", dto);
 		return "user/recruit/recruitInfo";
 	}	

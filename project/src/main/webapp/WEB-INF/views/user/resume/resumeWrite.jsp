@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="resources/css/style.css">
-<title>Insert title here</title>
+<title>JobWorld</title>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>

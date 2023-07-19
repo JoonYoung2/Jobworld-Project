@@ -1,5 +1,11 @@
 @import "header/navbar.css";
 @import "user/user_main.css";
+@import "user/recruit_info.css";
+@import "user/apply_info.css";
+@import "user/resume_info.css";
+@import "login/login.css";
+@import "member/join.css";
+
 
 a{
 	text-decoration: none;

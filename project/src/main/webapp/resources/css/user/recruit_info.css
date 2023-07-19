@@ -1,0 +1,87 @@
+.recruit_info_page{
+	width:100%;
+	padding: 30px;
+	padding-top: 50px;
+	font-size:13px;
+}
+
+.recruit_info_page b{
+	font-size:14px;
+}
+
+.recruit_info_frame{
+	width:100%;
+	display: flex;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+	border-top: solid 2px rgba(0, 0, 0, 1);
+}
+
+.recruit_apply_condition{
+	width:100%;
+	display: flex;
+	border-top:solid 1px rgba(0, 0, 0, 0.1);
+	padding-top:15px;
+	
+}
+
+.recruit_company_info{
+	padding: 20px;
+	border-left: solid 1px rgba(0, 0, 0, 0.1);
+	width:30%;
+}
+
+.company_info_img{
+	width:100%;
+	display:flex;
+	justify-content: center;
+	padding-top: 20px;
+	padding-bottom:40px;
+}
+
+recruit_company_info div{
+	display:flex;
+	justify-content:center;
+	align-items: center;
+}
+
+.recruit_info{
+	padding: 20px;
+	width:70%;
+}
+
+.recruit_title{
+	padding-bottom:15px;
+}
+
+.title_font{
+	font-size:27px;
+}
+
+.company_name{
+	font-size:18px;
+}
+
+.recruit_font_color{
+	color:rgba(0, 0, 0, 0.5);
+}
+
+.recruit_apply_button{
+	display: flex;
+	justify-content:center;
+}
+
+.apply_button{
+	width: 200px;
+	height: 50px;
+	background-color: darkorange;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 18px;
+	
+}
+
+.apply_button:hover{
+	cursor: pointer;
+}

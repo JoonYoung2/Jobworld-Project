@@ -9,12 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Apply;
+import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ApplyDTO;
 import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.dto.ResumeDTO;
+import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.ApplyRepository;
+import com.jobworld.project.repository.CompRepository;
 import com.jobworld.project.repository.RecruitRepository;
 import com.jobworld.project.repository.ResumeRepository;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
@@ -29,6 +32,7 @@ public class ApplyService {
 	private final ApplyRepository repo;
 	private final ResumeRepository resumeRepository;
 	private final RecruitRepository recruitRepository;
+	private final CompRepository compRepository;
 	private final HttpSession session;
 
 	public ResumeDTO getUserResume() {
@@ -172,6 +176,27 @@ public class ApplyService {
 		apply.setState(state);
 		Long recruit_id = apply.getRecruit().getId();
 		return recruit_id;
+	}
+
+	public UserResumeRecruitDTO getApplyInfo(Long recruit_id, int resume_id) {
+		Recruit recruit = recruitRepository.findOne(recruit_id);
+		Resume resume = resumeRepository.findOne(resume_id);
+		UserResumeRecruitDTO dto = setUserResumeRecruitDto(recruit, resume);
+		return dto;
+	}
+
+	private UserResumeRecruitDTO setUserResumeRecruitDto(Recruit recruit, Resume resume) {
+		UserResumeRecruitDTO dto = new UserResumeRecruitDTO();
+		dto.setRecruit_id(recruit.getId());
+		dto.setResume_id(resume.getId());
+		dto.setComp_nm(recruit.getCompany().getName());
+		dto.setRecruit_title(recruit.getTitle());
+		dto.setResume_title(resume.getTitle());
+		dto.setUser_email(resume.getMember().getEmail());
+		dto.setUser_nm(resume.getMember().getName());
+		dto.setUser_phone_num(resume.getMember().getPhoneNum());
+		
+		return dto;
 	}
 
 }
