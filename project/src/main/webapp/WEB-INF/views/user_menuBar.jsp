@@ -17,7 +17,7 @@
 						다른 메뉴들~~~
 					</div>
 					<div>
-						<a href="memberLogin">로그인</a> <a href="memberRegister">회원가입</a>			
+						<a onclick="loginWindow();" style="cursor:pointer;">로그인</a> <a onclick="registerWindow();" style="cursor:pointer;">회원가입</a>			
 					</div>
 				</div>
 			</div>
@@ -26,6 +26,7 @@
 		
 		</div>	
 	</div>
+	<script src="resources/js/new_window.js"></script>
 	</c:if>
 	
 	<c:if test="${sessionScope.login_type eq 0}">

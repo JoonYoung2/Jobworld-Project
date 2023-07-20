@@ -61,16 +61,16 @@ function check(){
         document.getElementById("nm").focus();
         return;
     }
-    if(email == ""){
-		alert("이메일 입력은 필수입니다.");
-//        document.getElementById("msg").innerText="이메일 입력은 필수입니다.";
-        document.getElementById("email").focus();
-        return;
-    }
     if(birth == ""){
 		alert("생년월일 입력은 필수입니다.");
 //        document.getElementById("msg").innerText="생년월일 입력은 필수입니다.";
         document.getElementById("birth").focus();
+        return;
+    }
+    if(email == ""){
+		alert("이메일 입력은 필수입니다.");
+//        document.getElementById("msg").innerText="이메일 입력은 필수입니다.";
+        document.getElementById("email").focus();
         return;
     }
     if(phone == ""){

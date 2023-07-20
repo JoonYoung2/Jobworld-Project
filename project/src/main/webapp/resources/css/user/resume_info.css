@@ -158,3 +158,16 @@
 	
 }
 
+.user_status_box{
+	width: 100%;
+	height: 50px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.status_location{
+	width:100%;
+	font-size: 27px;
+	font-weight: bold;
+}
+

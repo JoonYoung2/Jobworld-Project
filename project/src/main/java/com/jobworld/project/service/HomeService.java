@@ -3,12 +3,15 @@ package com.jobworld.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
+import com.jobworld.project.dto.companyRecruit.CompanyIndexViewDto;
 import com.jobworld.project.repository.HomeRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class HomeService {
 	private final HomeRepository repo;
+	private final HttpSession session;
 
 	public List<RecruitDTO> getRecruitInfo() {
 		List<Recruit> recruit = repo.getRecruitInfo();
@@ -62,6 +66,26 @@ public class HomeService {
 			dto.setComp_brand_img(recruit.get(i).getCompany().getBrandImg());
 			System.out.println("brand_img = " + dto.getComp_brand_img());
 			dto.setComp_nm(recruit.get(i).getCompany().getName());
+			list.add(dto);
+		}
+		return list;
+	}
+
+	public List<CompanyIndexViewDto> getCompanyIndexView() {
+		List<Recruit> recruit = repo.findByCompId((String)session.getAttribute("comp_id"));
+		List<CompanyIndexViewDto> list = setCompanyIndexViewDto(recruit);
+		return list;
+	}
+
+	private List<CompanyIndexViewDto> setCompanyIndexViewDto(List<Recruit> recruit) {
+		List<CompanyIndexViewDto> list = new ArrayList<>();
+		for(Recruit re : recruit) {
+			CompanyIndexViewDto dto = new CompanyIndexViewDto();
+			dto.setComp_brand_img(re.getCompany().getBrandImg());
+			dto.setComp_id(re.getCompany().getId());
+			dto.setComp_nm(re.getCompany().getName());
+			dto.setRecruit_id(re.getId());
+			dto.setRecruit_title(re.getTitle());
 			list.add(dto);
 		}
 		return list;

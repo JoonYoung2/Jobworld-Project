@@ -17,7 +17,7 @@
 			<div class="member_login_text">
 				<div class="login_text_div">Company Login</div>
 			</div>
-			<form action="memberLogin.do" method="post">
+			<form action="companyLogin.do" method="post">
 				<div class="login_form">
 					<div class="login_input">
 						<input type="text" name="comp_id" value="${comp.comp_id }"

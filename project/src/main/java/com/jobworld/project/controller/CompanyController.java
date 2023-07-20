@@ -73,10 +73,10 @@ public class CompanyController {
 		}
 		if(check != null) {
 			session.setAttribute("comp_id", comp.getComp_id());
-			return "company/index";
+			return "redirect:company";
 			
 		}
-		return "company/index";
+		return "redirect:company";
 	}
 	
 	@GetMapping("companyRegister")

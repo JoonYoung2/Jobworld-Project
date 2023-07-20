@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Apply;
-import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ApplyDTO;
@@ -17,7 +16,6 @@ import com.jobworld.project.dto.RecruitDTO;
 import com.jobworld.project.dto.ResumeDTO;
 import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.ApplyRepository;
-import com.jobworld.project.repository.CompRepository;
 import com.jobworld.project.repository.RecruitRepository;
 import com.jobworld.project.repository.ResumeRepository;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
@@ -32,7 +30,6 @@ public class ApplyService {
 	private final ApplyRepository repo;
 	private final ResumeRepository resumeRepository;
 	private final RecruitRepository recruitRepository;
-	private final CompRepository compRepository;
 	private final HttpSession session;
 
 	public ResumeDTO getUserResume() {
@@ -116,6 +113,11 @@ public class ApplyService {
 			dto.setUser_id(resume.getMember().getId());
 			dto.setUser_img(resume.getImg());
 			dto.setUser_nm(resume.getMember().getName());
+			dto.setResume_id(resume.getId());
+			dto.setUser_phone_num(resume.getMember().getPhoneNum());
+			dto.setZip_cd(resume.getMember().getZip_cd());
+			dto.setAddress_info(resume.getMember().getAddress_info());
+			dto.setAddress_detail(resume.getMember().getAddress_detail());
 			list.add(dto);
 		}
 		return list;
@@ -158,6 +160,8 @@ public class ApplyService {
 			dto.setRecruit_start_date(recruit.getStartDate());
 			dto.setRecruit_time(recruit.getTime());
 			dto.setState(check.get(i).getApply_state());
+			dto.setRecruit_title(recruit.getTitle());
+			dto.setComp_brand_img(recruit.getCompany().getBrandImg());
 			list.add(dto);
 			
 		}

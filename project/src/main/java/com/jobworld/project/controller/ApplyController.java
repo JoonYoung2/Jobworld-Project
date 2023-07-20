@@ -13,21 +13,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jobworld.project.dto.ApplyDTO;
 import com.jobworld.project.dto.ResumeDTO;
+import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
 import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
 import com.jobworld.project.repository.apply.UserApplyStatusDTO;
 import com.jobworld.project.service.ApplyService;
-import com.jobworld.project.service.RecruitService;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-public class ApplyController {
+public class ApplyController {	
 	
 	private final ApplyService service;
-	private final RecruitService recruitService;
 	
 	@GetMapping("apply")
 	public String applyInfo(@RequestParam("recruit_id") Long recruit_id, Model model, HttpServletResponse response){
@@ -44,6 +43,8 @@ public class ApplyController {
 		model.addAttribute("resume", applyInfo);
 		return "user/apply/applyInfo";
 	}
+	
+																																														
 	
 	@PostMapping("apply.do")
 	public void applySave(ApplyDTO dto, Model model, HttpServletResponse response) {
@@ -63,10 +64,20 @@ public class ApplyController {
 		}
 	}
 	
+	@GetMapping("applyUserInfo")
+	public String userApplyList(Long recruit_id, Model model){
+		List<ApplyDTO> check = service.getApplyInfo(recruit_id);
+		if(check.size() > 0) {
+			List<UserApplyStatusDTO> applyUserList = service.getResumeMemberInfo(check);
+			model.addAttribute("list", applyUserList);
+			return "company/apply/applyList";
+		}
+		return "company/apply/applyList";
+	}
+	
 	@PostMapping("userApplyList.do")
 	public String userApplyList(ApplyDTO dto, Model model){
 		List<ApplyDTO> check = service.getApplyInfo(dto.getRecruit_id());
-		System.out.println(check.size());
 		if(check.size() > 0) {
 			List<UserApplyStatusDTO> applyUserList = service.getResumeMemberInfo(check);
 			model.addAttribute("list", applyUserList);

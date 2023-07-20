@@ -11,8 +11,6 @@
 <title>JobWorld</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
-<br>
 ${msg }<br>
 <div class="register_page">
 	<div class="register_location">

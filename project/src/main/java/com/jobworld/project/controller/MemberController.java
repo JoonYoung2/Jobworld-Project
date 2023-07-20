@@ -1,7 +1,9 @@
 package com.jobworld.project.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -11,8 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.jobworld.project.dto.MemberDTO;
-import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.dto.MemberDTO; 
 import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
 import com.jobworld.project.service.HomeService;
 import com.jobworld.project.service.MemberService;
@@ -28,11 +29,10 @@ public class MemberController {
 	
 	@GetMapping("memberLogin")
 	public String login() {
-		String msg = (String) session.getAttribute("user_id");
 		return "user/member/login";
 	}
 	@PostMapping("memberLogin.do")
-	public String login(MemberDTO member, Model model) {
+	public String login(MemberDTO member, Model model, HttpServletResponse response) {
 		
 		String msg = "";
 		
@@ -45,6 +45,7 @@ public class MemberController {
 		if(!msg.equals("")) {
 			model.addAttribute("member", member);
     		model.addAttribute("msg", msg);
+    		alert(response, msg);
     		return "user/member/login";
     	}
 		
@@ -56,6 +57,7 @@ public class MemberController {
 				model.addAttribute("list", list);
 				session.setAttribute("user_id", member.getUser_id());
 				session.setAttribute("login_type", member.getLogin_type());
+				alertAndBack(response, "로그인 성공!");		
 				return "user/index";
 			}else {
 				msg = "비밀번호가 일치하지 않습니다.";
@@ -64,7 +66,8 @@ public class MemberController {
 			msg = "아이디가 존재하지 않습니다.";
 		}
 		model.addAttribute("msg", msg);
-		model.addAttribute("user_id", member.getUser_id());
+		model.addAttribute("member", member);
+		alert(response, msg);
 		return "user/member/login";
 	}
 	
@@ -119,5 +122,29 @@ public class MemberController {
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	public static void alertAndBack(HttpServletResponse response, String msg) {
+	    try {
+	        response.setContentType("text/html; charset=utf-8");
+	        PrintWriter w = response.getWriter();
+	        w.write("<script>alert('"+msg+"'); window.close();</script>");
+	        w.flush();
+	        w.close();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public static void alert(HttpServletResponse response, String msg) {
+	    try {
+	        response.setContentType("text/html; charset=utf-8");
+	        PrintWriter w = response.getWriter();
+	        w.write("<script>alert('"+msg+"'); location.href='memberLogin'; </script>");
+	        w.flush();
+	        w.close();
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 }	

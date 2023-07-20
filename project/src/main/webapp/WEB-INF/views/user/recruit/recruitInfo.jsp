@@ -100,14 +100,14 @@
 	<div class="recruit_apply_button">
 		<c:choose>
 			<c:when test="${empty sessionScope.user_id }">
-				<a href="memberLogin">
+				<a onclick="loginWindow();">
 					<div class="apply_button">
 						로그인
 					</div>
 				</a>
 			</c:when>
 			<c:otherwise>
-				<a onclick="newWindow(${recruit.recruit_id});">
+				<a onclick="applyWindow(${recruit.recruit_id});">
 					<div class="apply_button">
 						즉시지원
 					</div>
@@ -116,14 +116,6 @@
 		</c:choose>
 	</div>
 </section>	
-	<script>
-		function newWindow(recruitId){
-			var popupWidth = 550;
-			var popupHeight = 470;
-			var popupX = (window.screen.width / 2) - (popupWidth / 2);
-			var popupY= (window.screen.height / 2) - (popupHeight / 2);
-			window.open("apply?recruit_id=" + recruitId, "USERINFO", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
-		}
-	</script>
+	<script src="resources/js/new_window.js"></script>
 </body>
 </html>

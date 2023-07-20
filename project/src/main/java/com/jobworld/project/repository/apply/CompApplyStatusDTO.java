@@ -22,4 +22,6 @@ public class CompApplyStatusDTO {
 	private String recruit_end_date;
 	private int recruit_open_type;
 	private int state;
+	private String recruit_title;
+	private String comp_brand_img;
 }

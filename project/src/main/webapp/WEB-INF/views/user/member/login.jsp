@@ -9,8 +9,6 @@
 <title>JobWorld</title>
 </head>
 <body>
-	<%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
-	<br>
 
 	<div class="login_page">
 		<div class="login_location">
@@ -21,9 +19,9 @@
 			<form action="memberLogin.do" method="post">
 				<div class="login_form">
 					<div class="login_input">
-						<input type="text" name="user_id" value="${member.member_id }"
+						<input type="text" name="user_id" value="${member.user_id }"
 							placeholder="ID"><br> <input type="password"
-							name="user_pw" value="${member.member_pw }"
+							name="user_pw" value="${member.user_pw }"
 							placeholder="PASSWORD"><br>
 					</div>
 					<div>
