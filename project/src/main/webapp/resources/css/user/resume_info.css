@@ -1,0 +1,173 @@
+.resume_info_page{
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.resume_header{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.resume_header_location{
+	width: 60%;
+	padding: 20px;
+}
+
+.resume_title{
+	background-color: white;
+	width: 1000px;
+	height: 70px;
+	display:flex;
+	align-items: center;
+}
+
+.resume_title div{
+	padding-left: 30px;
+	font-size: 25px;
+}
+
+.resume_user_info{
+	display:flex;
+	background-color: white;
+	padding: 20px;
+	width: 1000px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.user_info_box_batch{
+	display: flex;
+}
+
+.user_info_box_batch div{
+	padding:3px 10px;
+	margin-right: 10px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.user__name{
+	width: 150px;
+}
+
+.user__birthday{
+	width: 300px;
+}
+
+.user__name_input{
+	background-color:#eeeeee;
+	width: 150px;
+}
+
+.user__birthday_input{
+	background-color:#eeeeee;
+	width: 300px;
+}
+
+.user__phone{
+	width: 300px;
+}
+
+.user__email{
+	width:300px;
+}
+
+.user__address{
+	width:460px;
+	
+}
+
+.user__address__info{
+	width: 330px;
+	cursor: pointer;
+	
+}
+
+.user__address__detail{
+	width: 120px;
+	
+}
+
+.user_info_box_batch_two{
+	padding-top:10px;
+}
+
+.resume_update_button{
+	width:100%;
+	display:flex;
+	justify-content: center;
+	padding-top: 20px;
+}
+
+.resume_update_button_size{
+	width: 200px;
+	height: 50px;
+	background-color: #4FE100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: white;
+	font-size: 18px;
+}
+
+.user_info_box_batch input{
+	all: unset;
+}
+
+#userImgFile{
+	cursor:pointer;
+}
+
+#preview {
+	cursor:pointer;
+	width: 130px; 
+	display:none;
+}
+
+.resume_person_info_save_button{
+	all:unset;
+	width: 150px;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: rgba(0, 0, 0, 0.3);
+	font-size: 18px;
+	border: solid 1px rgba(0, 0, 0, 0.1);
+}
+
+.resume_person_info_save_button:hover{
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.resume_person_button_zone{
+	width:100%;
+	display:flex;
+	justify-content: center;
+	margin-right: 10px;
+}
+
+.resume_update_img_zone{
+	border:solid 1px rgba(0, 0, 0, 0.1);
+	padding: 10px;
+}
+
+.resume_person_info_update{
+	width:100%;
+	margin-top: 10px;
+	padding-top: 5px;
+	
+}
+
+.user_status_box{
+	width: 100%;
+	height: 50px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+.status_location{
+	width:100%;
+	font-size: 27px;
+	font-weight: bold;
+}
+
