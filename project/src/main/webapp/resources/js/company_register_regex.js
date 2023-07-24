@@ -65,7 +65,7 @@ function check(){
         return;
     }
     if(file == ""){
-		alert("상세주소 입력은 필수입니다.");
+		alert("파일등록은 필수입니다.");
 //        document.getElementById("msg").innerText="상세주소 입력은 필수입니다.";
         document.getElementById("file").focus();
         return;
@@ -79,7 +79,7 @@ function check(){
     
     var idRegex = /^[A-Za-z]{1}[A-Za-z0-9_-]{5,19}$/;
     var pwRegex = /(?=.*\d)(?=.*[a-zA-ZS])(?=.*?[#?!@$%^&*-]).{8,19}/;
-    var emplNumRegex = /^[0-9]$/;
+    var emplNumRegex = /^[0-9]+$/;
     
     var idr = idRegex.test(id);
     var pwr = pwRegex.test(pw);

@@ -15,7 +15,7 @@
 	<br>
 	<div class="register_page">
 		<div class="register_location">
-			<form action="memberRegister.do" method="post" id="f">
+			<form action="companyRegister.do" method="post" enctype="multipart/form-data" id="f">
 				<table class="join_table">
 					<tr>
 						<td style="width: 30%">아이디</td>
@@ -82,7 +82,7 @@
 					</tr>
 					<tr>
 						<td>회사 사이트</td>
-						<td><input type="text" id="site" name="comp_site" value="${member.zip_cd }"> 
+						<td><input type="text" id="site" name="comp_site" value="${comp.comp_site }"> 
 						</td>
 					</tr>
 					<tr>

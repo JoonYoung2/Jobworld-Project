@@ -15,6 +15,9 @@
 		로그인 해 주시기 바랍니다.
 	</c:when>
 	<c:otherwise>
+		<c:if test="${list.size() == 0 }">
+			채용등록을 해 주시기 바랍니다.
+		</c:if>
 		<c:if test="${list.size() > 0 }">
 			<section class="page-section" id="portfolio">
 				<div class="container">
@@ -40,9 +43,6 @@
 					</div>
 				</div>
 			</section>
-		</c:if>
-		<c:if test="${list.size() == 0 }">
-			채용등록을 해 주시기 바랍니다.
 		</c:if>
 	</c:otherwise>
 </c:choose>

@@ -73,6 +73,9 @@ public class HomeService {
 
 	public List<CompanyIndexViewDto> getCompanyIndexView() {
 		List<Recruit> recruit = repo.findByCompId((String)session.getAttribute("comp_id"));
+		if(recruit.size() == 0) {
+			return null;
+		}
 		List<CompanyIndexViewDto> list = setCompanyIndexViewDto(recruit);
 		return list;
 	}

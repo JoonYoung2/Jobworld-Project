@@ -8,6 +8,7 @@ import java.util.Calendar;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jobworld.project.dto.CompDTO;
+import com.jobworld.project.dto.request.CompanyMultiDTO;
 import com.jobworld.project.service.CompService;
 
 import lombok.RequiredArgsConstructor;
@@ -84,24 +86,48 @@ public class CompanyController {
 		return "company/member/register";
 	}
 	@PostMapping("companyRegister.do")
-	public String register(MultipartHttpServletRequest multi, RedirectAttributes attr) {
-		String msg = "";
-		CompDTO comp = getCompDto(multi);
-		msg = compVaild(comp);
-		if(!msg.equals("성공")) {
-			attr.addFlashAttribute("comp", comp);
-			attr.addFlashAttribute("msg", msg);
+	public String register(CompanyMultiDTO dto, BindingResult br, RedirectAttributes attr) {
+//		String msg = "";
+//		CompDTO comp = getCompDto(multi);
+//		msg = compVaild(comp);
+//		if(!msg.equals("성공")) {
+//			attr.addFlashAttribute("comp", comp);
+//			attr.addFlashAttribute("msg", msg);
+//			return "redirect:companyRegister";
+//		}
+//		msg = service.join(comp);
+//    	if(msg.equals("등록 실패")) {
+//    		msg="동일한 아이디가 존재합니다.";
+//			attr.addFlashAttribute("comp", comp);
+//			attr.addFlashAttribute("msg", msg);
+//			return "redirect:companyRegister";
+//    	}
+//		return "company/member/login";
+		if(br.hasErrors()) {
+			attr.addFlashAttribute("comp", dto);
+			attr.addFlashAttribute("msg", "형식이 올바르지 않습니다.");
 			return "redirect:companyRegister";
 		}
-		msg = service.join(comp);
-    	if(msg.equals("등록 실패")) {
-    		msg="동일한 아이디가 존재합니다.";
-			attr.addFlashAttribute("comp", comp);
+		
+		String msg = "";
+		
+		CompDTO check = service.findId(dto.getComp_id());
+		
+		if(check != null) {
+			msg = "동일한 아이디가 존재합니다";
+			attr.addFlashAttribute("comp", dto);
 			attr.addFlashAttribute("msg", msg);
 			return "redirect:companyRegister";
-    	}
+		}else {
+			msg = "성공";
+		}
+		
+		CompDTO comp = getCompDto(dto);
+		service.join(comp);
 		return "company/member/login";
 	}
+
+	
 
 	private String compVaild(CompDTO comp) {
 		String msg = "";
@@ -135,6 +161,22 @@ public class CompanyController {
 		}
 		return msg;
 	}
+	
+	private CompDTO getCompDto(CompanyMultiDTO dto) {
+		CompDTO comp = new CompDTO();
+		
+		String comp_brand_img = uploadFile(dto.getFile(), dto.getComp_id());
+		comp.setComp_id(dto.getComp_id());
+		comp.setComp_pw(dto.getComp_pw());
+		comp.setComp_pwCheck(dto.getComp_pwCheck());
+		comp.setComp_nm(dto.getComp_nm());
+		comp.setComp_business_type(dto.getComp_business_type());
+		comp.setComp_empl_num(dto.getComp_empl_num());
+		comp.setComp_size(dto.getComp_size());
+		comp.setComp_site(dto.getComp_site());
+		comp.setComp_brand_img(comp_brand_img);
+		return comp;
+	}
 
 	private CompDTO getCompDto(MultipartHttpServletRequest multi) {
 		CompDTO dto = new CompDTO();
@@ -147,7 +189,6 @@ public class CompanyController {
 		String comp_size = multi.getParameter("comp_size");
 		String comp_site = multi.getParameter("comp_site");
 		String comp_brand_img;
-		
 		MultipartFile file = multi.getFile("file");
 		if(file == null || file.isEmpty()) {
 			dto.setComp_id(comp_id);
