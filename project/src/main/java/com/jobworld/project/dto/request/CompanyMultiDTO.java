@@ -29,6 +29,6 @@ public class CompanyMultiDTO {
 	private String comp_size;
 	@NotEmpty
 	private String comp_site;
-
+	@NotEmpty
 	private MultipartFile file;
 }

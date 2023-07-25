@@ -41,16 +41,17 @@ public class HomeController {
 	@GetMapping("/company")
 	public String company(Model model) {
 		if(session.getAttribute("comp_id") == null) {
-			return "company/index";
+			return "company/member/login";
 		}
+		
 		List<CompanyIndexViewDto> list = service.getCompanyIndexView();
 		if(list == null) {
 			return "company/index";
 		}
+		
 		model.addAttribute("comp_nm", list.get(0).getComp_nm());
 		model.addAttribute("list", list);
 		
-		System.out.println("여기까진오지??");
 		return "company/index"; 
 	}
 	
