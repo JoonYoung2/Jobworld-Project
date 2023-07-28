@@ -178,44 +178,6 @@ public class CompanyController {
 		return comp;
 	}
 
-	private CompDTO getCompDto(MultipartHttpServletRequest multi) {
-		CompDTO dto = new CompDTO();
-		String comp_id = multi.getParameter("comp_id");
-		String comp_pw = multi.getParameter("comp_pw");
-		String comp_pwCheck = multi.getParameter("comp_pwCheck");
-		String comp_nm = multi.getParameter("comp_nm");
-		String comp_business_type = multi.getParameter("comp_business_type");
-		int comp_empl_num = Integer.parseInt(multi.getParameter("comp_empl_num"));
-		String comp_size = multi.getParameter("comp_size");
-		String comp_site = multi.getParameter("comp_site");
-		String comp_brand_img;
-		MultipartFile file = multi.getFile("file");
-		if(file == null || file.isEmpty()) {
-			dto.setComp_id(comp_id);
-			dto.setComp_pw(comp_pw);
-			dto.setComp_pwCheck(comp_pwCheck);
-			dto.setComp_nm(comp_nm);
-			dto.setComp_business_type(comp_business_type);
-			dto.setComp_empl_num(comp_empl_num);
-			dto.setComp_size(comp_size);
-			dto.setComp_site(comp_site);
-			return dto;
-		}
-		
-		comp_brand_img = uploadFile(file, comp_id);
-		dto.setComp_id(comp_id);
-		dto.setComp_pw(comp_pw);
-		dto.setComp_pwCheck(comp_pwCheck);
-		dto.setComp_nm(comp_nm);
-		dto.setComp_business_type(comp_business_type);
-		dto.setComp_empl_num(comp_empl_num);
-		dto.setComp_size(comp_size);
-		dto.setComp_site(comp_site);
-		dto.setComp_brand_img(comp_brand_img);
-		
-		return dto;
-	}
-
 	private String uploadFile(MultipartFile file, String comp_id) {
 		String directory = "D:\\jobworld_controller\\jobworld_project\\project\\src\\main\\webapp\\resources\\company_upload\\";
 		String originalName = file.getOriginalFilename();
@@ -242,5 +204,43 @@ public class CompanyController {
 		session.invalidate();
 		return "redirect:company";
 	}
+	
+//	private CompDTO getCompDto(MultipartHttpServletRequest multi) {
+//	CompDTO dto = new CompDTO();
+//	String comp_id = multi.getParameter("comp_id");
+//	String comp_pw = multi.getParameter("comp_pw");
+//	String comp_pwCheck = multi.getParameter("comp_pwCheck");
+//	String comp_nm = multi.getParameter("comp_nm");
+//	String comp_business_type = multi.getParameter("comp_business_type");
+//	int comp_empl_num = Integer.parseInt(multi.getParameter("comp_empl_num"));
+//	String comp_size = multi.getParameter("comp_size");
+//	String comp_site = multi.getParameter("comp_site");
+//	String comp_brand_img;
+//	MultipartFile file = multi.getFile("file");
+//	if(file == null || file.isEmpty()) {
+//		dto.setComp_id(comp_id);
+//		dto.setComp_pw(comp_pw);
+//		dto.setComp_pwCheck(comp_pwCheck);
+//		dto.setComp_nm(comp_nm);
+//		dto.setComp_business_type(comp_business_type);
+//		dto.setComp_empl_num(comp_empl_num);
+//		dto.setComp_size(comp_size);
+//		dto.setComp_site(comp_site);
+//		return dto;
+//	}
+//	
+//	comp_brand_img = uploadFile(file, comp_id);
+//	dto.setComp_id(comp_id);
+//	dto.setComp_pw(comp_pw);
+//	dto.setComp_pwCheck(comp_pwCheck);
+//	dto.setComp_nm(comp_nm);
+//	dto.setComp_business_type(comp_business_type);
+//	dto.setComp_empl_num(comp_empl_num);
+//	dto.setComp_size(comp_size);
+//	dto.setComp_site(comp_site);
+//	dto.setComp_brand_img(comp_brand_img);
+//	
+//	return dto;
+//}
 }
 

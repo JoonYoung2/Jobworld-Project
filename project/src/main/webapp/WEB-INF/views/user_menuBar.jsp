@@ -9,8 +9,9 @@
 		</div>
 		<div class="navbar_center_location">
 			<div class="navbar_header">
-				<div>
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
+				<div class="navbar_user_search">
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
+					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -36,8 +37,9 @@
 		</div>
 		<div class="navbar_center_location">
 			<div class="navbar_header">
-				<div>
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
+				<div class="navbar_user_search">
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
+					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -63,8 +65,9 @@
 		</div>
 		<div class="navbar_center_location">
 			<div class="navbar_header">
-				<div>
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> <a href="#">검색기능</a>
+				<div class="navbar_user_search">
+					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
+					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -81,3 +84,10 @@
 		</div>	
 	</div>
 	</c:if>
+	
+	<script>
+		var searchSubmit = document.getElementById("searchSubmit");
+		function searchImg(){
+			searchSubmit.submit();
+		}
+	</script>

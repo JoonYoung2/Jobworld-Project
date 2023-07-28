@@ -29,7 +29,10 @@ public class MemberController {
 	
 	@GetMapping("memberLogin")
 	public String login() {
-		return "user/member/login";
+		if(session.getAttribute("user_id") == null) {
+			return "user/member/login";			
+		}
+		return "redirect:/";
 	}
 	@PostMapping("memberLogin.do")
 	public String login(MemberDTO member, Model model, HttpServletResponse response) {
