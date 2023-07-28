@@ -1,5 +1,7 @@
 package com.jobworld.project.dto.resumeInfoDto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -15,4 +17,5 @@ public class UserResumeDTO {
 	private String zip_cd;
 	private String address_info;
 	private String address_detail;
+	private MultipartFile file;
 }

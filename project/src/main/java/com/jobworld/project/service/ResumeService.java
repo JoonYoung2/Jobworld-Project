@@ -9,6 +9,7 @@ import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ResumeDTO;
 import com.jobworld.project.dto.resumeInfoDto.UserResumeDTO;
+import com.jobworld.project.dto.resumeInfoDto.UserResumeMultiDTO;
 import com.jobworld.project.repository.MemberRepositoryOld;
 import com.jobworld.project.repository.ResumeRepository;
 
@@ -78,12 +79,12 @@ public class ResumeService {
 			System.out.println(e);
 		}
 	}
-
+	
 	@Transactional
-	public String resumeWrite(MultipartHttpServletRequest multi) {
-		String user_id = multi.getParameter("user_id");
-		String resume_title = multi.getParameter("resume_title");
-		MultipartFile file = multi.getFile("file");
+	public String resumeWrite(UserResumeMultiDTO dto) {
+		String user_id = dto.getUser_id();
+		String resume_title = dto.getResume_title();
+		MultipartFile file = dto.getFile();
 		if (resume_title == null || resume_title.equals("")) {
 			return "제목을 입력해주세요.";
 		}
@@ -96,6 +97,24 @@ public class ResumeService {
 		repo.save(resume);
 		return "쓰기 성공";
 	}
+
+//	@Transactional
+//	public String resumeWrite(MultipartHttpServletRequest multi) {
+//		String user_id = multi.getParameter("user_id");
+//		String resume_title = multi.getParameter("resume_title");
+//		MultipartFile file = multi.getFile("file");
+//		if (resume_title == null || resume_title.equals("")) {
+//			return "제목을 입력해주세요.";
+//		}
+//		if (file == null || file.isEmpty()) {
+//			return "업로드 파일을 등록해주세요.";
+//		}
+//		String user_img = userImgSave(file, user_id);
+//		Member member = memberRepository.findOne(user_id);
+//		Resume resume = Resume.createResume(member, user_id, user_img, resume_title);
+//		repo.save(resume);
+//		return "쓰기 성공";
+//	}
 
 	@Transactional
 	public String resumeUpdate(Resume resume) {
@@ -218,11 +237,11 @@ public class ResumeService {
 	}
 
 	@Transactional
-	public UserResumeDTO personalInfoUpdate(MultipartHttpServletRequest multi) {
-		UserResumeDTO userResumeDto = setPersonalMulti(multi);
+	public UserResumeDTO personalInfoUpdate(UserResumeDTO dto) {
+		UserResumeDTO userResumeDto = setPersonalMulti(dto);
 		Resume resume = repo.findOne(userResumeDto.getResume_id());
-		UserResumeDTO dto = personResumeUpdate(userResumeDto, resume);
-		return dto;
+		UserResumeDTO userResume = personResumeUpdate(userResumeDto, resume);
+		return userResume;
 	}
 
 	private UserResumeDTO personResumeUpdate(UserResumeDTO userResumeDto, Resume resume) {
@@ -257,52 +276,16 @@ public class ResumeService {
 		return userResumeDto;
 	}
 
-	private UserResumeDTO setPersonalMulti(MultipartHttpServletRequest multi) {
+	private UserResumeDTO setPersonalMulti(UserResumeDTO dto) {
 		
-		UserResumeDTO dto = new UserResumeDTO();
-		
-		int resume_id = Integer.parseInt(multi.getParameter("resume_id"));
-		String user_id = multi.getParameter("user_id");
-		String resume_title = multi.getParameter("resume_title");
-		String user_birthday = multi.getParameter("user_birthday");
-		String user_email = multi.getParameter("user_email");
-		String user_nm = multi.getParameter("user_nm");
-		String user_phone_num = multi.getParameter("user_phone_num");
-		String zip_cd = multi.getParameter("zip_cd");
-		String address_info = multi.getParameter("address_info");
-		String address_detail = multi.getParameter("address_detail");
-		String user_img = null;
-		
-		MultipartFile file = multi.getFile("file");
+		MultipartFile file = dto.getFile();
 		
 		if (file == null || file.isEmpty()) {
-			dto.setAddress_detail(address_detail);
-			dto.setAddress_info(address_info);
-			dto.setResume_id(resume_id);
-			dto.setResume_title(resume_title);
-			dto.setUser_birthday(user_birthday);
-			dto.setUser_email(user_email);
-			dto.setUser_id(user_id);
-			dto.setUser_nm(user_nm);
-			dto.setUser_phone_num(user_phone_num);
-			dto.setZip_cd(zip_cd);
 			return dto;
 		}
 		
-		folderDelete(user_id);
-		user_img = userImgSave(file, user_id);
-		
-		dto.setAddress_detail(address_detail);
-		dto.setAddress_info(address_info);
-		dto.setResume_id(resume_id);
-		dto.setResume_title(resume_title);
-		dto.setUser_birthday(user_birthday);
-		dto.setUser_email(user_email);
-		dto.setUser_id(user_id);
-		dto.setUser_nm(user_nm);
-		dto.setUser_phone_num(user_phone_num);
-		dto.setZip_cd(zip_cd);
-		dto.setUser_img(user_img);
+		folderDelete(dto.getUser_id());
+		dto.setUser_img(userImgSave(file, dto.getUser_id()));
 		
 		return dto;
 	}

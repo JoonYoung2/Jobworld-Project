@@ -11,6 +11,9 @@
 <body>
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
 <br>
+<c:if test = "${empty resume }">
+	<a href="resumeWrite">이력서 등록</a>
+</c:if>
 <section class="resume_info_page">
 	<div class="resume_header">
 		<div class="resume_header_location">

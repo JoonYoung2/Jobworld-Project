@@ -25,3 +25,20 @@
 	display:flex;
 	justify-content: space-between;
 }
+
+.navbar_user_search{
+	display: flex;
+}
+
+.navbar_user_search button{
+	all: unset;
+}
+.searchImg{
+	width:30px;
+	height: auto;
+}
+
+.searchBox{
+	width: 300px;
+	height: 40px;
+}

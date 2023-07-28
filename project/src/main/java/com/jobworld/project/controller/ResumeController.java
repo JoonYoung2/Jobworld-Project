@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jobworld.project.dto.ResumeDTO;
 import com.jobworld.project.dto.resumeInfoDto.UserResumeDTO;
+import com.jobworld.project.dto.resumeInfoDto.UserResumeMultiDTO;
 import com.jobworld.project.service.ResumeService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ public class ResumeController {
 	public String resumeInfo(@RequestParam("user_id") String user_id, Model model) {
 		String msg = service.resumeFind(user_id);
 		if(msg.equals("없음")) {
-			return "user/resume/writeInfo";			
+			return "user/resume/resumeWrite";			
 		}else{
 			UserResumeDTO resume = service.getUserResumeDto(user_id);
 
@@ -36,13 +37,21 @@ public class ResumeController {
 	public String resumeWrite() {
 		return "user/resume/resumeWrite";
 	}
+	
 	@PostMapping("resumeWrite.do")
-	public String resumeWrite(MultipartHttpServletRequest multi, Model model){
-		String msg = service.resumeWrite(multi);
-		String user_id = multi.getParameter("user_id");
+	public String resumeWrite(UserResumeMultiDTO dto, Model model){
+		System.out.println("user_id = " + dto.getUser_id());
+		System.out.println("resume_title = " + dto.getResume_title());
+		System.out.println("file = " + dto.getFile());
+		String msg = service.resumeWrite(dto);
+		String user_id = dto.getUser_id();
 		if(msg.equals("쓰기 성공")) {
-			ResumeDTO resume = service.getResume(user_id);
-			System.out.println(resume.getResume_id());
+//			ResumeDTO resume = service.getResume(user_id);
+//			System.out.println(resume.getResume_id());
+//			model.addAttribute("resume", resume);
+//			model.addAttribute("msg", msg);
+			UserResumeDTO resume = service.getUserResumeDto(user_id);
+
 			model.addAttribute("resume", resume);
 			model.addAttribute("msg", msg);
 			return "user/resume/writeInfo";
@@ -51,6 +60,21 @@ public class ResumeController {
 			return "user/resume/resumeWrite";
 		}
 	}
+//	@PostMapping("resumeWrite.do")
+//	public String resumeWrite(MultipartHttpServletRequest multi, Model model){
+//		String msg = service.resumeWrite(multi);
+//		String user_id = multi.getParameter("user_id");
+//		if(msg.equals("쓰기 성공")) {
+//			ResumeDTO resume = service.getResume(user_id);
+//			System.out.println(resume.getResume_id());
+//			model.addAttribute("resume", resume);
+//			model.addAttribute("msg", msg);
+//			return "user/resume/writeInfo";
+//		}else {
+//			model.addAttribute("msg", msg);
+//			return "user/resume/resumeWrite";
+//		}
+//	}
 	@GetMapping("resumeUpdate")
 	public String resumeUpdate(int resume_id, Model model) {
 		UserResumeDTO resume = service.getUserResumeDto(resume_id);
@@ -59,8 +83,8 @@ public class ResumeController {
 	}
 	
 	@PostMapping("personalInfoUpdate.do")
-	public String resumeImgUpdate(MultipartHttpServletRequest multi, Model model) {
-		UserResumeDTO resume = service.personalInfoUpdate(multi);
+	public String resumeImgUpdate(UserResumeDTO dto, Model model) {
+		UserResumeDTO resume = service.personalInfoUpdate(dto);
 		model.addAttribute("resume", resume);
 		return "user/resume/resumeUpdate";
 	}
