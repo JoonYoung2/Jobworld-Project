@@ -48,7 +48,7 @@
 								 </div>
 							 </div>
 						</div>
-							
+						
 						<!-- User Image Zone -->
 						<div class="resume_update_img_zone">
 							<a onclick="fileSelect();"><img id="userImgFile"style="width: 130px;" src="resources/upload/${sessionScope.user_id }/${resume.user_img}" alt="..." /></a>

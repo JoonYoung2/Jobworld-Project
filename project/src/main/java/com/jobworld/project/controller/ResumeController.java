@@ -22,7 +22,7 @@ public class ResumeController {
 	public String resumeInfo(@RequestParam("user_id") String user_id, Model model) {
 		String msg = service.resumeFind(user_id);
 		if(msg.equals("없음")) {
-			return "user/resume/writeInfo";			
+			return "user/resume/resumeWrite";			
 		}else{
 			UserResumeDTO resume = service.getUserResumeDto(user_id);
 
