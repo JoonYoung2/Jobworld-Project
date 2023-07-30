@@ -35,8 +35,7 @@
 											<div class="user_recruit_location company_title">${recruit.recruit_title }</div>
 										</div>
 									</div>
-<!-- 								
-</a> -->							
+<!-- </a> -->							
 								</a>
 							</div>
 					</c:forEach>

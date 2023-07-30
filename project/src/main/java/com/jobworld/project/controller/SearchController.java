@@ -3,6 +3,7 @@ package com.jobworld.project.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
@@ -15,8 +16,9 @@ import lombok.RequiredArgsConstructor;
 public class SearchController {
 	private final SearchService service;
 	@PostMapping("/userSearch.do")
-	public String userSearch(String userSearch){
+	public String userSearch(String userSearch, Model model){
 		List<UserRecruitViewDTO> list = service.getUserRecruitSearchViewInfo(userSearch);
-		return "search/index";
+		model.addAttribute("list", list);
+		return "user/search/index";
 	}
 }

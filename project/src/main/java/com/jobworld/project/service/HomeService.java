@@ -64,7 +64,6 @@ public class HomeService {
 			dto.setComp_id(recruit.get(i).getCompany().getId());
 			dto.setRecruit_title(recruit.get(i).getTitle());
 			dto.setComp_brand_img(recruit.get(i).getCompany().getBrandImg());
-			System.out.println("brand_img = " + dto.getComp_brand_img());
 			dto.setComp_nm(recruit.get(i).getCompany().getName());
 			list.add(dto);
 		}

@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.stereotype.Repository;
 
+import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
 
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,19 @@ public class SearchRepository {
 	
 	
 	public List<Recruit> getRecruitSearchInfo(String userSearch) {
-		List<Recruit> list = em.createQuery("select r from Recruit r where ", Recruit.class)
+		System.out.println("search content --> "+userSearch);
+		userSearch = "%" + userSearch + "%";
+		List<Recruit> list = em.createQuery("select r from Recruit r where r.title like :search", Recruit.class)
 				.setParameter("search", userSearch)
 				.getResultList();
-		return null;
+		
+		System.out.println("list size() ===> "+list.size());
+		return list;
+	}
+	
+	public Company getCompanyById(String id) {
+		Company comp = em.find(Company.class, id);
+		return comp;
 	}
 	
 }
