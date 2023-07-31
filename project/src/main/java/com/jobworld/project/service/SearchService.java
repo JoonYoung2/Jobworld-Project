@@ -27,6 +27,16 @@ public class SearchService {
 		return null;
 	}
 	
+	public List<UserRecruitViewDTO> getCompanyRecruitSearchViewInfo(String companySearch, String comp_id) {
+		List<Recruit> recruit = repo.getRecruitSearchInfo(companySearch, comp_id);
+		if(recruit.size() > 0) {
+			List<UserRecruitViewDTO> list = getUserRecruitViewDto(recruit);			
+			return list;
+		}
+		
+		return null;
+	}
+	
 	private List<UserRecruitViewDTO> getUserRecruitViewDto(List<Recruit> recruit) {
 		List<UserRecruitViewDTO> list = new ArrayList<>();
 		for(int i = 0; i < recruit.size(); ++i) {

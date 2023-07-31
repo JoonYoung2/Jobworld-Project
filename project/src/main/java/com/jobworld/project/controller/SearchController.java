@@ -21,4 +21,11 @@ public class SearchController {
 		model.addAttribute("list", list);
 		return "user/search/index";
 	}
+	
+	@PostMapping("/companySearch.do")
+	public String companySearch(String companySearch, String comp_id, Model model){
+		List<UserRecruitViewDTO> list = service.getCompanyRecruitSearchViewInfo(companySearch, comp_id);
+		model.addAttribute("list", list);
+		return "company/search/index";
+	}
 }
