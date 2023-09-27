@@ -26,7 +26,7 @@
 					<c:forEach var="recruit" items="${list }">
 							<div class="col-lg-3 col-sm-3 mb-3 recruit_parents">
 <%-- 								<a href="recruitInfo.go?recruit_id=${recruit.recruit_id }"> --%>
-								<a onclick="newWindow(${recruit.recruit_id});">
+								<a onclick="newWindow(${recruit.recruit_id});" style="cursor:pointer;">
 								<!-- Portfolio item 1-->
 									<div class="user_recruit_space">
 										<div class="portfolio-item user_img_space">

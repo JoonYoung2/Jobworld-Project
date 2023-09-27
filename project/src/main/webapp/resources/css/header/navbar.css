@@ -28,6 +28,7 @@
 
 .navbar_user_search{
 	display: flex;
+	align-items:center;
 }
 
 .navbar_user_search button{
