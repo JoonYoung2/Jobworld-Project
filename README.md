@@ -1,2 +1,11 @@
-# jobworld_project
-Job World Project Repository
+### 채용 솔루션 웹사이트 개발
+- 1인 개발
+
+### 사용기술
+- Java, Javascript
+- Spring Boot, JPA
+- Oracle
+
+### 설명
+ORM의 기술인 JPA의 학습을 위해 시작한 프로젝트로 채용을 할 수 있도록 도와주는 웹사이트를 개발하는 것입니다.<br>
+채용하고싶은 회사와 입사하고싶은 사용자의 정보를 매칭하여 입사지원을 하여 채용할 수 있도록 하는 시스템입니다.
