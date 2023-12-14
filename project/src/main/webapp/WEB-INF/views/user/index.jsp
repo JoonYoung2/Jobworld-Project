@@ -30,7 +30,9 @@
 								<!-- Portfolio item 1-->
 									<div class="user_recruit_space">
 										<div class="portfolio-item user_img_space">
-											<img class="recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
+											<div style="height:120px; display:flex; justify-content:center; align-items:center;">
+												<img class="recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
+											</div>
 											<div class="user_recruit_location company_name">${recruit.comp_nm }</div>
 											<div class="user_recruit_location company_title">${recruit.recruit_title }</div>
 										</div>

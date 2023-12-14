@@ -18,7 +18,7 @@
 				</div>
 				<div class="navbar_menu">
 					<div>
-						다른 메뉴들~~~
+						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
 						<a href="companyLogin">로그인</a> <a href="companyRegister">회원가입</a>			
@@ -47,7 +47,7 @@
 				</div>
 				<div class="navbar_menu">
 					<div>
-						다른 메뉴들~~~
+						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
 						<a href="recruitInfo?comp_id=${sessionScope.comp_id }">채용리스트</a> <a href="companyLogout">로그아웃</a>			

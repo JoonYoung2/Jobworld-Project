@@ -15,7 +15,7 @@
 				</div>
 				<div class="navbar_menu">
 					<div>
-						다른 메뉴들~~~
+						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
 						<a onclick="loginWindow();" style="cursor:pointer;">로그인</a> <a onclick="registerWindow();" style="cursor:pointer;">회원가입</a>			
@@ -43,10 +43,10 @@
 				</div>
 				<div class="navbar_menu">
 					<div>
-						다른 메뉴들~~~
+						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
-						<a href="resumeInfo?user_id=${sessionScope.user_id }">이력서 보기</a> | <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> | <a href="memberLogout">로그아웃</a>			
+						<a href="resumeInfo?user_id=${sessionScope.user_id }">이력서</a> <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> <a href="memberLogout">로그아웃</a>			
 					</div>
 				</div>
 			</div>
@@ -71,7 +71,7 @@
 				</div>
 				<div class="navbar_menu">
 					<div>
-						다른 메뉴들~~~
+						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
 						<a href="admin">Admin</a> | <a href="memberLogout">로그아웃</a>			
