@@ -28,10 +28,13 @@ public class MemberController {
 	private final HomeService homeService;
 	
 	@GetMapping("memberLogin")
-	public String login() {
+	public String login(HttpServletResponse response) {
 		if(session.getAttribute("user_id") == null) {
 			return "user/member/login";			
 		}
+		
+		alertAndBack(response, "이미 로그인상태입니다. 새로고침 한번 해 주세요.");
+		
 		return "redirect:/";
 	}
 	@PostMapping("memberLogin.do")
@@ -48,7 +51,7 @@ public class MemberController {
 		if(!msg.equals("")) {
 			model.addAttribute("member", member);
     		model.addAttribute("msg", msg);
-    		alert(response, msg);
+    		alertAndLoginLocation(response, msg);
     		return "user/member/login";
     	}
 		
@@ -70,12 +73,16 @@ public class MemberController {
 		}
 		model.addAttribute("msg", msg);
 		model.addAttribute("member", member);
-		alert(response, msg);
+		alertAndLoginLocation(response, msg);
 		return "user/member/login";
 	}
 	
 	@GetMapping("memberRegister")
-	public String register() {
+	public String register(HttpServletResponse response) {
+		if(session.getAttribute("user_id") == null) {
+			return "user/member/register";		
+		}
+		alertAndBack(response, "이미 로그인상태입니다. 새로고침 한번 해 주세요.");
 		return "user/member/register";
 	}
 	
@@ -139,7 +146,7 @@ public class MemberController {
 	    }
 	}
 	
-	public static void alert(HttpServletResponse response, String msg) {
+	public static void alertAndLoginLocation(HttpServletResponse response, String msg) {
 	    try {
 	        response.setContentType("text/html; charset=utf-8");
 	        PrintWriter w = response.getWriter();
