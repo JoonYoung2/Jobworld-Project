@@ -3,7 +3,7 @@
 
 ### 사용기술
 - Java, Javascript
-- Spring Boot, JPA
+- Spring Boot, JPA, QueryDSL
 - Oracle
 
 ### 설명
