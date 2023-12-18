@@ -3,16 +3,13 @@ package com.jobworld.project.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.jobworld.project.dto.RecruitDTO;
+import com.jobworld.project.dto.request.company.recruit.RecruitRequestDto;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
-@Getter @Setter
+@Getter
 @Table(name="jwRecruitInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Recruit {
@@ -20,13 +17,6 @@ public class Recruit {
 	@Id @GeneratedValue
 	@Column(name="recruitId")
 	private Long id;
-	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name="compId")
-	private Company company;
-	
-	@OneToMany(mappedBy="recruit")
-	private List<Apply> applyList = new ArrayList<>();
 	
 	@Column(name="recruitTitle")
 	private String title;
@@ -57,32 +47,37 @@ public class Recruit {
 	
 	@Column(name="recruitOpenType")
 	private int openType;
-	
-	// -- 연관관계 메서드 --
-	public void setCompany(Company company) {
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name="compId")
+	private Company company;
+
+	@OneToMany(mappedBy="recruit")
+	private List<Apply> applyList = new ArrayList<>();
+
+	@Builder
+	Recruit(RecruitRequestDto recruitRequestDto, Company company){
+		this.title = recruitRequestDto.getRecruitTitle();
+		this.career = recruitRequestDto.getRecruitCareer();
+		this.education = recruitRequestDto.getRecruitEducation();
+		this.employment = recruitRequestDto.getRecruitEmployment();
+		this.salary = recruitRequestDto.getRecruitSalary();
+		this.area = recruitRequestDto.getRecruitArea();
+		this.time = recruitRequestDto.getRecruitTime();
+		this.startDate = recruitRequestDto.getRecruitStartDate();
+		this.endDate = recruitRequestDto.getRecruitEndDate();
+		this.openType = recruitRequestDto.getRecruitOpenType();
 		this.company = company;
-		company.getRecruit().add(this);
-	}
-	
-	public void addApplyList(Apply applyList) {
-		this.applyList.add(applyList);
-		applyList.setRecruit(this);
 	}
 
-	public static Recruit setRecruit(RecruitDTO dto, Company comp) {
-		Recruit recruit = new Recruit();
-		recruit.setCompany(comp);
-		recruit.setTitle(dto.getRecruit_title());
-		recruit.setCareer(dto.getRecruit_career());
-		recruit.setEducation(dto.getRecruit_education());
-		recruit.setEmployment(dto.getRecruit_employment());
-		recruit.setSalary(dto.getRecruit_salary());
-		recruit.setArea(dto.getRecruit_area());
-		recruit.setTime(dto.getRecruit_time());
-		recruit.setStartDate("0");
-		recruit.setEndDate("0");
-		recruit.setOpenType(0);
-		return recruit;
-	}
-	
+	public void updateTitle(String title){this.title = title;}
+	public void updateCareer(String career){this.career = career;}
+	public void updateEducation(String education){this.education = education;}
+	public void updateEmployment(String employment){this.employment = employment;}
+	public void updateSalary(String salary){this.salary = salary;}
+	public void updateArea(String area){this.area = area;}
+	public void updateTime(String time){this.time = time;}
+	public void updateStartDate(String startDate){this.startDate = startDate;}
+	public void updateEndDate(String endDate){this.endDate = endDate;}
+	public void updateOpenType(int openType){this.openType = openType;}
 }

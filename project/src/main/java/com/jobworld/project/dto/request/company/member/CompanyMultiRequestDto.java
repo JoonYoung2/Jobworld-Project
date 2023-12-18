@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.request;
+package com.jobworld.project.dto.request.company.member;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,25 +9,25 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CompanyMultiDTO {
+public class CompanyMultiRequestDto {
 	@NotEmpty
 	@Pattern(regexp = "^[a-z]+[a-z0-9]{5,19}$")
-	private String comp_id;
+	private String compId;
 	@NotEmpty
 	@Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$")
-	private String comp_pw;
+	private String compPw;
 	@NotEmpty
-	private String comp_pwCheck;
+	private String compPwCheck;
 	@NotEmpty
-	private String comp_nm;
+	private String compNm;
 	@NotEmpty
-	private String comp_business_type;
+	private String compBusinessType;
 	@Min(1)
-	private int comp_empl_num;
+	private int compEmplNum;
 	@NotEmpty
-	private String comp_size;
+	private String compSize;
 	@NotEmpty
-	private String comp_site;
+	private String compSite;
 	@NotEmpty
 	private MultipartFile file;
 }

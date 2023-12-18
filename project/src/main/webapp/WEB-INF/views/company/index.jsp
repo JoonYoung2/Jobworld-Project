@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="/resources/css/style.css">
 <title>JobWorld</title>
 </head>
 <body>
@@ -22,19 +22,19 @@
 			<section class="page-section" id="portfolio">
 				<div class="container">
 					<div class="text-center">
-						<h2 class="section-heading text-uppercase">${comp_nm } RECRUIT INFO</h2>
+						<h2 class="section-heading text-uppercase">${compNm } RECRUIT INFO</h2>
 						<h3 class="section-subheading text-muted"></h3>
 					</div>
 					<div class="row">
 						<c:forEach var="recruit" items="${list }">
 							<div class="col-lg-3 col-sm-3 mb-3 recruit_parents">
-								<a href="applyUserInfo?recruit_id=${recruit.recruit_id }">
+								<a href="/apply/info?recruitId=${recruit.recruitId }">
 								<!-- Portfolio item 1-->
 									<div class="user_recruit_space">
 										<div class="portfolio-item user_img_space">
-											<img class="recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
-											<div class="user_recruit_location company_name">${recruit.comp_nm }</div>
-											<div class="user_recruit_location company_title">${recruit.recruit_title }</div>
+											<img class="recruit_list_img_size" src="/resources/company_upload/${recruit.compId }/${recruit.compBrandImg }" alt="..." />
+											<div class="user_recruit_location company_name">${recruit.compNm }</div>
+											<div class="user_recruit_location company_title">${recruit.recruitTitle }</div>
 										</div>
 									</div>
 								</a>												

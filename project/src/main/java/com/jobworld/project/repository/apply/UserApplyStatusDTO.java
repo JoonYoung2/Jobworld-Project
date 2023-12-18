@@ -4,17 +4,17 @@ import lombok.Data;
 
 @Data
 public class UserApplyStatusDTO {
-	private String user_id;
-	private Long apply_id;
-	private Long resume_id;
-	private String user_birthday;
-	private String user_email;
-	private String user_nm;
-	private String user_img;
-	private String user_phone_num;
-	private String zip_cd;
-	private String address_info;
-	private String address_detail;
-	private String resume_title;
+	private String userId;
+	private Long applyId;
+	private Long resumeId;
+	private String userBirthday;
+	private String userEmail;
+	private String userNm;
+	private String userImg;
+	private String userPhoneNum;
+	private String zipCd;
+	private String addressInfo;
+	private String addressDetail;
+	private String resumeTitle;
 	private int state;
 }

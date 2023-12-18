@@ -1,56 +1,24 @@
 package com.jobworld.project.repository;
 
-import java.util.List;
-
-import jakarta.persistence.EntityManager;
-
-import jakarta.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
-
 import com.jobworld.project.domain.Apply;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.Optional;
 
-@RequiredArgsConstructor
-@Repository
-public class ApplyRepository {
-	
-	private final EntityManager em;
-	
-	public void save(Apply apply) {
-		em.persist(apply);
-	}
+public interface ApplyRepository extends JpaRepository<Apply, Long> {
+    @Query("select a from Apply a where " +
+            "a.resume.id = :resumeId")
+    List<Apply> findByResumeId(Long resumeId);
 
-	public List<Apply> checkApplyUser(Long recruit_id, Long resume_id) {
-		TypedQuery<Apply> query = em.createQuery("select a from Apply a where a.recruit.id = :recruit_id and a.resume.id = :resume_id", Apply.class)
-				.setParameter("recruit_id", recruit_id)
-				.setParameter("resume_id", resume_id);
-		List<Apply> list = query.getResultList();
+    @Query("select a from Apply a where " +
+            "a.recruit.id = :recruitId")
+    List<Apply> findByRecruitId(Long recruitId);
 
-		return list;
-	}
-	
-	public List<Apply> applyByRecruitId(Long id){
-		return em.createQuery("select r from Apply r where r.recruit.id = :recruit_id", Apply.class)
-				.setParameter("recruit_id", id)
-				.getResultList();
-	}
-	
-	public List<Apply> applyByResumeId(int id){
-		return em.createQuery("select r from Apply r where r.resume.id = :resume_id", Apply.class)
-				.setParameter("resume_id", id)
-				.getResultList();
-	}
-	
-	public void applyCancel(Long apply_id) {
-		System.out.println("지원취소하기이이이이");
-		Apply apply = em.find(Apply.class, apply_id);
-		em.remove(apply);
-	}
-	
-	public Apply findById(Long apply_id) {
-		return em.createQuery("select r from Apply r where r.id = :apply_id", Apply.class)
-				.setParameter("apply_id", apply_id)
-				.getSingleResult();
-	}
+    @Query("select a from Apply a where " +
+            "a.recruit.id = :recruitId and " +
+            "a.resume.id = :resumeId")
+    Optional<Apply> checkApplyUser(@Param("recruitId") Long recruitId, @Param("resumeId") Long resumeId);
 }

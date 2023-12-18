@@ -9,7 +9,7 @@
 <title>JobWorld</title>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
+<%@ include file="../../user_menuBar.jsp"%>
 <br>
 <c:if test = "${empty resume }">
 	<a href="/resume/write">이력서 등록</a>
@@ -39,7 +39,7 @@
 						</div>
 					</div>
 					<div>
-						<img style="width: 100px; height: 100;" src="resources/upload/${sessionScope.user_id }/${resume.userImg}" alt="..." />
+						<img style="width: 100px; height: 100;" src="/resources/upload/${sessionScope.user_id }/${resume.userImg}" alt="..." />
 					</div>
 				</div>
 			</div>	

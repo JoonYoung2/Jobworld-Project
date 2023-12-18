@@ -12,7 +12,6 @@ import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.request.resume.ResumeRequestDto;
 import com.jobworld.project.dto.response.resume.UserResumeResponseDto;
-import com.jobworld.project.dto.response.resume.UserResumeMultiDto;
 import com.jobworld.project.repository.MemberRepositoryOld;
 import com.jobworld.project.repository.ResumeRepository;
 

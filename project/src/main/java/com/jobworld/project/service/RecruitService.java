@@ -3,13 +3,15 @@ package com.jobworld.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jobworld.project.dto.response.company.recruit.RecruitResponseDto;
+import com.jobworld.project.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
-import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
+import com.jobworld.project.dto.request.company.recruit.RecruitRequestDto;
+import com.jobworld.project.dto.request.apply.UserCompanyRecruitInfoRequestDto;
 import com.jobworld.project.repository.CompRepository;
 import com.jobworld.project.repository.RecruitRepository;
 
@@ -24,47 +26,35 @@ public class RecruitService {
 	private final RecruitRepository repo;
 	private final CompRepository compRepository;
 	
-	private List<RecruitDTO> setRecruitList(List<Recruit> recruit) {
-		List<RecruitDTO> list = new ArrayList<>();
-		for(int i = 0; i < recruit.size(); ++i) {
-			RecruitDTO dto = new RecruitDTO();
-			dto.setRecruit_id(recruit.get(i).getId());
-			dto.setComp_id(recruit.get(i).getCompany().getId());
-			dto.setRecruit_title(recruit.get(i).getTitle());
-			dto.setRecruit_career(recruit.get(i).getCareer());
-			dto.setRecruit_education(recruit.get(i).getEducation());
-			dto.setRecruit_employment(recruit.get(i).getEmployment());
-			dto.setRecruit_salary(recruit.get(i).getSalary());
-			dto.setRecruit_area(recruit.get(i).getArea());
-			dto.setRecruit_time(recruit.get(i).getTime());
-			dto.setRecruit_start_date(recruit.get(i).getStartDate());
-			dto.setRecruit_end_date(recruit.get(i).getEndDate());
-			dto.setRecruit_open_type(recruit.get(i).getOpenType());
+	private List<RecruitResponseDto> setRecruitResponseList(List<Recruit> recruitList) {
+		List<RecruitResponseDto> list = new ArrayList<>();
+		for(Recruit recruit : recruitList) {
+			RecruitResponseDto dto = RecruitResponseDto.fromEntity(recruit);
 			list.add(dto);
 		}
 		return list;
 	}
 	
-	private UserCompanyRecruitInfoDTO setRecruitInfo(Recruit recruit) {
-		UserCompanyRecruitInfoDTO dto = new UserCompanyRecruitInfoDTO();
-		dto.setRecruit_id(recruit.getId());
-		dto.setComp_id(recruit.getCompany().getId());
-		dto.setRecruit_title(recruit.getTitle());
-		dto.setRecruit_career(recruit.getCareer());
-		dto.setRecruit_education(recruit.getEducation());
-		dto.setRecruit_employment(recruit.getEmployment());
-		dto.setRecruit_salary(recruit.getSalary());
-		dto.setRecruit_area(recruit.getArea());
-		dto.setRecruit_time(recruit.getTime());
-		dto.setRecruit_start_date(recruit.getStartDate());
-		dto.setRecruit_end_date(recruit.getEndDate());
-		dto.setRecruit_open_type(recruit.getOpenType());
-		dto.setComp_brand_img(recruit.getCompany().getBrandImg());
-		dto.setComp_business_type(recruit.getCompany().getBusinessType());
-		dto.setComp_empl_num(recruit.getCompany().getEmplNum());
-		dto.setComp_nm(recruit.getCompany().getName());
-		dto.setComp_site(recruit.getCompany().getSite());
-		dto.setComp_size(recruit.getCompany().getSize());
+	private UserCompanyRecruitInfoRequestDto setRecruitInfo(Recruit recruit) {
+		UserCompanyRecruitInfoRequestDto dto = new UserCompanyRecruitInfoRequestDto();
+		dto.setRecruitId(recruit.getId());
+		dto.setCompId(recruit.getCompany().getId());
+		dto.setRecruitTitle(recruit.getTitle());
+		dto.setRecruitCareer(recruit.getCareer());
+		dto.setRecruitEducation(recruit.getEducation());
+		dto.setRecruitEmployment(recruit.getEmployment());
+		dto.setRecruitSalary(recruit.getSalary());
+		dto.setRecruitArea(recruit.getArea());
+		dto.setRecruitTime(recruit.getTime());
+		dto.setRecruitStartDate(recruit.getStartDate());
+		dto.setRecruitEndDate(recruit.getEndDate());
+		dto.setRecruitOpenType(recruit.getOpenType());
+		dto.setCompBrandImg(recruit.getCompany().getBrandImg());
+		dto.setCompBusinessType(recruit.getCompany().getBusinessType());
+		dto.setCompEmplNum(recruit.getCompany().getEmplNum());
+		dto.setCompNm(recruit.getCompany().getName());
+		dto.setCompSite(recruit.getCompany().getSite());
+		dto.setCompSize(recruit.getCompany().getSize());
 		return dto;
 	}
 
@@ -72,7 +62,7 @@ public class RecruitService {
 	@Transactional
 	public String recruitWrite(Recruit recruit) {
 		try {
-			recruit.setOpenType(0);
+			recruit.updateOpenType(0);
 			repo.save(recruit);
 			return "등록";
 		}catch(Exception e){
@@ -84,17 +74,19 @@ public class RecruitService {
 	@Transactional
 	public String recruitUpdate(Recruit recruit) {
 		try {
-			Recruit update = repo.findOne(recruit.getId());
-			update.setTitle(recruit.getTitle());
-			update.setCareer(recruit.getCareer());
-			update.setEducation(recruit.getEducation());
-			update.setEmployment(recruit.getEmployment());
-			update.setSalary(recruit.getSalary());
-			update.setArea(recruit.getArea());
-			update.setTime(recruit.getTime());
-			update.setStartDate(recruit.getStartDate());
-			update.setEndDate(recruit.getEndDate());
-			update.setOpenType(recruit.getOpenType());
+			Recruit update = repo.findById(recruit.getId()).orElseThrow(
+					() -> new NotFoundException("찾는 공고문이 없습니다.")
+			);
+			update.updateTitle(recruit.getTitle());
+			update.updateCareer(recruit.getCareer());
+			update.updateEducation(recruit.getEducation());
+			update.updateEmployment(recruit.getEmployment());
+			update.updateSalary(recruit.getSalary());
+			update.updateArea(recruit.getArea());
+			update.updateTime(recruit.getTime());
+			update.updateStartDate(recruit.getStartDate());
+			update.updateEndDate(recruit.getEndDate());
+			update.updateOpenType(recruit.getOpenType());
 			return "완료";
 		}catch(Exception e) {
 			log.error("RecruitService recruitUpdate(Recruit) error --> {}", e);
@@ -102,29 +94,40 @@ public class RecruitService {
 		return "완료안됨";
 	}
 
-	public List<RecruitDTO> recruitList(String comp_id) {
+	public List<RecruitResponseDto> recruitResponseList(String compId) {
 		
-		List<Recruit> recruit = repo.findByCompId(comp_id);
-
-		if(recruit.size() > 0) { 
-			List<RecruitDTO> list = setRecruitList(recruit);
-			return list;
+		List<Recruit> recruitList = repo.findByCompId(compId);
+		List<RecruitResponseDto> recruitResponseDtoList = new ArrayList<>();
+		if(recruitList.size() > 0) {
+			for(Recruit recruit : recruitList) {
+				RecruitResponseDto recruitResponseDto = RecruitResponseDto.fromEntity(recruit);
+				recruitResponseDtoList.add(recruitResponseDto);
+			}
+			return recruitResponseDtoList;
 		}else
 		return null;
 	}
 	
 	@Transactional
-	public String save(RecruitDTO dto) {
-		Company company = compRepository.findOne(dto.getComp_id());
-		Recruit recruit = Recruit.setRecruit(dto, company);
+	public String save(RecruitRequestDto dto) {
+		Company company = compRepository.findById(dto.getCompId()).orElseThrow(
+				() -> new NotFoundException("찾는 회사가 없습니다.")
+		);
+		Recruit recruit = Recruit
+				.builder()
+				.recruitRequestDto(dto)
+				.company(company)
+				.build();
 		repo.save(recruit);
 		return "등록";
 	}
 
 
-	public UserCompanyRecruitInfoDTO recruitInfo(Long recruit_id) {
-		Recruit recruit = repo.findOne(recruit_id);
-		UserCompanyRecruitInfoDTO dto = setRecruitInfo(recruit);
+	public UserCompanyRecruitInfoRequestDto recruitInfo(Long recruitId) {
+		Recruit recruit = repo.findById(recruitId).orElseThrow(
+				() -> new NotFoundException("찾는 공고문이 없습니다.")
+		);
+		UserCompanyRecruitInfoRequestDto dto = setRecruitInfo(recruit);
 		return dto;
 	}
 

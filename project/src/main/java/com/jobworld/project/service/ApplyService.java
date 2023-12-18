@@ -2,7 +2,10 @@ package com.jobworld.project.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import com.jobworld.project.dto.response.apply.ApplyResponseDto;
+import com.jobworld.project.dto.response.company.recruit.RecruitResponseDto;
 import com.jobworld.project.dto.response.resume.ResumeResponseDto;
 import com.jobworld.project.exception.NotFoundException;
 import jakarta.servlet.http.HttpSession;
@@ -12,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jobworld.project.domain.Apply;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
-import com.jobworld.project.dto.ApplyDTO;
-import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.request.resume.ResumeRequestDto;
-import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
+import com.jobworld.project.dto.request.apply.ApplyRequestDto;
+import com.jobworld.project.dto.request.apply.UserResumeRecruitRequestDto;
 import com.jobworld.project.repository.ApplyRepository;
 import com.jobworld.project.repository.RecruitRepository;
 import com.jobworld.project.repository.ResumeRepository;
@@ -43,81 +44,62 @@ public class ApplyService {
 			return null;
 	}
 
-	public RecruitDTO getRecruitInfo(Long recruit_id) {
-		Recruit recruit = recruitRepository.findOne(recruit_id);
-		RecruitDTO dto = setRecruit(recruit);
+	public RecruitResponseDto getRecruitInfo(Long recruitId) {
+		Recruit recruit = recruitRepository.findById(recruitId).orElseThrow(
+				() -> new NotFoundException("찾는 공고문이 없습니다."));
+		RecruitResponseDto dto = RecruitResponseDto.fromEntity(recruit);
 		return dto;
 	}
 
 	@Transactional
-	public String applySave(ApplyDTO dto) {
-		Resume resume = resumeRepository.findById(dto.getResume_id()).orElseThrow(
-				() -> new NotFoundException("찾는 이력서가 존재하지 않습니다.")
-		);
-		Recruit recruit = recruitRepository.findOne(dto.getRecruit_id());
-		List<Apply> applyCheck = repo.checkApplyUser(dto.getRecruit_id(), dto.getResume_id());
-		System.out.println("size == > " + applyCheck.size());
-		if (applyCheck.size() > 0) {
+	public String applySave(ApplyRequestDto dto) {
+		Resume resume = resumeRepository.findById(dto.getResumeId()).orElseThrow(
+				() -> new NotFoundException("찾는 이력서가 존재하지 않습니다."));
+		Recruit recruit = recruitRepository.findById(dto.getRecruitId()).orElseThrow(
+				() -> new NotFoundException("찾는 공고문이 없습니다."));
+		Optional<Apply> applyCheck = repo.checkApplyUser(dto.getRecruitId(), dto.getResumeId());
+		if (applyCheck.isPresent()) {
 			return "이미 지원하셨습니다.";
 		} else {
-			Apply apply = setApply(resume, recruit);
+			Apply apply = Apply
+					.builder()
+					.resume(resume)
+					.recruit(recruit)
+					.build();
 			repo.save(apply);
 			return "성공";
 		}
 	}
 
-	private Apply setApply(Resume resume, Recruit recruit) {
-		Apply apply = Apply.setApply(resume, recruit);
-		return apply;
-	}
+	public List<ApplyResponseDto> getApplyInfo(Long recruitId) {
+		List<Apply> applyList = repo.findByRecruitId(recruitId);
+		List<ApplyResponseDto> list = new ArrayList<>();
 
-	public List<ApplyDTO> getApplyInfo(Long recruit_id) {
-		List<Apply> apply = repo.applyByRecruitId(recruit_id);
-		List<ApplyDTO> list = Apply.setApplyDto(apply);
+		for(Apply apply : applyList)
+			list.add(ApplyResponseDto.fromEntity(apply));
+
 		return list;
 	}
-	
 
-	private ResumeResponseDto setResumeResponseDto(Resume resume) {
-		ResumeResponseDto dto = ResumeResponseDto.fromEntity(resume);
-		return dto;
-	}
-
-	private RecruitDTO setRecruit(Recruit recruit) {
-		RecruitDTO dto = new RecruitDTO();
-		dto.setRecruit_id(recruit.getId());
-		dto.setComp_id(recruit.getCompany().getId());
-		dto.setRecruit_career(recruit.getCareer());
-		dto.setRecruit_education(recruit.getEducation());
-		dto.setRecruit_employment(recruit.getEmployment());
-		dto.setRecruit_salary(recruit.getSalary());
-		dto.setRecruit_area(recruit.getArea());
-		dto.setRecruit_time(recruit.getTime());
-		dto.setRecruit_start_date(recruit.getStartDate());
-		dto.setRecruit_end_date(recruit.getEndDate());
-		dto.setRecruit_open_type(recruit.getOpenType());
-		return dto;
-	}
-
-	public List<UserApplyStatusDTO> getResumeMemberInfo(List<ApplyDTO> check) {
+	public List<UserApplyStatusDTO> getResumeMemberInfo(List<ApplyResponseDto> check) {
 		List<UserApplyStatusDTO> list = new ArrayList<>();
 		for(int i = 0; i < check.size(); ++i) {
 			UserApplyStatusDTO dto = new UserApplyStatusDTO();
-			Resume resume = resumeRepository.findById(check.get(i).getResume_id()).orElseThrow(
+			Resume resume = resumeRepository.findById(check.get(i).getResumeId()).orElseThrow(
 					() -> new NotFoundException("찾는 이력서가 없습니다."));
-			dto.setApply_id(check.get(i).getApply_id());
-			dto.setState(check.get(i).getApply_state());
-			dto.setResume_title(resume.getTitle());
-			dto.setUser_birthday(resume.getMember().getBirthday());
-			dto.setUser_email(resume.getMember().getEmail());
-			dto.setUser_id(resume.getMember().getId());
-			dto.setUser_img(resume.getImg());
-			dto.setUser_nm(resume.getMember().getName());
-			dto.setResume_id(resume.getId());
-			dto.setUser_phone_num(resume.getMember().getPhoneNum());
-			dto.setZip_cd(resume.getMember().getZipCd());
-			dto.setAddress_info(resume.getMember().getAddressInfo());
-			dto.setAddress_detail(resume.getMember().getAddressDetail());
+			dto.setApplyId(check.get(i).getApplyId());
+			dto.setState(check.get(i).getApplyState());
+			dto.setResumeTitle(resume.getTitle());
+			dto.setUserBirthday(resume.getMember().getBirthday());
+			dto.setUserEmail(resume.getMember().getEmail());
+			dto.setUserId(resume.getMember().getId());
+			dto.setUserImg(resume.getImg());
+			dto.setUserNm(resume.getMember().getName());
+			dto.setResumeId(resume.getId());
+			dto.setUserPhoneNum(resume.getMember().getPhoneNum());
+			dto.setZipCd(resume.getMember().getZipCd());
+			dto.setAddressInfo(resume.getMember().getAddressInfo());
+			dto.setAddressDetail(resume.getMember().getAddressDetail());
 			list.add(dto);
 		}
 		return list;
@@ -131,75 +113,87 @@ public class ApplyService {
 			return 0L;
 	}
 
-	public List<ApplyDTO> getApplyInfo(int resume_id) {
-		List<Apply> apply = repo.applyByResumeId(resume_id);
-		List<ApplyDTO> list = Apply.setApplyDto(apply);
+	public List<ApplyResponseDto> getApplyResponseDtoList(Long resumeId) {
+		List<Apply> applyList = repo.findByResumeId(resumeId);
+		List<ApplyResponseDto> list = new ArrayList<>();
+
+		for(Apply apply : applyList)
+			list.add(ApplyResponseDto.fromEntity(apply));
+
 		return list;
 	}
 
-	public List<CompApplyStatusDTO> getRecruitCompanyInfo(List<ApplyDTO> check) {
+	public List<CompApplyStatusDTO> getRecruitCompanyInfo(List<ApplyResponseDto> check) {
 		List<CompApplyStatusDTO> list = new ArrayList<>();
 		for(int i = 0; i < check.size(); ++i) {
 			CompApplyStatusDTO dto = new CompApplyStatusDTO();
-			Recruit recruit = recruitRepository.findOne(check.get(i).getRecruit_id());
-			dto.setApply_id(check.get(i).getApply_id());
-			dto.setComp_business_type(recruit.getCompany().getBusinessType());
-			dto.setComp_empl_num(recruit.getCompany().getEmplNum());
-			dto.setComp_id(recruit.getCompany().getId());
-			dto.setComp_nm(recruit.getCompany().getName());
-			dto.setComp_site(recruit.getCompany().getSite());
-			dto.setComp_size(recruit.getCompany().getSize());
-			dto.setRecruit_area(recruit.getArea());
-			dto.setRecruit_career(recruit.getCareer());
-			dto.setRecruit_education(recruit.getEducation());
-			dto.setRecruit_employment(recruit.getEmployment());
-			dto.setRecruit_end_date(recruit.getEndDate());
-			dto.setRecruit_id(recruit.getId());
-			dto.setRecruit_open_type(recruit.getOpenType());
-			dto.setRecruit_salary(recruit.getSalary());
-			dto.setRecruit_start_date(recruit.getStartDate());
-			dto.setRecruit_time(recruit.getTime());
-			dto.setState(check.get(i).getApply_state());
-			dto.setRecruit_title(recruit.getTitle());
-			dto.setComp_brand_img(recruit.getCompany().getBrandImg());
+			Recruit recruit = recruitRepository.findById(check.get(i).getRecruitId()).orElseThrow(
+					() -> new NotFoundException("찾는 공고문이 없습니다."));;
+			dto.setApplyId(check.get(i).getApplyId());
+			dto.setCompBusinessType(recruit.getCompany().getBusinessType());
+			dto.setCompEmplNum(recruit.getCompany().getEmplNum());
+			dto.setCompId(recruit.getCompany().getId());
+			dto.setCompNm(recruit.getCompany().getName());
+			dto.setCompSite(recruit.getCompany().getSite());
+			dto.setCompSize(recruit.getCompany().getSize());
+			dto.setRecruitArea(recruit.getArea());
+			dto.setRecruitCareer(recruit.getCareer());
+			dto.setRecruitEducation(recruit.getEducation());
+			dto.setRecruitEmployment(recruit.getEmployment());
+			dto.setRecruitEndDate(recruit.getEndDate());
+			dto.setRecruitId(recruit.getId());
+			dto.setRecruitOpenType(recruit.getOpenType());
+			dto.setRecruitSalary(recruit.getSalary());
+			dto.setRecruitStartDate(recruit.getStartDate());
+			dto.setRecruitTime(recruit.getTime());
+			dto.setState(check.get(i).getApplyState());
+			dto.setRecruitTitle(recruit.getTitle());
+			dto.setCompBrandImg(recruit.getCompany().getBrandImg());
 			list.add(dto);
-			
+
 		}
 		return list;
 	}
-	
+
 	@Transactional
-	public void applyCancel(Long apply_id) {
-		repo.applyCancel(apply_id);
-		
-	}
-	
-	@Transactional
-	public Long stateUpdate(Long apply_id, int state) {
-		Apply apply = repo.findById(apply_id);
-		apply.setState(state);
-		Long recruit_id = apply.getRecruit().getId();
-		return recruit_id;
+	public void applyCancel(Long applyId) {
+		repo.deleteById(applyId);
 	}
 
-	public UserResumeRecruitDTO getApplyInfo(Long recruit_id, Long resumeId) {
-		Recruit recruit = recruitRepository.findOne(recruit_id);
+	@Transactional
+	public Long stateUpdate(Long applyId, int state) {
+		Apply apply = repo.findById(applyId).orElseThrow(
+				() -> new NotFoundException("지원서를 찾을 수 없습니다.")
+		);
+		apply.updateState(state);
+		Long recruitId = apply.getRecruit().getId();
+		return recruitId;
+	}
+
+	public UserResumeRecruitRequestDto getApplyInfo(Long recruitId, Long resumeId) {
+		Recruit recruit = recruitRepository.findById(recruitId).orElseThrow(
+				() -> new NotFoundException("찾는 공고문이 없습니다."));;
 		Resume resume = resumeRepository.findById(resumeId).orElseThrow(
 				() -> new NotFoundException("찾는 이력서가 없습니다."));
-		UserResumeRecruitDTO dto = setUserResumeRecruitDto(recruit, resume);
+		UserResumeRecruitRequestDto dto = setUserResumeRecruitDto(recruit, resume);
 		return dto;
 	}
 
-	private UserResumeRecruitDTO setUserResumeRecruitDto(Recruit recruit, Resume resume) {
-		UserResumeRecruitDTO dto = new UserResumeRecruitDTO();
-		dto.setRecruit_id(recruit.getId());
-		dto.setResume_id(resume.getId());
-		dto.setComp_nm(recruit.getCompany().getName());
-		dto.setRecruit_title(recruit.getTitle());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_email(resume.getMember().getEmail());
-		dto.setUser_nm(resume.getMember().getName());
-		dto.setUser_phone_num(resume.getMember().getPhoneNum());
+	private ResumeResponseDto setResumeResponseDto(Resume resume) {
+		ResumeResponseDto dto = ResumeResponseDto.fromEntity(resume);
+		return dto;
+	}
+
+	private UserResumeRecruitRequestDto setUserResumeRecruitDto(Recruit recruit, Resume resume) {
+		UserResumeRecruitRequestDto dto = new UserResumeRecruitRequestDto();
+		dto.setRecruitId(recruit.getId());
+		dto.setResumeId(resume.getId());
+		dto.setCompNm(recruit.getCompany().getName());
+		dto.setRecruitTitle(recruit.getTitle());
+		dto.setResumeTitle(resume.getTitle());
+		dto.setUserEmail(resume.getMember().getEmail());
+		dto.setUserNm(resume.getMember().getName());
+		dto.setUserPhoneNum(resume.getMember().getPhoneNum());
 		
 		return dto;
 	}

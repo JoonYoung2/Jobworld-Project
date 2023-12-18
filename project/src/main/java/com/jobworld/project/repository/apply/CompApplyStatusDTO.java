@@ -4,24 +4,24 @@ import lombok.Data;
 
 @Data
 public class CompApplyStatusDTO {
-	private String comp_id;
-	private Long apply_id;
-	private String comp_nm;
-	private String comp_business_type;
-	private int comp_empl_num;
-	private String comp_size;
-	private String comp_site;
-	private Long recruit_id;
-	private String recruit_career;
-	private String recruit_education;
-	private String recruit_employment;
-	private String recruit_salary;
-	private String recruit_area;
-	private String recruit_time;
-	private String recruit_start_date;
-	private String recruit_end_date;
-	private int recruit_open_type;
+	private String compId;
+	private Long applyId;
+	private String compNm;
+	private String compBusinessType;
+	private int compEmplNum;
+	private String compSize;
+	private String compSite;
+	private Long recruitId;
+	private String recruitCareer;
+	private String recruitEducation;
+	private String recruitEmployment;
+	private String recruitSalary;
+	private String recruitArea;
+	private String recruitTime;
+	private String recruitStartDate;
+	private String recruitEndDate;
+	private int recruitOpenType;
 	private int state;
-	private String recruit_title;
-	private String comp_brand_img;
+	private String recruitTitle;
+	private String compBrandImg;
 }

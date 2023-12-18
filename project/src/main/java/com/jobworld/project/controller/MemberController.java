@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.jobworld.project.dto.request.member.MemberRequestDto;
-import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
+import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
 import com.jobworld.project.service.HomeService;
 import com.jobworld.project.service.MemberService;
 
@@ -64,7 +64,7 @@ public class MemberController {
 		
 		if(check != null) {
 			if(service.validPwCheck(memberRequestDto.getUserPw(), check.getUserPw())){
-				List<UserRecruitViewDTO> list = homeService.getUserRecruitViewInfo();
+				List<UserRecruitViewRequestDto> list = homeService.getUserRecruitViewInfo();
 				model.addAttribute("list", list);
 				session.setAttribute("user_id", memberRequestDto.getUserId());
 				session.setAttribute("login_type", memberRequestDto.getLoginType());

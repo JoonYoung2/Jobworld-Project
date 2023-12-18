@@ -2,26 +2,29 @@ package com.jobworld.project.controller;
 
 import java.util.List;
 
+import com.jobworld.project.dto.response.company.recruit.RecruitResponseDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
+import com.jobworld.project.dto.request.company.recruit.RecruitRequestDto;
+import com.jobworld.project.dto.request.apply.UserCompanyRecruitInfoRequestDto;
 import com.jobworld.project.service.RecruitService;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/recruit")
 public class RecruitController {
 	private final RecruitService service;
 	
-	@GetMapping("/recruitInfo")
-	public String recruitInfo(@RequestParam("comp_id") String comp_id, Model model) {
-		List<RecruitDTO> list = service.recruitList(comp_id);
+	@GetMapping("/info")
+	public String recruitInfo(@RequestParam("compId") String compId, Model model) {
+		List<RecruitResponseDto> list = service.recruitResponseList(compId);
 	
 		if(list != null) {
 			model.addAttribute("list", list);
@@ -30,16 +33,16 @@ public class RecruitController {
 		return "company/recruit/recruitList";
 	}
 	
-	@GetMapping("recruitWrite")
+	@GetMapping("/write")
 	public String recruitWrite(){
 		return "company/recruit/recruitWrite";
 	}
 	
-	@PostMapping("recruitWrite.do")
-	public String recruitWrite(RecruitDTO dto, Model model) {
+	@PostMapping("/write")
+	public String recruitWrite(RecruitRequestDto dto, Model model) {
 		String msg = service.save(dto);
 		if(msg.equals("등록")) {
-			List<RecruitDTO> list = service.recruitList(dto.getComp_id());
+			List<RecruitResponseDto> list = service.recruitResponseList(dto.getCompId());
 			model.addAttribute("list", list);
 			return "company/recruit/recruitList";
 			
@@ -49,9 +52,9 @@ public class RecruitController {
 		}
 	}
 	
-	@GetMapping("recruitInfo.go")
-	public String userRecruitInfo(@RequestParam("recruit_id") Long recruit_id, Model model) {
-		UserCompanyRecruitInfoDTO dto = service.recruitInfo(recruit_id);
+	@GetMapping("/user/info")
+	public String userRecruitInfo(@RequestParam("recruitId") Long recruitId, Model model) {
+		UserCompanyRecruitInfoRequestDto dto = service.recruitInfo(recruitId);
 		model.addAttribute("recruit", dto);
 		return "user/recruit/recruitInfo";
 	}	

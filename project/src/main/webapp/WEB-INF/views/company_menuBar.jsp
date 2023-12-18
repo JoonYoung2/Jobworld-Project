@@ -10,9 +10,9 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div class="navbar_user_search">
-					<a href="/company"><img src="resources/img/jobworldImg.png"></a> 
-					<form id="searchSubmit" action="/companySearch.do" method="post">
-						<input type="hidden" value="${sessionScope.comp_id }" name="comp_id">
+					<a href="/company"><img src="/resources/img/jobworldImg.png"></a>
+					<form id="searchSubmit" action="/search/company" method="post">
+						<input type="hidden" value="${sessionScope.comp_id }" name="compId">
 						<input class="searchBox" type="text" name="companySearch">
 					</form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
@@ -21,7 +21,7 @@
 						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
-						<a href="companyLogin">로그인</a> <a href="companyRegister">회원가입</a>			
+						<a href="/company/login">로그인</a> <a href="/company/register">회원가입</a>
 					</div>
 				</div>
 			</div>
@@ -39,9 +39,9 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div class="navbar_user_search">
-					<a href="/company"><img src="resources/img/jobworldImg.png"></a> 
-					<form id="searchSubmit" action="/companySearch.do" method="post">
-						<input type="hidden" value="${sessionScope.comp_id }" name="comp_id">
+					<a href="/company"><img src="/resources/img/jobworldImg.png"></a>
+					<form id="searchSubmit" action="/search/company" method="post">
+						<input type="hidden" value="${sessionScope.comp_id }" name="compId">
 						<input class="searchBox" type="text" name="companySearch">
 					</form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
@@ -50,7 +50,7 @@
 						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
-						<a href="recruitInfo?comp_id=${sessionScope.comp_id }">채용리스트</a> <a href="companyLogout">로그아웃</a>			
+						<a href="/recruit/info?compId=${sessionScope.comp_id }">채용리스트</a> <a href="/company/logout">로그아웃</a>
 					</div>
 				</div>
 			</div>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="/resources/img/jobworldImg.png" rel="shortcut icon" type="image/x-icon">
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="/resources/css/style.css">
 <title>JobWorld</title>
 </head>
 <body>
@@ -25,16 +25,16 @@
 				<c:if test="${list.size() > 0 }">
 					<c:forEach var="recruit" items="${list }">
 							<div class="col-lg-3 col-sm-3 mb-3 recruit_parents">
-<%-- 								<a href="recruitInfo.go?recruit_id=${recruit.recruit_id }"> --%>
-								<a onclick="newWindow(${recruit.recruit_id});" style="cursor:pointer;">
+<%-- 								<a href="/recruit/user/info?recruitId=${recruit.recruitId }"> --%>
+								<a onclick="newWindow(${recruit.recruitId});" style="cursor:pointer;">
 								<!-- Portfolio item 1-->
 									<div class="user_recruit_space">
 										<div class="portfolio-item user_img_space">
 											<div style="height:120px; display:flex; justify-content:center; align-items:center;">
-												<img class="recruit_list_img_size" src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }" alt="..." />
+												<img class="recruit_list_img_size" src="/resources/company_upload/${recruit.compId }/${recruit.compBrandImg }" alt="..." />
 											</div>
-											<div class="user_recruit_location company_name">${recruit.comp_nm }</div>
-											<div class="user_recruit_location company_title">${recruit.recruit_title }</div>
+											<div class="user_recruit_location company_name">${recruit.compNm }</div>
+											<div class="user_recruit_location company_title">${recruit.recruitTitle }</div>
 										</div>
 									</div>
 <!-- 								

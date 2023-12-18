@@ -35,12 +35,6 @@ public class Resume {
 		this.title = title;
 		this.img = img;
 	}
-	
-	// --연관관계 메서드--
-	public void addApplyList(Apply applyList) {
-		this.applyList.add(applyList);
-		applyList.setResume(this);
-	}
 
 	public void updateTitle(String title){this.title=title;}
 

@@ -2,9 +2,10 @@ package com.jobworld.project.dto.request.member;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter @Setter
 public class MemberRequestDto {
 	@Pattern(regexp = "^[a-z]+[a-z0-9]{5,19}$")
 	private String userId;

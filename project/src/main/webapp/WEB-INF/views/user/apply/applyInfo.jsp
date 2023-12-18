@@ -5,14 +5,14 @@
 <html>
 	<head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="resources/css/style.css">
+	<link rel="stylesheet" href="/resources/css/style.css">
 	<title>JobWorld</title>
 	</head>
 	<body style="background-color: rgba(0, 0, 0, 0.07)">
 		<section class="apply_info_page">
 			<div class="apply_info_header">
-				<div style="font-size:13px; color: #3399FF;"><b>${resume.comp_nm }</b></div>
-				<div style="font-size:16px;">${resume.recruit_title }</div>
+				<div style="font-size:13px; color: #3399FF;"><b>${resume.compNm }</b></div>
+				<div style="font-size:16px;">${resume.recruitTitle }</div>
 			</div>
 			<div class="apply_info_body">
 				<div class="apply_user_info">
@@ -20,10 +20,10 @@
 						<b>지원이력서</b>
 					</div>
 					<div class="user_info_middle">
-						${resume.resume_title }
+						${resume.resumeTitle }
 					</div>
 					<div class="user_info_bottom">
-						<div><span class="apply_font_color">이메일</span> <span class="apply_span_location">${resume.user_email }</span> <span class="apply_span_location apply_font_color">|</span> <span class="apply_span_location apply_font_color">휴대폰번호</span> <span class="apply_span_location">${resume.user_phone_num }</span></div> <div><span class="apply_span_location apply_user_update_button"><a href="resumeUpdate?resume_id=${resume.resume_id }">수정</a></span></div>
+						<div><span class="apply_font_color">이메일</span> <span class="apply_span_location">${resume.userEmail }</span> <span class="apply_span_location apply_font_color">|</span> <span class="apply_span_location apply_font_color">휴대폰번호</span> <span class="apply_span_location">${resume.userPhoneNum }</span></div> <div><span class="apply_span_location apply_user_update_button"><a href="/resume/update?resumeId=${resume.resumeId }">수정</a></span></div>
 					</div>
 				</div>
 				<p style="font-size:12px;">
@@ -32,9 +32,9 @@
 					<span>제출에 동의할 경우에만 [지원하기] 버튼을 클릭해주세요.</span><br>
 					<span>동의하지 않을 경우 입사지원이 불가능합니다.</span>
 				</p>
-				<form action="apply.do" method="post">
-				<input type="hidden" name="resume_id" value="${resume.resume_id }">
-				<input type="hidden" name="recruit_id" value="${resume.recruit_id }">
+				<form action="/apply" method="post">
+				<input type="hidden" name="resumeId" value="${resume.resumeId }">
+				<input type="hidden" name="recruitId" value="${resume.recruitId }">
 				<div class="apply_button_location">
 					<button type="submit" class="apply_info_button">지원하기</button>
 				</div>

@@ -10,8 +10,8 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div class="navbar_user_search">
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
-					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+					<a href="/"><img src="/resources/img/jobworldImg.png"></a>
+					<form id="searchSubmit" action="/search/user" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>
@@ -27,7 +27,7 @@
 		
 		</div>	
 	</div>
-	<script src="resources/js/new_window.js"></script>
+	<script src="/resources/js/new_window.js"></script>
 	</c:if>
 	
 	<c:if test="${sessionScope.login_type eq 0}">
@@ -38,15 +38,15 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div class="navbar_user_search">
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
-					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+					<a href="/"><img src="/resources/img/jobworldImg.png"></a>
+					<form id="searchSubmit" action="/search/user" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>
 						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
-						<a href="/resume/info?userId=${sessionScope.user_id }">이력서</a> <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> <a href="/member/logout">로그아웃</a>
+						<a href="/resume/info?userId=${sessionScope.user_id }">이력서</a> <a href="/apply/company/list?userId=${sessionScope.user_id }">입사지원현황</a> <a href="/member/logout">로그아웃</a>
 					</div>
 				</div>
 			</div>
@@ -66,8 +66,8 @@
 		<div class="navbar_center_location">
 			<div class="navbar_header">
 				<div class="navbar_user_search">
-					<a href="/"><img src="resources/img/jobworldImg.png"></a> 
-					<form id="searchSubmit" action="/userSearch.do" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+					<a href="/"><img src="/resources/img/jobworldImg.png"></a>
+					<form id="searchSubmit" action="/search/user" method="post"><input class="searchBox" type="text" name="userSearch"></form><button onclick="searchImg();"><img class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
 				</div>
 				<div class="navbar_menu">
 					<div>

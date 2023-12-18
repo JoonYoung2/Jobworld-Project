@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.jobworld.project.dto.applyViewDto.UserRecruitViewDTO;
-import com.jobworld.project.dto.companyRecruit.CompanyIndexViewDto;
+import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
+import com.jobworld.project.dto.request.company.CompanyIndexViewDto;
 import com.jobworld.project.service.HomeService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class HomeController {
 	 */
 	@GetMapping("/")
 	public String home(Model model) {
-		List<UserRecruitViewDTO> list = service.getUserRecruitViewInfo();
+		List<UserRecruitViewRequestDto> list = service.getUserRecruitViewInfo();
 		if(list != null) {
 			model.addAttribute("list", list);
 			return "user/index"; 			
@@ -49,7 +49,7 @@ public class HomeController {
 			return "company/index";
 		}
 		
-		model.addAttribute("comp_nm", list.get(0).getComp_nm());
+		model.addAttribute("comp_nm", list.get(0).getCompNm());
 		model.addAttribute("list", list);
 		
 		return "company/index"; 

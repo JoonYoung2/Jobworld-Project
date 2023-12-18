@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="/resources/css/style.css">
 <title>JobWorld</title>
 </head>
 <body>
@@ -35,8 +35,8 @@
 							<div class="recruit_info_frame">
 								<div class="recruit_info">
 									<div class="recruit_title">
-										<span class="company_name">${recruit.comp_nm }</span><br> <span
-											class="title_font">${recruit.recruit_title }</span>
+										<span class="company_name">${recruit.compNm }</span><br> <span
+											class="title_font">${recruit.recruitTitle }</span>
 									</div>
 									<div class="recruit_apply_condition">
 										<div>
@@ -47,11 +47,11 @@
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">경력</span></td>
-													<td>${recruit.recruit_career }</td>
+													<td>${recruit.recruitCareer }</td>
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">학력</span></td>
-													<td>${recruit.recruit_education }</td>
+													<td>${recruit.recruitEducation }</td>
 												</tr>
 											</table>
 										</div>
@@ -64,19 +64,19 @@
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">고용형태</span></td>
-													<td>${recruit.recruit_employment }</td>
+													<td>${recruit.recruitEmployment }</td>
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">급여</span></td>
-													<td>${recruit.recruit_salary }</td>
+													<td>${recruit.recruitSalary }</td>
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">지역</span></td>
-													<td>${recruit.recruit_area }</td>
+													<td>${recruit.recruitArea }</td>
 												</tr>
 												<tr>
 													<td><span class="recruit_font_color">시간</span></td>
-													<td>${recruit.recruit_time }</td>
+													<td>${recruit.recruitTime }</td>
 												</tr>
 											</table>
 										</div>
@@ -87,7 +87,7 @@
 									<div class="company_info_img">
 										<div>
 											<img class="recruit_list_img_size"
-												src="resources/company_upload/${recruit.comp_id }/${recruit.comp_brand_img }"
+												src="/resources/company_upload/${recruit.compId }/${recruit.compBrandImg }"
 												alt="..." />
 										</div>
 									</div>
@@ -98,19 +98,19 @@
 										</tr>
 										<tr>
 											<td><span class="recruit_font_color">업종(산업)</span></td>
-											<td>${recruit.comp_business_type }</td>
+											<td>${recruit.compBusinessType }</td>
 										</tr>
 										<tr>
 											<td><span class="recruit_font_color">사원수</span></td>
-											<td>${recruit.comp_empl_num }</td>
+											<td>${recruit.compEmplNum }</td>
 										</tr>
 										<tr>
 											<td><span class="recruit_font_color">기업형태</span></td>
-											<td>${recruit.comp_size }</td>
+											<td>${recruit.compSize }</td>
 										</tr>
 										<tr>
 											<td><span class="recruit_font_color">홈페이지</span></td>
-											<td>${recruit.comp_site }</td>
+											<td>${recruit.compSite }</td>
 										</tr>
 									</table>
 								</div>
@@ -122,9 +122,9 @@
 								<c:if test="${recruit.state eq 3 }">2차면접통과</c:if>
 								<c:if test="${recruit.state eq 4 }">최종합격</c:if>
 								<c:if test="${recruit.state eq 5 }">불합격</c:if>
-								<form action="applyCancel.do" method="post">
-									<input type="hidden" name="apply_id" value="${recruit.apply_id }">
-									<input type="hidden" name="user_id"
+								<form action="/apply/cancel" method="post">
+									<input type="hidden" name="applyId" value="${recruit.applyId }">
+									<input type="hidden" name="userId"
 										value="${sessionScope.user_id }">
 									<button type="submit">지원취소하기</button>
 								</form>

@@ -3,7 +3,7 @@ function newWindow(recruitId) {
 	var popupHeight = 1000;
 	var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	var popupY = (window.screen.height / 2) - (popupHeight / 2);
-	window.open("recruitInfo.go?recruit_id=" + recruitId, "JOBWORLD", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
+	window.open("/recruit/user/info?recruitId=" + recruitId, "JOBWORLD", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
 }
 
 function loginWindow() {
@@ -19,7 +19,7 @@ function companyLoginWindow() {
 	var popupHeight = 1000;
 	var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	var popupY = (window.screen.height / 2) - (popupHeight / 2);
-	window.open("companyLogin", "CompanyLogin", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
+	window.open("/company/login", "CompanyLogin", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
 }
 
 function registerWindow(){
@@ -35,5 +35,5 @@ function applyWindow(recruitId){
 			var popupHeight = 470;
 			var popupX = (window.screen.width / 2) - (popupWidth / 2);
 			var popupY= (window.screen.height / 2) - (popupHeight / 2);
-			window.open("apply?recruit_id=" + recruitId, "USERINFO", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
+			window.open("/apply?recruitId=" + recruitId, "USERINFO", 'status=no, height=' + popupHeight  + ', width=' + popupWidth  + ', left='+ popupX + ', top='+ popupY);
 		}
