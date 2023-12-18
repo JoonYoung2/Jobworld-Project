@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="/resources/css/style.css">
 <title>JobWorld</title>
 </head>
 <body>
@@ -16,12 +16,12 @@
 			<div class="member_login_text">
 				<div class="login_text_div">Member Login</div>
 			</div>
-			<form action="memberLogin.do" method="post">
+			<form action="/member/login" method="post">
 				<div class="login_form">
 					<div class="login_input">
-						<input type="text" name="user_id" value="${member.user_id }"
+						<input type="text" name="userId" value="${member.userId }"
 							placeholder="ID"><br> <input type="password"
-							name="user_pw" value="${member.user_pw }"
+							name="userPw" value="${member.userPw }"
 							placeholder="PASSWORD"><br>
 					</div>
 					<div>

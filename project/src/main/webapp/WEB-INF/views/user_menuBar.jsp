@@ -46,7 +46,7 @@
 						<!-- 다른 메뉴 넣을거 -->
 					</div>
 					<div>
-						<a href="resumeInfo?user_id=${sessionScope.user_id }">이력서</a> <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> <a href="memberLogout">로그아웃</a>			
+						<a href="/resume/info?userId=${sessionScope.user_id }">이력서</a> <a href="companyApplyList?user_id=${sessionScope.user_id }">입사지원현황</a> <a href="/member/logout">로그아웃</a>
 					</div>
 				</div>
 			</div>

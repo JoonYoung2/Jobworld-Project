@@ -2,7 +2,7 @@ package com.jobworld.project.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +55,7 @@ public class HomeController {
 		return "company/index"; 
 	}
 	
-	@GetMapping("admin")
+	@GetMapping("/admin")
 	public String admin() {
 		int loginType = (int)session.getAttribute("login_type");
 		if(loginType != 1) {

@@ -11,7 +11,7 @@ function loginWindow() {
 	var popupHeight = 300;
 	var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	var popupY = (window.screen.height / 2) - (popupHeight / 2);
-	window.open("memberLogin", "UserLogin", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
+	window.open("/member/login", "UserLogin", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
 }
 
 function companyLoginWindow() {
@@ -27,7 +27,7 @@ function registerWindow(){
 	var popupHeight = 800;
 	var popupX = (window.screen.width / 2) - (popupWidth / 2);
 	var popupY = (window.screen.height / 2) - (popupHeight / 2);
-	window.open("memberRegister", "UserRegister", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
+	window.open("/member/register", "UserRegister", 'status=no, height=' + popupHeight + ', width=' + popupWidth + ', left=' + popupX + ', top=' + popupY);
 }
 
 function applyWindow(recruitId){

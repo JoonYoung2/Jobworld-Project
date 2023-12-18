@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link rel="stylesheet" href="resources/css/style.css">
+<link rel="stylesheet" href="/resources/css/style.css">
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <title>JobWorld</title>
 </head>
@@ -13,12 +13,12 @@
 <%@ include file="/WEB-INF/views/user_menuBar.jsp"%>
 <br>
 <section class="resume_info_page">
-	<form action="personalInfoUpdate.do" method="post" enctype="multipart/form-data" id="personalInfo">
+	<form action="/resume/personal/update" method="post" enctype="multipart/form-data" id="personalInfo">
 		<div class="resume_header">
 			<div class="resume_header_location">
 				<div class="resume_title">
 					<div>
-						<input id="title" type="text" name="resume_title" value="${resume.resume_title }" style="all:unset; width: 900px;">
+						<input id="title" type="text" name="resumeTitle" value="${resume.resumeTitle }" style="all:unset; width: 900px;">
 					</div>
 				</div>
 				<div>
@@ -30,17 +30,17 @@
 					<div class="resume_user_info">
 						<div class="user_info__box">
 							<div class="user_info_box_batch">
-								<div class="user__name_input"><span style="font-size:10px;">이름<span style="color:red;">*</span></span><br><input id="nm" name="user_nm" type="text" value="${resume.user_nm }" readonly="readonly"></div>
-								<div class="user__birthday_input"><span style="font-size:10px;">생년월일<span style="color:red;">*</span></span><br><input id="birth" type="number" min="10000000" max="99999999" name="user_birthday" value="${resume.user_birthday }" readonly="readonly"></div>
-								<div class="user__phone"><span style="font-size:10px;">휴대폰번호<span style="color:red;">*</span></span><br><input id="phone" type="text" name="user_phone_num" value="${resume.user_phone_num }"></div>						
+								<div class="user__name_input"><span style="font-size:10px;">이름<span style="color:red;">*</span></span><br><input id="nm" name="userNm" type="text" value="${resume.userNm }" readonly="readonly"></div>
+								<div class="user__birthday_input"><span style="font-size:10px;">생년월일<span style="color:red;">*</span></span><br><input id="birth" type="number" min="10000000" max="99999999" name="userBirthday" value="${resume.userBirthday }" readonly="readonly"></div>
+								<div class="user__phone"><span style="font-size:10px;">휴대폰번호<span style="color:red;">*</span></span><br><input id="phone" type="text" name="userPhoneNum" value="${resume.userPhoneNum }"></div>
 							</div>
-							<input type="hidden" id="sample6_postcode" name="zip_cd" value="${resume.zip_cd }" readonly="readonly">
+							<input type="hidden" id="sample6_postcode" name="zipCd" value="${resume.zipCd }" readonly="readonly">
 							<input type="button" id="codeZip" onClick="sample6_execDaumPostcode()" value="우편번호" style="display:none;">
 							<input type="hidden" id="sample6_extraAddress" readonly="readonly">
 							<div class="user_info_box_batch user_info_box_batch_two">
-								<div class="user__address__info" onclick="addressInputClick();"><span style="font-size:10px;">주소</span><br><input style="width:300px;" id="sample6_address" type="text" name="address_info" value="${resume.address_info }" readonly="readonly"></div>	
-								<div class="user__address__detail"><span style="font-size:10px;">상세주소</span><br><input id="sample6_detailAddress" name="address_detail" type="text" value="${resume.address_detail }" style="width:100px;"></div>					
-								<div class="user__email"><span style="font-size:10px;">이메일<span style="color:red;">*</span></span><br><input id="email" type="text" name="user_email" value="${resume.user_email }"></div>
+								<div class="user__address__info" onclick="addressInputClick();"><span style="font-size:10px;">주소</span><br><input style="width:300px;" id="sample6_address" type="text" name="addressInfo" value="${resume.addressInfo }" readonly="readonly"></div>
+								<div class="user__address__detail"><span style="font-size:10px;">상세주소</span><br><input id="sample6_detailAddress" name="addressDetail" type="text" value="${resume.addressDetail }" style="width:100px;"></div>
+								<div class="user__email"><span style="font-size:10px;">이메일<span style="color:red;">*</span></span><br><input id="email" type="text" name="userEmail" value="${resume.userEmail }"></div>
 							</div>
 							<div class="resume_person_info_update">
 								<div class="user_info_box_batch resume_person_button_zone">
@@ -51,10 +51,10 @@
 						
 						<!-- User Image Zone -->
 						<div class="resume_update_img_zone">
-							<a onclick="fileSelect();"><img id="userImgFile"style="width: 130px;" src="resources/upload/${sessionScope.user_id }/${resume.user_img}" alt="..." /></a>
+							<a onclick="fileSelect();"><img id="userImgFile"style="width: 130px;" src="/resources/upload/${sessionScope.user_id }/${resume.userImg}" alt="..." /></a>
 							<a onclick="fileSelect();"><img id="preview" alt="Preview"/></a>
-							<input type="hidden" name="resume_id" value="${resume.resume_id }">
-							<input type="hidden" name="user_id" value="${resume.user_id }">
+							<input type="hidden" name="resumeId" value="${resume.resumeId }">
+							<input type="hidden" name="userId" value="${resume.userId }">
 							<input type="file" name="file" id="file" style="display:none;" onchange="previewImage(event);">
 						</div>
 					</div>
@@ -63,7 +63,7 @@
 		</div>
 	</form>
 </section>
-<script src="resources/js/resume_update_regex.js"></script>
-<script	src="resources/js/search_road.js"></script>
+<script src="/resources/js/resume_update_regex.js"></script>
+<script	src="/resources/js/search_road.js"></script>
 </body>
 </html>

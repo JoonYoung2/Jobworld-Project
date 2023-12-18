@@ -1,22 +1,22 @@
 package com.jobworld.project.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-import com.jobworld.project.dto.MemberDTO;
+import com.jobworld.project.dto.request.member.MemberRequestDto;
+import lombok.RequiredArgsConstructor;
 
 @Entity
 @Table(name = "jwUserInfo")
-@Getter @Setter
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
 	@Id
 	@Column(name = "userId")
 	private String id;
-	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
-	private Resume resume;
 
 	@Column(name = "userPw")
 	private String pw;
@@ -33,27 +33,36 @@ public class Member {
 	@Column(name = "userPhoneNum")
 	private String phoneNum;
 
-	private String zip_cd;
+	private String zipCd;
 
-	private String address_info;
+	private String addressInfo;
 
-	private String address_detail;
+	private String addressDetail;
 
-	private int login_type;
+	private int loginType;
 
-	public static Member setMember(MemberDTO dto) {
-		Member member = new Member();
-		member.setId(dto.getUser_id());
-		member.setPw(dto.getUser_pw());
-		member.setName(dto.getUser_nm());
-		member.setBirthday(dto.getUser_birthday());
-		member.setEmail(dto.getUser_email());
-		member.setPhoneNum(dto.getUser_phone_num());
-		member.setZip_cd(dto.getZip_cd());
-		member.setAddress_info(dto.getAddress_info());
-		member.setAddress_detail(dto.getAddress_detail());
-		member.setLogin_type(0);
-		
-		return member;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "member")
+	private Resume resume;
+
+	@Builder
+	Member (MemberRequestDto memberRequestDto) {
+		this.id = memberRequestDto.getUserId();
+		this.pw = memberRequestDto.getUserPw();
+		this.name = memberRequestDto.getUserNm();
+		this.birthday = memberRequestDto.getUserBirthday();
+		this.email = memberRequestDto.getUserEmail();
+		this.phoneNum = memberRequestDto.getUserPhoneNum();
+		this.zipCd = memberRequestDto.getZipCd();
+		this.addressInfo = memberRequestDto.getAddressInfo();
+		this.addressDetail = memberRequestDto.getAddressDetail();
+		this.loginType = memberRequestDto.getLoginType();
 	}
+
+	public void updateName(String name){this.name=name;}
+	public void updateBirthday(String birthday){this.birthday=birthday;}
+	public void updateEmail(String email){this.email=email;}
+	public void updatePhoneNum(String phoneNum){this.phoneNum=phoneNum;}
+	public void updateZipCd(String zipCd){this.zipCd=zipCd;}
+	public void updateAddressInfo(String addressInfo){this.addressInfo=addressInfo;}
+	public void updateAddressDetail(String addressDetail){this.addressDetail=addressDetail;}
 }

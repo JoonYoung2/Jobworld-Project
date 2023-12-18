@@ -1,66 +1,16 @@
 package com.jobworld.project.repository;
 
-import java.util.List;
-
-import jakarta.persistence.EntityManager;
-
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jobworld.project.domain.Resume;
+import org.springframework.data.jpa.repository.Query;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-@RequiredArgsConstructor
-@Slf4j
-public class ResumeRepository {
-	
-	private final EntityManager em;
-	
-	public void save(Resume resume) {
-		try {
-			em.persist(resume);			
-		}catch(Exception e) {
-			log.error("ResumeRepository save(ResumeDomain) error --> {}", e);
-		}
-	}
-	
-	public void update(Resume resume) {
-		Resume find = findOne(resume.getId());
-			
-			find.setImg(resume.getImg());
-			find.setTitle(resume.getTitle());
-	}
-	
-	public Resume findOne(int id) {
-		Resume find = em.find(Resume.class, id);
-		
-        return find;
-    }
-	
-//	public List<Resume> findByName(String user_id) {
-//		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
-//				.setParameter("user_id", user_id)
-//				.getResultList();
-//	}
-	
-	public List<Resume> findByName(String user_id) {
-		return em.createQuery("select r from Resume r where r.member.id = :user_id", Resume.class)
-				.setParameter("user_id", user_id)
-				.getResultList();
-	}
-	
-	public List<Resume> findByRecruitId(Long id){
-		return em.createQuery("select r from Resume r where r.recruit.id = :id", Resume.class)
-				.setParameter("id", id)
-				.getResultList();
-	}
-	
-	public List<Resume> findById(int id){
-		return em.createQuery("select r from Resume r where r.id = :id", Resume.class)
-				.setParameter("id", id)
-				.getResultList();
-	}
-	 
+public interface ResumeRepository extends JpaRepository<Resume, Long> {
+
+	@Query("SELECT r FROM Resume r WHERE r.member.id = :memberId")
+	List<Resume> findByMemberId(String memberId);
 }

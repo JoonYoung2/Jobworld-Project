@@ -3,8 +3,8 @@ package com.jobworld.project.controller;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
+import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jobworld.project.dto.ApplyDTO;
-import com.jobworld.project.dto.ResumeDTO;
-import com.jobworld.project.dto.applyViewDto.UserCompanyRecruitInfoDTO;
 import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.apply.CompApplyStatusDTO;
 import com.jobworld.project.repository.apply.UserApplyStatusDTO;
@@ -29,9 +27,9 @@ public class ApplyController {
 	private final ApplyService service;
 	
 	@GetMapping("apply")
-	public String applyInfo(@RequestParam("recruit_id") Long recruit_id, Model model, HttpServletResponse response){
-		ResumeDTO resume = service.getUserResume();
-		if(resume == null) {
+	public String applyInfo(@RequestParam("recruitId") Long recruitId, Model model, HttpServletResponse response){
+		ResumeResponseDto resumeResponseDto = service.getUserResume();
+		if(resumeResponseDto == null) {
 //			UserCompanyRecruitInfoDTO dto = recruitService.recruitInfo(recruit_id);
 //			model.addAttribute("msg", "지원서 작성 후 지원해주시기 바랍니다.");
 //			model.addAttribute("recruit", dto);
@@ -39,7 +37,7 @@ public class ApplyController {
 			return "user/recruit/recruitInfo";
 		}
 		
-		UserResumeRecruitDTO applyInfo = service.getApplyInfo(recruit_id, resume.getResume_id());
+		UserResumeRecruitDTO applyInfo = service.getApplyInfo(recruitId, resumeResponseDto.getResumeId());
 		model.addAttribute("resume", applyInfo);
 		return "user/apply/applyInfo";
 	}
@@ -88,7 +86,7 @@ public class ApplyController {
 	
 	@GetMapping("companyApplyList")
 	public String companyApplyList(@RequestParam("user_id") String user_id, Model model) {
-		int resume_id = service.getResumeId(user_id);
+		Long resume_id = service.getResumeId(user_id);
 		if(resume_id == 0) {
 			return "user/apply/applyList";
 		}
@@ -106,7 +104,7 @@ public class ApplyController {
 	public String applyCancel(ApplyDto dto, Model model) {
 		System.out.println("applyId = " + dto.getApply_id());
 		service.applyCancel(dto.getApply_id());
-		int resume_id = service.getResumeId(dto.getUser_id());
+		Long resume_id = service.getResumeId(dto.getUser_id());
 		if(resume_id == 0) {
 			return "user/apply/applyList";
 		}

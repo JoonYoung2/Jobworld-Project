@@ -21,7 +21,7 @@ public class ApplyRepository {
 		em.persist(apply);
 	}
 
-	public List<Apply> checkApplyUser(Long recruit_id, int resume_id) {
+	public List<Apply> checkApplyUser(Long recruit_id, Long resume_id) {
 		TypedQuery<Apply> query = em.createQuery("select a from Apply a where a.recruit.id = :recruit_id and a.resume.id = :resume_id", Apply.class)
 				.setParameter("recruit_id", recruit_id)
 				.setParameter("resume_id", resume_id);

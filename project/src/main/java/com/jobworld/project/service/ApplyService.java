@@ -3,8 +3,9 @@ package com.jobworld.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
+import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.exception.NotFoundException;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.domain.Resume;
 import com.jobworld.project.dto.ApplyDTO;
 import com.jobworld.project.dto.RecruitDTO;
-import com.jobworld.project.dto.ResumeDTO;
+import com.jobworld.project.dto.request.resume.ResumeRequestDto;
 import com.jobworld.project.dto.applyViewDto.UserResumeRecruitDTO;
 import com.jobworld.project.repository.ApplyRepository;
 import com.jobworld.project.repository.RecruitRepository;
@@ -32,11 +33,11 @@ public class ApplyService {
 	private final RecruitRepository recruitRepository;
 	private final HttpSession session;
 
-	public ResumeDTO getUserResume() {
-		List<Resume> list = resumeRepository.findByName(session.getAttribute("user_id").toString());
+	public ResumeResponseDto getUserResume() {
+		List<Resume> list = resumeRepository.findByMemberId(session.getAttribute("user_id").toString());
 		if(list.size() > 0) {
 			Resume resume = list.get(0);
-			ResumeDTO dto = setResume(resume);
+			ResumeResponseDto dto = setResumeResponseDto(resume);
 			return dto;
 		}else
 			return null;
@@ -50,7 +51,9 @@ public class ApplyService {
 
 	@Transactional
 	public String applySave(ApplyDTO dto) {
-		Resume resume = resumeRepository.findOne(dto.getResume_id());
+		Resume resume = resumeRepository.findById(dto.getResume_id()).orElseThrow(
+				() -> new NotFoundException("찾는 이력서가 존재하지 않습니다.")
+		);
 		Recruit recruit = recruitRepository.findOne(dto.getRecruit_id());
 		List<Apply> applyCheck = repo.checkApplyUser(dto.getRecruit_id(), dto.getResume_id());
 		System.out.println("size == > " + applyCheck.size());
@@ -75,12 +78,8 @@ public class ApplyService {
 	}
 	
 
-	private ResumeDTO setResume(Resume resume) {
-		ResumeDTO dto = new ResumeDTO();
-		dto.setResume_id(resume.getId());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_id(resume.getMember().getId());
-		dto.setUser_img(resume.getImg());
+	private ResumeResponseDto setResumeResponseDto(Resume resume) {
+		ResumeResponseDto dto = ResumeResponseDto.fromEntity(resume);
 		return dto;
 	}
 
@@ -104,7 +103,8 @@ public class ApplyService {
 		List<UserApplyStatusDTO> list = new ArrayList<>();
 		for(int i = 0; i < check.size(); ++i) {
 			UserApplyStatusDTO dto = new UserApplyStatusDTO();
-			Resume resume = resumeRepository.findOne(check.get(i).getResume_id());
+			Resume resume = resumeRepository.findById(check.get(i).getResume_id()).orElseThrow(
+					() -> new NotFoundException("찾는 이력서가 없습니다."));
 			dto.setApply_id(check.get(i).getApply_id());
 			dto.setState(check.get(i).getApply_state());
 			dto.setResume_title(resume.getTitle());
@@ -115,20 +115,20 @@ public class ApplyService {
 			dto.setUser_nm(resume.getMember().getName());
 			dto.setResume_id(resume.getId());
 			dto.setUser_phone_num(resume.getMember().getPhoneNum());
-			dto.setZip_cd(resume.getMember().getZip_cd());
-			dto.setAddress_info(resume.getMember().getAddress_info());
-			dto.setAddress_detail(resume.getMember().getAddress_detail());
+			dto.setZip_cd(resume.getMember().getZipCd());
+			dto.setAddress_info(resume.getMember().getAddressInfo());
+			dto.setAddress_detail(resume.getMember().getAddressDetail());
 			list.add(dto);
 		}
 		return list;
 	}
 
-	public int getResumeId(String user_id) {
-		List<Resume> resume = resumeRepository.findByName(user_id);
+	public Long getResumeId(String user_id) {
+		List<Resume> resume = resumeRepository.findByMemberId(user_id);
 		if(resume.size()>0) {
-			return resume.get(0).getId();			
+			return resume.get(0).getId();
 		}else
-			return 0;
+			return 0L;
 	}
 
 	public List<ApplyDTO> getApplyInfo(int resume_id) {
@@ -182,9 +182,10 @@ public class ApplyService {
 		return recruit_id;
 	}
 
-	public UserResumeRecruitDTO getApplyInfo(Long recruit_id, int resume_id) {
+	public UserResumeRecruitDTO getApplyInfo(Long recruit_id, Long resumeId) {
 		Recruit recruit = recruitRepository.findOne(recruit_id);
-		Resume resume = resumeRepository.findOne(resume_id);
+		Resume resume = resumeRepository.findById(resumeId).orElseThrow(
+				() -> new NotFoundException("찾는 이력서가 없습니다."));
 		UserResumeRecruitDTO dto = setUserResumeRecruitDto(recruit, resume);
 		return dto;
 	}

@@ -6,7 +6,7 @@ import lombok.Data;
 public class UserApplyStatusDTO {
 	private String user_id;
 	private Long apply_id;
-	private int resume_id;
+	private Long resume_id;
 	private String user_birthday;
 	private String user_email;
 	private String user_nm;

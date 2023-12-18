@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import javax.servlet.http.HttpSession;
-
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CompanyController {
 	private final CompService service;
 	private final HttpSession session;
+	private static final String directory = "D:\\jobword_test\\project\\src\\main\\webapp\\resources\\company_upload\\";
 	
 	@GetMapping("companyLogin")
 	public String login() {
@@ -179,7 +179,6 @@ public class CompanyController {
 	}
 
 	private String uploadFile(MultipartFile file, String comp_id) {
-		String directory = "D:\\jobworld_controller\\jobworld_project\\project\\src\\main\\webapp\\resources\\company_upload\\";
 		String originalName = file.getOriginalFilename();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
 		Calendar cal = Calendar.getInstance();

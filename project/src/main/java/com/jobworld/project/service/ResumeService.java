@@ -1,5 +1,8 @@
 package com.jobworld.project.service;
 
+import com.jobworld.project.dto.request.resume.UserResumeRequestDto;
+import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -7,9 +10,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
-import com.jobworld.project.dto.ResumeDTO;
-import com.jobworld.project.dto.resumeInfoDto.UserResumeDTO;
-import com.jobworld.project.dto.resumeInfoDto.UserResumeMultiDTO;
+import com.jobworld.project.dto.request.resume.ResumeRequestDto;
+import com.jobworld.project.dto.response.resume.UserResumeResponseDto;
+import com.jobworld.project.dto.response.resume.UserResumeMultiDto;
 import com.jobworld.project.repository.MemberRepositoryOld;
 import com.jobworld.project.repository.ResumeRepository;
 
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,16 +34,10 @@ public class ResumeService {
 	private final ResumeRepository repo;
 	private final MemberRepositoryOld memberRepository;
 
-	private static String dir = "D:\\jobworld_controller\\jobworld_project\\project\\src\\main\\webapp\\resources\\upload\\";
+	private static final String dir = "D:\\jobword_test\\project\\src\\main\\webapp\\resources\\upload\\";
 
-	private ResumeDTO setResume(Resume resume) {
-		ResumeDTO dto = new ResumeDTO();
-
-		dto.setResume_id(resume.getId());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_id(resume.getMember().getId());
-		dto.setUser_img(resume.getImg());
-		return dto;
+	private ResumeResponseDto setResume(Resume resume) {
+		return ResumeResponseDto.fromEntity(resume);
 	}
 
 	public String userImgSave(MultipartFile file, String user_id) {
@@ -81,202 +79,162 @@ public class ResumeService {
 	}
 	
 	@Transactional
-	public String resumeWrite(UserResumeMultiDTO dto) {
-		String user_id = dto.getUser_id();
-		String resume_title = dto.getResume_title();
-		MultipartFile file = dto.getFile();
-		if (resume_title == null || resume_title.equals("")) {
+	public String resumeWrite(ResumeRequestDto resumeRequestDto) {
+		String userId = resumeRequestDto.getUserId();
+		String resumeTitle = resumeRequestDto.getResumeTitle();
+		MultipartFile file = resumeRequestDto.getFile();
+		if (resumeTitle == null || resumeTitle.equals("")) {
 			return "제목을 입력해주세요.";
 		}
 		if (file == null || file.isEmpty()) {
 			return "업로드 파일을 등록해주세요.";
 		}
-		String user_img = userImgSave(file, user_id);
-		Member member = memberRepository.findOne(user_id);
-		Resume resume = Resume.createResume(member, user_id, user_img, resume_title);
+		String userImg = userImgSave(file, userId);
+		Member member = memberRepository.findOne(userId);
+
+		Resume resume = Resume
+				.builder()
+				.member(member)
+				.title(resumeTitle)
+				.img(userImg)
+				.build();
 		repo.save(resume);
 		return "쓰기 성공";
 	}
 
-//	@Transactional
-//	public String resumeWrite(MultipartHttpServletRequest multi) {
-//		String user_id = multi.getParameter("user_id");
-//		String resume_title = multi.getParameter("resume_title");
-//		MultipartFile file = multi.getFile("file");
-//		if (resume_title == null || resume_title.equals("")) {
-//			return "제목을 입력해주세요.";
-//		}
-//		if (file == null || file.isEmpty()) {
-//			return "업로드 파일을 등록해주세요.";
-//		}
-//		String user_img = userImgSave(file, user_id);
-//		Member member = memberRepository.findOne(user_id);
-//		Resume resume = Resume.createResume(member, user_id, user_img, resume_title);
-//		repo.save(resume);
-//		return "쓰기 성공";
-//	}
-
 	@Transactional
 	public String resumeUpdate(Resume resume) {
-		try {
-			Resume update = repo.findOne(resume.getId());
-			update.setImg(resume.getImg());
-			update.setTitle(resume.getTitle());
-			return "수정 완료";
-		} catch (Exception e) {
-			log.error("ResumeService resumeUpdate(Resume) error --> {}", e);
-		}
-		return "수정 실패";
+		Resume update = repo.findById(resume.getId()).orElseThrow(
+				() -> new NotFoundException("찾는 이력서가 존재하지 않습니다."));
+		update.updateImg(resume.getImg());
+		update.updateTitle(resume.getTitle());
+		return "수정 완료";
 	}
 
-	public String resumeFind(String user_id) {
-		String msg = validateDuplicateResume(user_id);
+	public String resumeFind(String userId) {
+		String msg = validateDuplicateResume(userId);
 		return msg;
 	}
 
-	private String validateDuplicateResume(String user_id) {
-		List<Resume> list = repo.findByName(user_id);
+	private String validateDuplicateResume(String memberId) {
+		List<ResumeResponseDto> list = repo.findByMemberId(memberId)
+				.stream().map(ResumeResponseDto::fromEntity).toList();
 		String msg = "";
 		if(list.size()>0) 
 			msg = "있음";
 		else
 			msg = "없음";
-
+		log.info("msg => {}", msg);
 		return msg;
 	}
 	
-	public ResumeDTO getResume(String user_id) {
-		List<Resume> list = repo.findByName(user_id);
+	public ResumeResponseDto getResume(String memberId) {
+		List<ResumeResponseDto> list = repo.findByMemberId(memberId)
+				.stream().map(ResumeResponseDto::fromEntity).toList();
 		if(list.size() > 0) {
-			Resume resume = list.get(0);
-			ResumeDTO dto = setResume(resume);
-			return dto;			
+			return list.get(0);
 		}
-		
 		return null;
 	}
 
-	public UserResumeDTO getUserResumeDto(String user_id) {
-		List<Resume> list = repo.findByName(user_id);
+	public UserResumeResponseDto getUserResumeDto(String memberId) {
+		List<Resume> list = repo.findByMemberId(memberId);
 		if(list.size() > 0) {
-			Resume resume = list.get(0);
-			UserResumeDTO dto = setUserResumeDto(resume);
-			return dto;			
+			return UserResumeResponseDto.fromEntity(list.get(0));
 		}
-		
 		return null;
 	}
-	public UserResumeDTO getUserResumeDto(int resume_id) {
-		List<Resume> list = repo.findById(resume_id);
-		if(list.size() > 0) {
-			Resume resume = list.get(0);
-			UserResumeDTO dto = setUserResumeDto(resume);
-			return dto;			
-		}
-		
-		return null;
+	public UserResumeResponseDto getUserResumeDto(Long resumeId) {
+		Resume resume = repo.findById(resumeId).orElseThrow(
+				() -> new NotFoundException("이력서가 존재하지 않습니다."));
+		return UserResumeResponseDto.fromEntity(resume);
 	}
 
-	private UserResumeDTO setUserResumeDto(Resume resume) {
-		UserResumeDTO dto = new UserResumeDTO();
-		
-		dto.setUser_id(resume.getMember().getId());
-		dto.setAddress_detail(resume.getMember().getAddress_detail());
-		dto.setAddress_info(resume.getMember().getAddress_info());
-		dto.setResume_id(resume.getId());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_birthday(resume.getMember().getBirthday());
-		dto.setUser_email(resume.getMember().getEmail());
-		dto.setUser_img(resume.getImg());
-		dto.setUser_nm(resume.getMember().getName());
-		dto.setUser_phone_num(resume.getMember().getPhoneNum());
-		dto.setZip_cd(resume.getMember().getZip_cd());
-		
-		return dto;
-	}
-
-	public ResumeDTO getResumeInfo(int resume_id) {
-		Resume getResume = repo.findOne(resume_id);
-		ResumeDTO resume = setResume(getResume);
-		return resume;
+	public ResumeResponseDto getResumeInfo(Long resume_id) {
+		Resume resume = repo.findById(resume_id).orElseThrow(
+				() -> new NotFoundException("이력서가 존재하지 않습니다."));
+		ResumeResponseDto resumeRequestDto = ResumeResponseDto.fromEntity(resume);
+		return resumeRequestDto;
 	}
 
 	@Transactional
-	public UserResumeDTO imgUpdate(MultipartHttpServletRequest multi) {
-		int resume_id = Integer.parseInt(multi.getParameter("resume_id"));
-		String user_id = multi.getParameter("user_id");
+	public ResumeResponseDto imgUpdate(MultipartHttpServletRequest multi) {
+		Long resumeId = Long.parseLong(multi.getParameter("resumeId"));
+		String userId = multi.getParameter("userId");
 		MultipartFile file = multi.getFile("file");
 		if (file == null || file.isEmpty()) {
-			Resume resume = repo.findOne(resume_id);
-			UserResumeDTO dto = setUserResumeDto(resume);
+			Resume resume = repo.findById(resumeId).orElseThrow(
+					() -> new NotFoundException("이력서가 존재하지 않습니다.")
+			);
+			ResumeResponseDto dto = ResumeResponseDto.fromEntity(resume);
 			return dto;
 		}
 		// 폴더 및 파일 삭제
-		folderDelete(user_id);
+		folderDelete(userId);
 
-		String user_img = userImgSave(file, user_id);
+		String userImg = userImgSave(file, userId);
 
-		Resume resume = repo.findOne(resume_id);
-		resume.setImg(user_img);
+		Resume resume = repo.findById(resumeId).orElseThrow(
+				() -> new NotFoundException("이력서가 존재하지 않습니다.")
+		);
+		resume.updateImg(userImg);
 
-		UserResumeDTO dto = setUserResumeDto(resume);
-		
-		return dto;
+		return ResumeResponseDto.fromEntity(resume);
 	}
 
 	@Transactional
-	public ResumeDTO resumeUpdate(ResumeDTO dto) {
-		Resume resume = repo.findOne(dto.getResume_id());
-		resume.setTitle(dto.getResume_title());
-
-		dto.setResume_id(resume.getId());
-		dto.setUser_img(resume.getImg());
-		dto.setResume_title(resume.getTitle());
-		dto.setUser_id(resume.getMember().getId());
-		return dto;
+	public ResumeResponseDto resumeUpdate(ResumeRequestDto resumeRequestDto) {
+		Resume resume = repo.findById(resumeRequestDto.getResumeId()).orElseThrow(
+				() -> new NotFoundException("이력서가 존재하지 않습니다.")
+		);
+		resume.updateTitle(resumeRequestDto.getResumeTitle());
+		return ResumeResponseDto.fromEntity(resume);
 	}
 
 	@Transactional
-	public UserResumeDTO personalInfoUpdate(UserResumeDTO dto) {
-		UserResumeDTO userResumeDto = setPersonalMulti(dto);
-		Resume resume = repo.findOne(userResumeDto.getResume_id());
-		UserResumeDTO userResume = personResumeUpdate(userResumeDto, resume);
-		return userResume;
+	public UserResumeResponseDto personalInfoUpdate(UserResumeRequestDto dto) {
+		UserResumeRequestDto userResumeDto = setPersonalMulti(dto);
+		Resume resume = repo.findById(userResumeDto.getResumeId()).orElseThrow(
+				() -> new NotFoundException("이력서가 존재하지 않습니다.")
+		);
+		UserResumeRequestDto userResume = personResumeUpdate(userResumeDto, resume);
+
+		return UserResumeResponseDto.fromEntity(resume);
 	}
 
-	private UserResumeDTO personResumeUpdate(UserResumeDTO userResumeDto, Resume resume) {
-		if(userResumeDto.getZip_cd() != resume.getMember().getZip_cd()) {
-			resume.getMember().setZip_cd(userResumeDto.getZip_cd());
-			resume.getMember().setAddress_info(userResumeDto.getAddress_info());
+	private UserResumeRequestDto personResumeUpdate(UserResumeRequestDto userResumeDto, Resume resume) {
+		if(userResumeDto.getZipCd() != resume.getMember().getZipCd()) {
+			resume.getMember().updateZipCd(userResumeDto.getZipCd());
+			resume.getMember().updateAddressInfo(userResumeDto.getAddressInfo());
 		}
 		
-		if(userResumeDto.getAddress_detail() != resume.getMember().getAddress_detail()) 
-			resume.getMember().setAddress_detail(userResumeDto.getAddress_detail());
+		if(userResumeDto.getAddressDetail() != resume.getMember().getAddressDetail())
+			resume.getMember().updateAddressDetail(userResumeDto.getAddressDetail());
 		
-		if(userResumeDto.getResume_title() != resume.getTitle())
-			resume.setTitle(userResumeDto.getResume_title());
+		if(userResumeDto.getResumeTitle() != resume.getTitle())
+			resume.updateTitle(userResumeDto.getResumeTitle());
 		
-		if(userResumeDto.getUser_birthday() != resume.getMember().getBirthday())
-			resume.getMember().setBirthday(userResumeDto.getUser_birthday());
+		if(userResumeDto.getUserBirthday() != resume.getMember().getBirthday())
+			resume.getMember().updateBirthday(userResumeDto.getUserBirthday());
 		
-		if(userResumeDto.getUser_email() != resume.getMember().getEmail()) 
-			resume.getMember().setEmail(userResumeDto.getUser_email());
+		if(userResumeDto.getUserEmail() != resume.getMember().getEmail())
+			resume.getMember().updateEmail(userResumeDto.getUserEmail());
 		
-		if(userResumeDto.getUser_img() != null)
-			resume.setImg(userResumeDto.getUser_img());
+		if(userResumeDto.getUserImg() != null)
+			resume.updateImg(userResumeDto.getUserImg());
 		else
-			userResumeDto.setUser_img(resume.getImg());
+			userResumeDto.setUserImg(resume.getImg());
 		
-		if(userResumeDto.getUser_nm() != resume.getMember().getName())
-			resume.getMember().setName(userResumeDto.getUser_nm());
+		if(userResumeDto.getUserNm() != resume.getMember().getName())
+			resume.getMember().updateName(userResumeDto.getUserNm());
 		
-		if(userResumeDto.getUser_phone_num() != resume.getMember().getPhoneNum())
-			resume.getMember().setPhoneNum(userResumeDto.getUser_phone_num());
+		if(userResumeDto.getUserPhoneNum() != resume.getMember().getPhoneNum())
+			resume.getMember().updatePhoneNum(userResumeDto.getUserPhoneNum());
 		
 		return userResumeDto;
 	}
 
-	private UserResumeDTO setPersonalMulti(UserResumeDTO dto) {
+	private UserResumeRequestDto setPersonalMulti(UserResumeRequestDto dto) {
 		
 		MultipartFile file = dto.getFile();
 		
@@ -284,8 +242,8 @@ public class ResumeService {
 			return dto;
 		}
 		
-		folderDelete(dto.getUser_id());
-		dto.setUser_img(userImgSave(file, dto.getUser_id()));
+		folderDelete(dto.getUserId());
+		dto.setUserImg(userImgSave(file, dto.getUserId()));
 		
 		return dto;
 	}

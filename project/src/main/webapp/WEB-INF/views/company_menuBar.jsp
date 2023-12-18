@@ -61,7 +61,7 @@
 	</div>
 </c:if>
 
-<script>
+    <script>
 		var searchSubmit = document.getElementById("searchSubmit");
 		function searchImg(){
 			searchSubmit.submit();
