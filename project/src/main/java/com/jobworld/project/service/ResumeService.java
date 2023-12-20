@@ -33,8 +33,6 @@ public class ResumeService {
 	private final ResumeRepository repo;
 	private final MemberRepository memberRepository;
 
-	private static final String dir = "D:\\jobword_test\\project\\src\\main\\webapp\\resources\\upload\\";
-
 	private ResumeResponseDto setResume(Resume resume) {
 		return ResumeResponseDto.fromEntity(resume);
 	}
@@ -44,6 +42,7 @@ public class ResumeService {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
 		Calendar cal = Calendar.getInstance();
 		String fileName = sdf.format(cal.getTime()) + originalName;
+		String dir = getDirectory();
 		String path = dir + user_id + "\\" + fileName;
 		File targetFile = new File(path);
 		if (targetFile.exists() == false) {
@@ -60,6 +59,7 @@ public class ResumeService {
 	}
 
 	public void folderDelete(String user_id) {
+		String dir = getDirectory();
 		String path = dir + user_id;
 		File folder = new File(path);
 		try {
@@ -113,18 +113,6 @@ public class ResumeService {
 
 	public String resumeFind(String userId) {
 		String msg = validateDuplicateResume(userId);
-		return msg;
-	}
-
-	private String validateDuplicateResume(String memberId) {
-		List<ResumeResponseDto> list = repo.findByMemberId(memberId)
-				.stream().map(ResumeResponseDto::fromEntity).toList();
-		String msg = "";
-		if(list.size()>0) 
-			msg = "있음";
-		else
-			msg = "없음";
-		log.info("msg => {}", msg);
 		return msg;
 	}
 	
@@ -200,6 +188,23 @@ public class ResumeService {
 		UserResumeRequestDto userResume = personResumeUpdate(userResumeDto, resume);
 
 		return UserResumeResponseDto.fromEntity(resume);
+	}
+
+	private String getDirectory(){
+		String currentDirectory = System.getProperty("user.dir");
+		return currentDirectory + "\\src\\main\\webapp\\resources\\upload\\";
+	}
+
+	private String validateDuplicateResume(String memberId) {
+		List<ResumeResponseDto> list = repo.findByMemberId(memberId)
+				.stream().map(ResumeResponseDto::fromEntity).toList();
+		String msg = "";
+		if(list.size()>0)
+			msg = "있음";
+		else
+			msg = "없음";
+		log.info("msg => {}", msg);
+		return msg;
 	}
 
 	private UserResumeRequestDto personResumeUpdate(UserResumeRequestDto userResumeDto, Resume resume) {

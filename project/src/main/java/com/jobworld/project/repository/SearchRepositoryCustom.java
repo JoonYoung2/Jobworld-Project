@@ -17,6 +17,4 @@ public interface SearchRepositoryCustom {
 	List<Recruit> getRecruitSearchInfo(String userSearch);
 
 	List<Recruit> getRecruitSearchInfo(String companySearch, String compId);
-
-	Optional<Company> getCompanyById(String id);
 }

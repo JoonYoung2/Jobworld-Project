@@ -10,7 +10,7 @@ import lombok.*;
 @Getter
 @Table(name="jwResumeInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Resume {
+public class Resume extends BaseAuditingListener {
 	
 	@Id @GeneratedValue
 	@Column(name="resume_id")

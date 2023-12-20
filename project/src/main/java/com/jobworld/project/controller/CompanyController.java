@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CompanyController {
 	private final CompService service;
 	private final HttpSession session;
-	private static final String directory = "D:\\jobword_test\\project\\src\\main\\webapp\\resources\\company_upload\\";
 	
 	@GetMapping("/login")
 	public String login() {
@@ -113,7 +112,10 @@ public class CompanyController {
 		return "company/member/login";
 	}
 
-	
+	private String getDirectory(){
+		String currentDirectory = System.getProperty("user.dir");
+		return currentDirectory + "\\src\\main\\webapp\\resources\\company_upload\\";
+	}
 
 	private String compVaild(CompanyMemberRequestDto comp) {
 		String msg = "";
@@ -169,6 +171,7 @@ public class CompanyController {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
 		Calendar cal = Calendar.getInstance();
 		String fileName = sdf.format(cal.getTime()) + originalName;
+		String directory = getDirectory();
 		String path = directory + comp_id + "\\" + fileName;
 		File targetFile = new File(path);
 		if (targetFile.exists() == false) {

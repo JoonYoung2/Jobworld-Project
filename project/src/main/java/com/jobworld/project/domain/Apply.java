@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Table(name="jwApplyInfo")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Apply {
+public class Apply extends BaseAuditingListener {
 	@Id
 	@GeneratedValue
 	@Column(name="applyId")

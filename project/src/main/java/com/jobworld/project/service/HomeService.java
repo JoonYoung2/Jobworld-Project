@@ -24,8 +24,14 @@ public class HomeService {
 	private final HttpSession session;
 
 	public List<RecruitResponseDto> getRecruitInfo() {
-		List<Recruit> recruit = repo.getRecruitInfo();
+		List<Recruit> recruit = repo.findAll();
 		List<RecruitResponseDto> list = setRecruit(recruit);
+		return list;
+	}
+
+	public List<recruitViewResponseDto> getUserRecruitViewInfo() {
+		List<Recruit> recruit = repo.findAll();
+		List<recruitViewResponseDto> list = setUserRecruitView(recruit);
 		return list;
 	}
 
@@ -35,12 +41,6 @@ public class HomeService {
 			RecruitResponseDto dto = RecruitResponseDto.fromEntity(recruit);
 			list.add(dto);
 		}
-		return list;
-	}
-
-	public List<recruitViewResponseDto> getUserRecruitViewInfo() {
-		List<Recruit> recruit = repo.getRecruitInfo();
-		List<recruitViewResponseDto> list = setUserRecruitView(recruit);
 		return list;
 	}
 

@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Table(name="jwCompanyInfo")
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Company {
+public class Company extends BaseAuditingListener {
 	
 	@Id
 	@Column(name="compId")

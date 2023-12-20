@@ -23,8 +23,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().and()
+                .cors()
+                .and()
+                // CSRF 공격 방지
                 .csrf().disable()
+                // HTTP 기본 인증을 비활성화
+                .httpBasic().disable()
                 .headers()
                 .frameOptions()
                 .sameOrigin()
@@ -36,13 +40,18 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-                // h2 console TODO: test 환경에서만
                 .and()
+
+                // HTTP 요청에 대한 인증 및 권한 부여 설정
                 .authorizeHttpRequests()
 
+                //경로로 요청이 오면 인증 없이 허용
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/**").permitAll()
+
+                //그 외 요청사항은 인증 요구
                 .anyRequest().authenticated();
+
         return http.build();
     }
 }

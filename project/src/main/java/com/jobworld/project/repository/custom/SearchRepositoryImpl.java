@@ -1,6 +1,5 @@
 package com.jobworld.project.repository.custom;
 
-import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.QRecruit;
 import com.jobworld.project.domain.Recruit;
 import com.jobworld.project.repository.SearchRepositoryCustom;
@@ -12,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -40,13 +38,6 @@ public class SearchRepositoryImpl implements SearchRepositoryCustom {
 
         return list;
     }
-
-    @Override
-    public Optional<Company> getCompanyById(String id) {
-        Company comp = em.find(Company.class, id);
-        return Optional.ofNullable(comp);
-    }
-
 
     private BooleanExpression userContainsTitle(QRecruit recruit, String search) {
         if (search == null || search.isEmpty()) {

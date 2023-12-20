@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Table(name = "jwUserInfo")
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member {
+public class Member extends BaseAuditingListener {
 
 	@Id
 	@Column(name = "userId")

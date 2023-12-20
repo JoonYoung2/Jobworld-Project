@@ -20,10 +20,7 @@ public class HomeController {
 	
 	private final HttpSession session;
 	private final HomeService service;
-	
-	/*
-	 	User Home UI Start
-	 */
+
 	@GetMapping("/")
 	public String home(Model model) {
 		List<recruitViewResponseDto> list = service.getUserRecruitViewInfo();
@@ -33,11 +30,7 @@ public class HomeController {
 		}
 		return "user/index";
 	}
-	
-	/*
-	  User Home UI End
-	 */
-	
+
 	@GetMapping("/company")
 	public String company(Model model) {
 		if(session.getAttribute("comp_id") == null) {
