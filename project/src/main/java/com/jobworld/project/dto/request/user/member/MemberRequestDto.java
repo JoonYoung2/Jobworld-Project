@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.request.member;
+package com.jobworld.project.dto.request.user.member;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;

@@ -1,11 +1,7 @@
-package com.jobworld.project.dto.response.resume;
+package com.jobworld.project.dto.response.user.resume;
 
 import com.jobworld.project.domain.Resume;
-import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
-
-import lombok.Data;
 
 @Getter
 public class UserResumeResponseDto {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Recruit;
-import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
+import com.jobworld.project.dto.response.recruitViewResponseDto;
 import com.jobworld.project.dto.request.company.CompanyIndexViewDto;
 import com.jobworld.project.repository.HomeRepository;
 
@@ -38,22 +38,16 @@ public class HomeService {
 		return list;
 	}
 
-	public List<UserRecruitViewRequestDto> getUserRecruitViewInfo() {
+	public List<recruitViewResponseDto> getUserRecruitViewInfo() {
 		List<Recruit> recruit = repo.getRecruitInfo();
-		List<UserRecruitViewRequestDto> list = setUserRecruitView(recruit);
+		List<recruitViewResponseDto> list = setUserRecruitView(recruit);
 		return list;
 	}
 
-	private List<UserRecruitViewRequestDto> setUserRecruitView(List<Recruit> recruit) {
-		List<UserRecruitViewRequestDto> list = new ArrayList<>();
-		for(int i=0; i<recruit.size(); ++i) {
-			UserRecruitViewRequestDto dto = new UserRecruitViewRequestDto();
-			dto.setRecruitId(recruit.get(i).getId());
-			dto.setCompId(recruit.get(i).getCompany().getId());
-			dto.setRecruitTitle(recruit.get(i).getTitle());
-			dto.setCompBrandImg(recruit.get(i).getCompany().getBrandImg());
-			dto.setCompNm(recruit.get(i).getCompany().getName());
-			list.add(dto);
+	private List<recruitViewResponseDto> setUserRecruitView(List<Recruit> recruitList) {
+		List<recruitViewResponseDto> list = new ArrayList<>();
+		for(Recruit recruit : recruitList) {
+			list.add(recruitViewResponseDto.fromEntity(recruit));
 		}
 		return list;
 	}

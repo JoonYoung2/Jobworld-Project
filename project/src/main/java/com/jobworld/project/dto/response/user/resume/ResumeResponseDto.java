@@ -1,8 +1,7 @@
-package com.jobworld.project.dto.response.resume;
+package com.jobworld.project.dto.response.user.resume;
 
 import com.jobworld.project.domain.Resume;
-import com.jobworld.project.dto.request.member.MemberRequestDto;
-import com.jobworld.project.dto.response.member.MemberResponseDto;
+import com.jobworld.project.dto.response.user.member.MemberResponseDto;
 import lombok.Getter;
 
 @Getter

@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 
-import com.jobworld.project.dto.request.member.MemberRequestDto;
+import com.jobworld.project.dto.request.user.member.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 
 @Entity

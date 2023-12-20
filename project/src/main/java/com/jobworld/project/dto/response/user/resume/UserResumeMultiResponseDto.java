@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.response.resume;
+package com.jobworld.project.dto.response.user.resume;
 
 import org.springframework.web.multipart.MultipartFile;
 

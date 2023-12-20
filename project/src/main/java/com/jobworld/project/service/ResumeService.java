@@ -1,8 +1,9 @@
 package com.jobworld.project.service;
 
-import com.jobworld.project.dto.request.resume.UserResumeRequestDto;
-import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.dto.request.user.resume.UserResumeRequestDto;
+import com.jobworld.project.dto.response.user.resume.ResumeResponseDto;
 import com.jobworld.project.exception.NotFoundException;
+import com.jobworld.project.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,9 +11,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.jobworld.project.domain.Member;
 import com.jobworld.project.domain.Resume;
-import com.jobworld.project.dto.request.resume.ResumeRequestDto;
-import com.jobworld.project.dto.response.resume.UserResumeResponseDto;
-import com.jobworld.project.repository.MemberRepositoryOld;
+import com.jobworld.project.dto.request.user.resume.ResumeRequestDto;
+import com.jobworld.project.dto.response.user.resume.UserResumeResponseDto;
 import com.jobworld.project.repository.ResumeRepository;
 
 import java.io.File;
@@ -31,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ResumeService {
 
 	private final ResumeRepository repo;
-	private final MemberRepositoryOld memberRepository;
+	private final MemberRepository memberRepository;
 
 	private static final String dir = "D:\\jobword_test\\project\\src\\main\\webapp\\resources\\upload\\";
 
@@ -89,7 +89,8 @@ public class ResumeService {
 			return "업로드 파일을 등록해주세요.";
 		}
 		String userImg = userImgSave(file, userId);
-		Member member = memberRepository.findOne(userId);
+		Member member = memberRepository.findById(userId).orElseThrow(
+				() -> new NotFoundException("유저를 찾을 수 없습니다."));
 
 		Resume resume = Resume
 				.builder()

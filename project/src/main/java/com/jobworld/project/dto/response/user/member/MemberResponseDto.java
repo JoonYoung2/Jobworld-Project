@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.response.member;
+package com.jobworld.project.dto.response.user.member;
 
 import com.jobworld.project.domain.Member;
 import lombok.Getter;

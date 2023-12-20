@@ -1,7 +1,6 @@
 package com.jobworld.project.dto.response.apply;
 
 import com.jobworld.project.domain.Apply;
-import lombok.Builder;
 import lombok.Getter;
 
 @Getter

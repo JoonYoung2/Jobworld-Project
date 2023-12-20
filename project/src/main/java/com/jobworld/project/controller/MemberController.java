@@ -3,7 +3,7 @@ package com.jobworld.project.controller;
 import java.io.PrintWriter;
 import java.util.List;
 
-import com.jobworld.project.dto.response.member.MemberResponseDto;
+import com.jobworld.project.dto.response.user.member.MemberResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
@@ -14,8 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.jobworld.project.dto.request.member.MemberRequestDto;
-import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
+import com.jobworld.project.dto.request.user.member.MemberRequestDto;
+import com.jobworld.project.dto.response.recruitViewResponseDto;
 import com.jobworld.project.service.HomeService;
 import com.jobworld.project.service.MemberService;
 
@@ -64,7 +64,7 @@ public class MemberController {
 		
 		if(check != null) {
 			if(service.validPwCheck(memberRequestDto.getUserPw(), check.getUserPw())){
-				List<UserRecruitViewRequestDto> list = homeService.getUserRecruitViewInfo();
+				List<recruitViewResponseDto> list = homeService.getUserRecruitViewInfo();
 				model.addAttribute("list", list);
 				session.setAttribute("user_id", memberRequestDto.getUserId());
 				session.setAttribute("login_type", memberRequestDto.getLoginType());
@@ -101,10 +101,6 @@ public class MemberController {
 			return "user/member/register";
 		}
 
-		log.info("사용자 이름 => {}", memberRequestDto.getUserNm());
-		log.info("사용자 아이디 => {}", memberRequestDto.getUserId());
-		log.info("사용자 비번 => {}", memberRequestDto.getUserPw());
-		log.info("사용자 생일 => {}", memberRequestDto.getUserBirthday());
     	if(memberRequestDto.getUserNm()==null || memberRequestDto.getUserNm().equals(""))
     		msg = "이름을 입력해주세요.";
     	else if(memberRequestDto.getZipCd()==null || memberRequestDto.getZipCd().equals(""))

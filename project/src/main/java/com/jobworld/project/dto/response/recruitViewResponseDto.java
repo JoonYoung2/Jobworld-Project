@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.response.search;
+package com.jobworld.project.dto.response;
 
 import com.jobworld.project.domain.Recruit;
 import lombok.Getter;

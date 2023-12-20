@@ -184,7 +184,7 @@ public class CompanyController {
 		return fileName;
 	}
 
-	@GetMapping("companyLogout")
+	@GetMapping("/logout")
 	public String logout() {
 		session.invalidate();
 		return "redirect:/company";

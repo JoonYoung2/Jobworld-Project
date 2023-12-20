@@ -1,4 +1,4 @@
-package com.jobworld.project.dto.request.resume;
+package com.jobworld.project.dto.request.user.resume;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import com.jobworld.project.dto.response.apply.ApplyResponseDto;
-import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.dto.response.user.resume.ResumeResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

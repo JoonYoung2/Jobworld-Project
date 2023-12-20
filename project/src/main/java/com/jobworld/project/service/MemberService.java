@@ -1,15 +1,16 @@
 package com.jobworld.project.service;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.jobworld.project.dto.response.member.MemberResponseDto;
+import com.jobworld.project.dto.response.user.member.MemberResponseDto;
 import com.jobworld.project.exception.NotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jobworld.project.domain.Member;
-import com.jobworld.project.dto.request.member.MemberRequestDto;
+import com.jobworld.project.dto.request.user.member.MemberRequestDto;
 import com.jobworld.project.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -61,10 +62,9 @@ public class MemberService {
     }
 	
     public MemberResponseDto findUser(String userId) {
-    	Member findUser = memberRepository.findById(userId).orElseThrow(
-				() -> new NotFoundException("해당 유저를 찾을 수 없습니다."));
-    	return setMemberRequestDto(findUser);
-    }
+    	Optional<Member> optionalMember = memberRepository.findById(userId);
+		return optionalMember.map(this::setMemberRequestDto).orElse(null);
+	}
     
     @Transactional
 	public void save(MemberRequestDto memberRequestDto) {

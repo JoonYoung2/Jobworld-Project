@@ -3,50 +3,41 @@ package com.jobworld.project.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jobworld.project.repository.custom.SearchRepositoryImpl;
 import org.springframework.stereotype.Service;
 
-import com.jobworld.project.domain.Company;
 import com.jobworld.project.domain.Recruit;
-import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
-import com.jobworld.project.repository.SearchRepository;
+import com.jobworld.project.dto.response.recruitViewResponseDto;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class SearchService {
-	private final SearchRepository repo;
-	public List<UserRecruitViewRequestDto> getUserRecruitSearchViewInfo(String userSearch) {
+	private final SearchRepositoryImpl repo;
+	public List<recruitViewResponseDto> getUserRecruitSearchViewInfo(String userSearch) {
 		List<Recruit> recruit = repo.getRecruitSearchInfo(userSearch);
 		if(recruit.size() > 0) {
-			List<UserRecruitViewRequestDto> list = getUserRecruitViewDto(recruit);
+			List<recruitViewResponseDto> list = getUserRecruitViewDto(recruit);
 			return list;
 		}
 		
 		return null;
 	}
 	
-	public List<UserRecruitViewRequestDto> getCompanyRecruitSearchViewInfo(String companySearch, String comp_id) {
-		List<Recruit> recruit = repo.getRecruitSearchInfo(companySearch, comp_id);
+	public List<recruitViewResponseDto> getCompanyRecruitSearchViewInfo(String companySearch, String compId) {
+		List<Recruit> recruit = repo.getRecruitSearchInfo(companySearch, compId);
 		if(recruit.size() > 0) {
-			List<UserRecruitViewRequestDto> list = getUserRecruitViewDto(recruit);
-			return list;
+			return getUserRecruitViewDto(recruit);
 		}
 		
 		return null;
 	}
 	
-	private List<UserRecruitViewRequestDto> getUserRecruitViewDto(List<Recruit> recruit) {
-		List<UserRecruitViewRequestDto> list = new ArrayList<>();
-		for(int i = 0; i < recruit.size(); ++i) {
-			UserRecruitViewRequestDto dto = new UserRecruitViewRequestDto();
-			Company comp = repo.getCompanyById(recruit.get(i).getCompany().getId());
-			dto.setRecruitId(recruit.get(i).getId());
-			dto.setCompId(comp.getId());
-			dto.setRecruitTitle(recruit.get(i).getTitle());
-			dto.setCompBrandImg(comp.getBrandImg());
-			dto.setCompNm(comp.getName());
-			list.add(dto);
+	private List<recruitViewResponseDto> getUserRecruitViewDto(List<Recruit> recruitList) {
+		List<recruitViewResponseDto> list = new ArrayList<>();
+		for(Recruit recruit : recruitList) {
+			list.add(recruitViewResponseDto.fromEntity(recruit));
 		}
 		return list;
 	}

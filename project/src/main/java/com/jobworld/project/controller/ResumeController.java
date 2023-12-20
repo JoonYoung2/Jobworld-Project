@@ -1,7 +1,7 @@
 package com.jobworld.project.controller;
 
-import com.jobworld.project.dto.request.resume.UserResumeRequestDto;
-import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.dto.request.user.resume.UserResumeRequestDto;
+import com.jobworld.project.dto.response.user.resume.ResumeResponseDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.jobworld.project.dto.request.resume.ResumeRequestDto;
-import com.jobworld.project.dto.response.resume.UserResumeResponseDto;
+import com.jobworld.project.dto.request.user.resume.ResumeRequestDto;
+import com.jobworld.project.dto.response.user.resume.UserResumeResponseDto;
 import com.jobworld.project.service.ResumeService;
 
 import lombok.RequiredArgsConstructor;

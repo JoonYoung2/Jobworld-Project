@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.jobworld.project.dto.response.apply.ApplyResponseDto;
 import com.jobworld.project.dto.response.company.recruit.RecruitResponseDto;
-import com.jobworld.project.dto.response.resume.ResumeResponseDto;
+import com.jobworld.project.dto.response.user.resume.ResumeResponseDto;
 import com.jobworld.project.exception.NotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;

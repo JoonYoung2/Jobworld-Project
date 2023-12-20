@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.jobworld.project.dto.request.apply.UserRecruitViewRequestDto;
+import com.jobworld.project.dto.response.recruitViewResponseDto;
 import com.jobworld.project.dto.request.company.CompanyIndexViewDto;
 import com.jobworld.project.service.HomeService;
 
@@ -26,7 +26,7 @@ public class HomeController {
 	 */
 	@GetMapping("/")
 	public String home(Model model) {
-		List<UserRecruitViewRequestDto> list = service.getUserRecruitViewInfo();
+		List<recruitViewResponseDto> list = service.getUserRecruitViewInfo();
 		if(list != null) {
 			model.addAttribute("list", list);
 			return "user/index"; 			
