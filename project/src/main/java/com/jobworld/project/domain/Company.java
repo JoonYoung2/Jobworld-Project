@@ -14,6 +14,7 @@ import lombok.*;
 public class Company extends BaseAuditingListener {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="compId")
 	private String id;
 	

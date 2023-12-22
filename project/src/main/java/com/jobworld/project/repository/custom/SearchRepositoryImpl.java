@@ -33,7 +33,9 @@ public class SearchRepositoryImpl implements SearchRepositoryCustom {
         QRecruit recruit = QRecruit.recruit;
 
         List<Recruit> list = queryFactory.selectFrom(recruit)
-                .where(companyContainsTitleAndCompanyId(recruit, companySearch, compId))
+                .where(
+                        companyContainsTitleAndCompanyId(recruit, companySearch, compId)
+                )
                 .fetch();
 
         return list;

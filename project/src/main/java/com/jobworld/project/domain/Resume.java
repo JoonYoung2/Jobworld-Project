@@ -12,7 +12,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Resume extends BaseAuditingListener {
 	
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="resume_id")
 	private Long id;
 	

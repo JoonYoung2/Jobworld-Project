@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class Member extends BaseAuditingListener {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "userId")
 	private String id;
 
